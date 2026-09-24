@@ -22,8 +22,13 @@ interface PullRequest {
   base: { ref: string }; head: { ref: string; sha: string };
 }
 
-interface CheckRuns { total_count: number; check_runs: Array<{ name: string; status: string; conclusion: string | null; html_url: string }> }
-interface CommitStatuses { state: string; statuses: Array<{ context: string; state: string; target_url: string | null }> }
+interface WorkflowRuns {
+  total_count: number;
+  workflow_runs: Array<{
+    id: number; name: string; event: string; status: string; conclusion: string | null;
+    head_sha: string; html_url: string; run_number: number; run_attempt: number;
+  }>;
+}
 
 export function registerGitHubTools(server: McpServer, config: ServerConfig): void {
   server.registerTool("get_file", {
@@ -104,7 +109,7 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
   });
 
   server.registerTool("merge_pull_request", {
-    description: "Mescla um PR exclusivamente para develop após confirmar que o GitHub reporta o PR mergeable e todos os checks/statuses passaram.",
+    description: "Mescla um PR exclusivamente para develop após confirmar que o GitHub reporta o PR mergeable e as execuções relevantes do GitHub Actions passaram.",
     inputSchema: { project: projectSchema, number: z.number().int().positive(), method: z.enum(["squash", "merge", "rebase"]).default("squash") },
   }, async ({ project, number, method }) => {
     try {
@@ -114,18 +119,17 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
       if (pr.draft) throw new Error("Merge bloqueado: o Pull Request está em rascunho.");
       if (pr.mergeable !== true) throw new Error(`Merge bloqueado: GitHub informa mergeable=${String(pr.mergeable)}; atualize/reavalie o PR e resolva conflitos.`);
 
-      const [checks, statuses] = await Promise.all([
-        githubRequest<CheckRuns>(config, repoPath(project, `/commits/${pr.head.sha}/check-runs`)),
-        githubRequest<CommitStatuses>(config, repoPath(project, `/commits/${pr.head.sha}/status`)),
-      ]);
-      const failingChecks = checks.check_runs.filter((check) => check.status !== "completed" || !["success", "neutral", "skipped"].includes(check.conclusion ?? ""));
-      const failingStatuses = statuses.statuses.filter((status) => status.state !== "success");
-      if (checks.total_count === 0 && statuses.statuses.length === 0) throw new Error("Merge bloqueado: não há verificações ou status checks publicados para o commit do PR.");
-      const hasSuccessfulCheck = checks.check_runs.some((check) => check.status === "completed" && check.conclusion === "success") || statuses.statuses.some((status) => status.state === "success");
-      if (!hasSuccessfulCheck) throw new Error("Merge bloqueado: nenhum check executado concluiu com sucesso (checks ignorados/neutralizados não bastam).");
-      if (failingChecks.length || failingStatuses.length) {
-        const failedNames = [...failingChecks.map((check) => `${check.name}: ${check.status}/${check.conclusion ?? "sem conclusão"}`), ...failingStatuses.map((status) => `${status.context}: ${status.state}`)];
-        throw new Error(`Merge bloqueado: verificações pendentes ou reprovadas: ${failedNames.slice(0, 10).join("; ")}`);
+      const runs = await githubRequest<WorkflowRuns>(config, repoPath(project, `/actions/runs?head_sha=${encodeURIComponent(pr.head.sha)}&per_page=100`));
+      const matchingRuns = runs.workflow_runs.filter((run) => run.head_sha === pr.head.sha);
+      if (runs.total_count > matchingRuns.length) throw new Error("Merge bloqueado: o GitHub retornou execuções paginadas além do limite consultado; não é seguro validar apenas parte do CI.");
+      if (!matchingRuns.length) throw new Error("Merge bloqueado: não há execuções do GitHub Actions associadas ao commit do PR.");
+      const failingRuns = matchingRuns.filter((run) => run.status !== "completed" || !["success", "neutral", "skipped"].includes(run.conclusion ?? ""));
+      if (!matchingRuns.some((run) => run.status === "completed" && run.conclusion === "success")) {
+        throw new Error("Merge bloqueado: nenhuma execução do GitHub Actions associada ao commit concluiu com sucesso.");
+      }
+      if (failingRuns.length) {
+        const descriptions = failingRuns.map((run) => `${run.name} (#${run.run_number}, tentativa ${run.run_attempt}): ${run.status}/${run.conclusion ?? "sem conclusão"}`);
+        throw new Error(`Merge bloqueado: execuções do GitHub Actions pendentes ou reprovadas: ${descriptions.slice(0, 10).join("; ")}`);
       }
 
       const merged = await githubJson<{ sha: string; merged: boolean; message: string }>(config, repoPath(project, `/pulls/${number}/merge`), "PUT", { merge_method: method });
