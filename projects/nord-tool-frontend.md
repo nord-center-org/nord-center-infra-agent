@@ -1,6 +1,7 @@
 # Projeto: nord-tool-frontend
 
 - Repositório irmão: `../nord-tool-frontend`.
+- Repositório canônico: `nord-center-org/nord-tool-frontend`.
 - Propósito: aplicação frontend Nord Tool.
 - Stack observada: React 19, TypeScript 5.8, Vite 6, React Router 7, Tailwind CSS 3, ESLint 9 e npm.
 - Comandos observados no `package.json`: `npm run dev`, `npm run build`, `npm run lint`, `npm test`.
