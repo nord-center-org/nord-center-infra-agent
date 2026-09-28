@@ -40,11 +40,12 @@
 
 ## Fase 6 — CI por projeto
 
-- [ ] Executar MCP CI em pushes e PRs para `develop` e `master`
+- [x] Executar MCP CI em pushes e PRs para `develop` e `master`
 - [x] Manter o backend com build/test em PR para `develop` e `master`
 - [ ] Criar CI de PR para frontend (lint, build e testes)
 - [ ] Criar validação segura de PR para SQL sem executar migrações no banco compartilhado
-- [ ] Exigir PR e checks aprovados em `develop`; manter `master` protegido como espelho de produção
+- [x] Aplicar no MCP PR e checks aprovados antes de integrar em `develop`; manter `master` fora de alterações automáticas
+- [x] Permitir `develop` como branch padrão e tratar regras nativas de proteção do GitHub como opcionais
 
 ## Fase 7 — Fluxo automatizado de ponta a ponta
 

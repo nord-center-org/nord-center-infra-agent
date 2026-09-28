@@ -22,7 +22,7 @@ Credenciais vêm de variáveis de ambiente ou secret managers e nunca são versi
 
 ## ADR-006: Automação de alterações somente para develop
 
-Qualquer projeto consumidor (backend, frontend, scripts SQL ou outro perfil adicionado futuramente) poderá receber uma solicitação de alteração por um agente. O agente aplica a mudança em uma branch de trabalho criada a partir de `develop`, cria o commit e pode mesclar automaticamente somente para `develop`, após as validações configuradas. `master` é a branch protegida que espelha produção; sua promoção segue um fluxo de release separado. `main`, se existir, também fica fora do fluxo automático. Se `develop` não existir, houver conflito ou as validações falharem, o processo deve parar sem escolher outro destino.
+Qualquer projeto consumidor (backend, frontend, scripts SQL ou outro perfil adicionado futuramente) poderá receber uma solicitação de alteração por um agente. O agente aplica a mudança em uma branch de trabalho criada a partir de `develop`, cria o commit e pode mesclar automaticamente somente para `develop`, após as validações configuradas. `master` espelha produção; sua promoção segue um fluxo de release separado. `develop` pode continuar como branch padrão do GitHub. As proteções de branch nativas são opcionais, pois os bloqueios também são aplicados pelo MCP. `main`, se existir, fica fora do fluxo automático. Se `develop` não existir, houver conflito ou as validações falharem, o processo deve parar sem escolher outro destino.
 
 ## ADR-007: Perfis por repositório
 
