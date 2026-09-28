@@ -1,6 +1,7 @@
 # Projeto: nord-tool-scripts-sql
 
 - Repositório irmão: `../nord-tool-scripts-sql`.
+- Repositório canônico: `nord-center-org/nord-tool-scripts-sql`.
 - Propósito: scripts incrementais de banco para o `nord-tool-backend`.
 - Stack observada: PostgreSQL e shell/Git Bash para execução.
 - Instruções específicas: `skills/nord-tool-scripts-sql/` e `steering/nord-tool-scripts-sql/`.
