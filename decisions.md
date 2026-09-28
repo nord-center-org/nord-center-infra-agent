@@ -35,3 +35,11 @@ O frontend é a interface para solicitar alterações em qualquer repositório c
 ## ADR-009: Skills e steering isoladas por projeto
 
 Skills e steering ficam em diretórios nomeados pelo repositório consumidor (`skills/<projeto>/` e `steering/<projeto>/`). O agente seleciona o conjunto pelo projeto alvo e não mistura instruções específicas entre projetos. Policies de segurança e branch permanecem globais.
+
+## ADR-010: Transporte HTTP remoto isolado por cliente
+
+O MCP mantém o transporte `stdio` para clientes locais e adiciona Streamable HTTP para clientes remotos. Cada sessão pertence à credencial autenticada e só publica ferramentas e recursos dos projetos autorizados para ela. O token de cliente é separado de `GITHUB_TOKEN`. O servidor valida Host e Origin, pode exigir HTTPS atrás de proxy confiável, limita chamadas e não grava tokens ou corpos em log. As sessões ficam em memória nesta primeira versão.
+
+## ADR-011: Promoção para master com aprovação humana
+
+`master` representa produção e fica fora das ferramentas de escrita e merge automático. A promoção exige um PR de release revisto e integrado manualmente por um owner da organização, conforme `policies/release.md`.

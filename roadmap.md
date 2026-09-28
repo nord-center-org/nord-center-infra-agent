@@ -52,15 +52,16 @@
 - [x] Implementar operação para aplicar alterações multi-arquivo em uma única branch de trabalho/commit
 - [x] Orquestrar PR para `develop`, aguardar Actions do SHA atual e mesclar somente após sucesso
 - [x] Tratar timeout, conflito, falha, repetição idempotente e ausência de workflow
-- [ ] Manter promoção de `develop` para `master` fora do fluxo automático do agente
+- [x] Manter promoção de `develop` para `master` fora do fluxo automático do agente
 
 ## Fase 8 — Serviço remoto no Railway
 
-- [ ] Implementar transporte MCP remoto Streamable HTTP
+- [x] Implementar transporte MCP remoto Streamable HTTP mantendo `stdio`
 - [ ] Publicar endpoint somente por HTTPS no Railway
-- [ ] Separar autenticação do cliente MCP da credencial GitHub mantida pelo serviço
-- [ ] Configurar secrets, autorização por projeto, logs sem segredos e limites de chamadas
-- [ ] Configurar deploy e health checks
+- [x] Separar credenciais bearer dos clientes MCP do `GITHUB_TOKEN` do serviço
+- [x] Aplicar allowlist de projetos por cliente, validação de host/origin, rate limits e logs sem segredos
+- [ ] Configurar segredos, domínio/HTTPS e health check no Railway
+- [ ] Avaliar OAuth 2.1 e descoberta de metadados para clientes remotos que exijam autorização MCP padronizada
 
 ## Fase 9 — Integração e testes end-to-end
 

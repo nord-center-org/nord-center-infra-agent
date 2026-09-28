@@ -3,11 +3,11 @@ import { promisify } from "node:util";
 import path from "node:path";
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { getProject, PROJECT_NAMES } from "../../server/projects.js";
+import { getProject } from "../../server/projects.js";
 import type { ProjectName } from "../../server/projects.js";
+import { projectInputSchema, type ServerConfig } from "../../server/config.js";
 
 const execFileAsync = promisify(execFile);
-const projectSchema = z.enum(PROJECT_NAMES);
 const protectedBranches = new Set(["main", "master", "develop"]);
 const isProtectedBranch = (branch: string) => protectedBranches.has(branch) || /^(main|master|develop)\//.test(branch);
 const fail = (error: unknown) => ({ isError: true, content: [{ type: "text" as const, text: error instanceof Error ? error.message : "Erro inesperado executando Git." }] });
@@ -29,7 +29,8 @@ function validateRelativeFile(file: string): string {
   return file;
 }
 
-export function registerGitTools(server: McpServer): void {
+export function registerGitTools(server: McpServer, config: ServerConfig): void {
+  const projectSchema = projectInputSchema(config);
   server.registerTool("git_status", {
     description: "Lê o status Git local do projeto configurado.",
     inputSchema: { project: projectSchema },

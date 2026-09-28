@@ -2,10 +2,10 @@ import { unzipSync } from "fflate";
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ServerConfig } from "../../server/config.js";
-import { getProject, PROJECT_NAMES } from "../../server/projects.js";
+import { getProject } from "../../server/projects.js";
+import { projectInputSchema } from "../../server/config.js";
 import { githubRequest, repoPath } from "../github/client.js";
 
-const projectSchema = z.enum(PROJECT_NAMES);
 const fail = (error: unknown) => ({ isError: true, content: [{ type: "text" as const, text: error instanceof Error ? error.message : "Erro inesperado consultando GitHub Actions." }] });
 const asText = (value: unknown) => ({ content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }] });
 
@@ -19,6 +19,7 @@ interface WorkflowRuns {
 }
 
 export function registerCiTools(server: McpServer, config: ServerConfig): void {
+  const projectSchema = projectInputSchema(config);
   server.registerTool("get_workflow", {
     description: "Lista execuções recentes do GitHub Actions no projeto selecionado.",
     inputSchema: {

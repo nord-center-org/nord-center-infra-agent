@@ -61,8 +61,15 @@ try {
   const workflows = parseToolResult(await client.callTool({ name: "get_workflow", arguments: { project: "nord-tool-backend", branch: "develop", limit: 3 } }), "get_workflow");
   if (workflows.project !== "nord-tool-backend" || !Array.isArray(workflows.runs)) throw new Error("GitHub Actions query returned an unexpected result.");
 
-  const protectedWrite = await client.callTool({ name: "update_file", arguments: { project: "nord-tool-backend", branch: "develop", path: "README.md", content: "must not be written", message: "smoke guard" } });
-  if (!protectedWrite.isError) throw new Error("Protected-branch write guard did not reject a direct develop write.");
+  const protectedBranches = ["develop", "master", "main"];
+  for (const branch of protectedBranches) {
+    const protectedWrite = await client.callTool({ name: "update_file", arguments: { project: "nord-tool-backend", branch, path: "README.md", content: "must not be written", message: "smoke guard" } });
+    if (!protectedWrite.isError) throw new Error(`Protected-branch write guard did not reject a direct ${branch} write.`);
+    const protectedBranch = await client.callTool({ name: "create_branch", arguments: { project: "nord-tool-backend", branch } });
+    if (!protectedBranch.isError) throw new Error(`Branch creation guard did not reject ${branch}.`);
+    const protectedPull = await client.callTool({ name: "create_pr", arguments: { project: "nord-tool-backend", head: branch, title: "smoke guard" } });
+    if (!protectedPull.isError) throw new Error(`Pull request source guard did not reject ${branch}.`);
+  }
 
   console.log(JSON.stringify({
     mcp: "connected",
@@ -72,7 +79,7 @@ try {
     githubFileReads: files,
     localGitStatusChecks: localGitStatus,
     githubActionsRead: { project: workflows.project, matchingRuns: workflows.runs.length, totalRuns: workflows.total_count },
-    protectedBranchWriteGuard: "passed",
+    protectedBranchWriteGuard: { branchesRejected: protectedBranches, status: "passed" },
   }, null, 2));
 } finally {
   await client.close();

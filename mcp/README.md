@@ -1,15 +1,42 @@
-# MCP local
+# MCP local e remoto
 
-Servidor MCP em TypeScript/Node.js, independente do agente cliente. O transporte inicial é `stdio`; cada cliente inicia o processo localmente.
+Servidor MCP em TypeScript/Node.js, independente do agente cliente. `stdio` continua disponível para clientes locais; o modo remoto usa Streamable HTTP em `/mcp`.
 
 ## Configuração
 
 - Node.js 20 ou superior.
 - `npm install` e `npm run build` a partir de `mcp/`.
-- Configure `GITHUB_TOKEN` no ambiente do processo para ferramentas GitHub autenticadas.
+- Configure `GITHUB_TOKEN` no ambiente do processo para ferramentas GitHub autenticadas. No modo HTTP, o serviço exige esse token.
 - O argumento `project` seleciona um repositório da allowlist em `mcp/server/projects.ts`.
-- `GITHUB_TOKEN` é opcional para leituras de repositórios públicos; configure um token Fine-grained com `Contents: read/write`, `Pull requests: read/write` e `Actions: read`, conforme as operações necessárias. O merge valida o CI pelas execuções do Actions associadas ao SHA do PR e não depende da API Checks ou de Commit statuses.
+- `GITHUB_TOKEN` é opcional para leituras de repositórios públicos via `stdio`; configure um token Fine-grained com `Contents: read/write`, `Pull requests: read/write` e `Actions: read`, conforme as operações necessárias. Para criar/editar arquivos em `.github/workflows`, inclua também `Workflows: read/write`. O merge valida o CI pelas execuções do Actions associadas ao SHA do PR e não depende da API Checks ou de Commit statuses.
 - Não salve tokens nem credenciais em arquivos versionados.
+
+## Transporte remoto Streamable HTTP
+
+O modo HTTP pode ser executado localmente para validação, sem Railway:
+
+```powershell
+cd mcp
+npm ci
+$env:GITHUB_TOKEN = "<token-fine-grained-do-servico>"
+$env:MCP_CLIENT_TOKENS = '[{"id":"frontend","token":"<segredo-aleatorio-de-pelo-menos-32-bytes>","projects":["nord-tool-frontend"]}]'
+$env:MCP_ALLOWED_HOSTS = "127.0.0.1,localhost"
+npm run start:http
+```
+
+O servidor escuta `127.0.0.1` por padrão e atende em `http://127.0.0.1:3000/mcp`; `/healthz` é o health check. `PORT` escolhe a porta. A credencial bearer configurada em `MCP_CLIENT_TOKENS` é separada de `GITHUB_TOKEN`; cada item contém `id`, `token` e uma lista explícita de `projects`. O MCP só publica as ferramentas, schemas e recursos dos projetos liberados para aquela credencial. Gere tokens aleatórios longos, não os inclua em código frontend e rotacione-os ao atualizar a variável.
+
+Variáveis opcionais:
+
+- `MCP_HOST`: interface de bind; use `0.0.0.0` apenas atrás de uma plataforma/proxy público configurado.
+- `MCP_ALLOWED_HOSTS`: hostnames exatos, sem esquema ou wildcard; obrigatório para bind público. Em Railway, inclua o domínio público do serviço.
+- `MCP_ALLOWED_ORIGINS`: origens HTTPS exatas separadas por vírgula, somente se um cliente browser precisar de CORS. Requisições sem `Origin` são aceitas para clientes servidor-a-servidor; origens não listadas recebem 403.
+- `MCP_REQUIRE_HTTPS=true`: obrigatório em implantação pública. O serviço valida `X-Forwarded-Proto: https` do proxy e rejeita HTTP direto. Deixe falso somente no desenvolvimento local.
+- `MCP_ENDPOINT_PATH`: caminho MCP, padrão `/mcp`.
+- `MCP_RATE_LIMIT_WINDOW_MS` e `MCP_RATE_LIMIT_MAX`: limites por IP e credencial; padrão 120 chamadas por minuto.
+- `MCP_MAX_SESSIONS`, `MCP_SESSION_IDLE_MS` e `MCP_MAX_BODY_BYTES`: limites de sessão, inatividade e payload.
+
+Os logs de acesso incluem método, rota sem query string, status, duração, request ID e identificador público da credencial; não incluem bearer token, `GITHUB_TOKEN` nem corpo JSON. Sessões ficam em memória nesta versão; mantenha uma instância enquanto não houver store compartilhado. O `smoke:http` valida autenticação, scopes por projeto, sessões, HTTPS atrás do proxy, limites e logs sem segredos. A implantação Railway e os secrets públicos ainda não foram configurados. Antes de clientes que exijam o fluxo padrão de autorização MCP, será necessário avaliar OAuth 2.1 e descoberta de metadados.
 
 ## Ferramentas previstas
 
