@@ -10,4 +10,4 @@ Esta policy vale para todos os repositórios consumidores, independentemente de 
 6. Integre automaticamente somente em `develop`. Nunca escreva, commite ou faça merge automático em `master`, em `main` se existir, ou em outra branch.
 7. Se `develop` não existir, houver conflito ou as verificações falharem, pare e reporte sem redirecionar a operação.
 
-`master` é a branch protegida que espelha o código promovido para produção. A promoção de `develop` para `master` pertence a um fluxo de release separado, fora das ferramentas automáticas do MCP.
+`master` é a branch que espelha o código promovido para produção; `develop` pode continuar como branch padrão do GitHub. A promoção de `develop` para `master` pertence a um fluxo de release separado, fora das ferramentas automáticas do MCP. O MCP aplica os bloqueios de branch independentemente de regras nativas do GitHub.
