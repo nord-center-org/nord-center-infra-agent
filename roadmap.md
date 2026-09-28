@@ -34,24 +34,24 @@
 
 ## Fase 5 — Contexto por projeto
 
-- [ ] Expor perfil, steering e skills do projeto selecionado por recursos/prompts MCP
-- [ ] Garantir que o cliente carregue somente instruções do projeto escolhido
+- [x] Expor perfil, steering e skills do projeto selecionado por recurso MCP e ferramenta `get_project_context`
+- [x] Permitir que o cliente solicite somente o contexto do projeto escolhido; a resposta do servidor é isolada por projeto
 - [ ] Validar o contexto com tarefas representativas de backend, frontend e SQL
 
 ## Fase 6 — CI por projeto
 
 - [x] Executar MCP CI em pushes e PRs para `develop` e `master`
 - [x] Manter o backend com build/test em PR para `develop` e `master`
-- [ ] Criar CI de PR para frontend (lint, build e testes)
-- [ ] Criar validação segura de PR para SQL sem executar migrações no banco compartilhado
+- [x] Preparar templates de CI de PR para frontend (lint, build e testes) e SQL (validação estática, sem executar scripts)
+- [ ] Instalar os templates nos repositórios frontend e SQL e confirmar Actions aprovadas em PR
 - [x] Aplicar no MCP PR e checks aprovados antes de integrar em `develop`; manter `master` fora de alterações automáticas
 - [x] Permitir `develop` como branch padrão e tratar regras nativas de proteção do GitHub como opcionais
 
 ## Fase 7 — Fluxo automatizado de ponta a ponta
 
-- [ ] Implementar operação para aplicar alterações multi-arquivo em uma única branch de trabalho/commit
-- [ ] Orquestrar PR para `develop`, aguardar Actions do SHA atual e mesclar somente após sucesso
-- [ ] Tratar timeout, conflito, falha, repetição idempotente e ausência de workflow
+- [x] Implementar operação para aplicar alterações multi-arquivo em uma única branch de trabalho/commit
+- [x] Orquestrar PR para `develop`, aguardar Actions do SHA atual e mesclar somente após sucesso
+- [x] Tratar timeout, conflito, falha, repetição idempotente e ausência de workflow
 - [ ] Manter promoção de `develop` para `master` fora do fluxo automático do agente
 
 ## Fase 8 — Serviço remoto no Railway

@@ -17,12 +17,33 @@ function parseToolResult(result, toolName) {
 try {
   await client.connect(transport);
   const tools = await client.listTools();
-  const required = ["get_file", "search_code", "create_branch", "update_file", "create_pr", "get_pull_request", "merge_pull_request", "get_workflow", "get_logs"];
+  const required = ["get_file", "search_code", "create_branch", "update_file", "create_pr", "get_pull_request", "merge_pull_request", "apply_changes_and_merge", "get_workflow", "get_logs", "get_project_context"];
   const registered = new Set(tools.tools.map((tool) => tool.name));
   const missing = required.filter((name) => !registered.has(name));
   if (missing.length) throw new Error(`Missing MCP tools: ${missing.join(", ")}`);
 
   const projectNames = ["nord-tool-backend", "nord-tool-frontend", "nord-tool-scripts-sql"];
+  const resources = await client.listResources();
+  const resourceUris = new Set(resources.resources.map((resource) => resource.uri));
+  const projectContexts = [];
+  for (const project of projectNames) {
+    const uri = `nord-center-infra://projects/${project}/context`;
+    if (!resourceUris.has(uri)) throw new Error(`Missing project context resource: ${uri}`);
+    const resource = await client.readResource({ uri });
+    const text = resource.contents.find((item) => item.mimeType === "application/json" && "text" in item);
+    if (!text || !("text" in text)) throw new Error(`Context resource returned no JSON text for ${project}.`);
+    const context = JSON.parse(text.text);
+    const expectedPrefix = [`projects/${project}.md`, `steering/${project}/`, `skills/${project}/`];
+    for (const prefix of expectedPrefix) {
+      if (!context.documents.some((document) => document.path === prefix || document.path.startsWith(prefix))) {
+        throw new Error(`Project context for ${project} is missing ${prefix}.`);
+      }
+    }
+    const toolContext = parseToolResult(await client.callTool({ name: "get_project_context", arguments: { project } }), "get_project_context");
+    if (toolContext.project !== project || toolContext.documents.length !== context.documents.length) throw new Error(`Context tool returned an unexpected result for ${project}.`);
+    projectContexts.push({ project, documents: context.documents.length, characters: context.totalCharacters });
+  }
+
   const files = [];
   const localGitStatus = [];
   for (const project of projectNames) {
@@ -47,6 +68,7 @@ try {
     mcp: "connected",
     tools: tools.tools.length,
     requiredGitHubAndCiTools: required.length,
+    projectContextResources: projectContexts,
     githubFileReads: files,
     localGitStatusChecks: localGitStatus,
     githubActionsRead: { project: workflows.project, matchingRuns: workflows.runs.length, totalRuns: workflows.total_count },

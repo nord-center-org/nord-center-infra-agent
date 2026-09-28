@@ -13,24 +13,24 @@ function findMcpRoot(start: string): string {
 }
 
 const mcpRoot = findMcpRoot(path.dirname(fileURLToPath(import.meta.url)));
-const infraRoot = path.dirname(mcpRoot);
+export const INFRA_ROOT = path.dirname(mcpRoot);
 const canonicalOwner = "nord-center-org";
 
 export const PROJECTS = {
   "nord-tool-backend": {
     owner: canonicalOwner,
     repo: "nord-tool-backend",
-    localPath: path.resolve(infraRoot, "..", "nord-tool-backend"),
+    localPath: path.resolve(INFRA_ROOT, "..", "nord-tool-backend"),
   },
   "nord-tool-frontend": {
     owner: canonicalOwner,
     repo: "nord-tool-frontend",
-    localPath: path.resolve(infraRoot, "..", "nord-tool-frontend"),
+    localPath: path.resolve(INFRA_ROOT, "..", "nord-tool-frontend"),
   },
   "nord-tool-scripts-sql": {
     owner: canonicalOwner,
     repo: "nord-tool-scripts-sql",
-    localPath: path.resolve(infraRoot, "..", "nord-tool-scripts-sql"),
+    localPath: path.resolve(INFRA_ROOT, "..", "nord-tool-scripts-sql"),
   },
 } as const;
 
