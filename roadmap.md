@@ -34,8 +34,8 @@
 
 ## Fase 5 — Contexto por projeto
 
-- [ ] Expor perfil, steering e skills do projeto selecionado por recursos/prompts MCP
-- [ ] Garantir que o cliente carregue somente instruções do projeto escolhido
+- [x] Expor perfil, steering e skills do projeto selecionado por recurso MCP e ferramenta `get_project_context`
+- [x] Permitir que o cliente solicite somente o contexto do projeto escolhido; a resposta do servidor é isolada por projeto
 - [ ] Validar o contexto com tarefas representativas de backend, frontend e SQL
 
 ## Fase 6 — CI por projeto

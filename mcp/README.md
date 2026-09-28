@@ -21,6 +21,11 @@ Servidor MCP em TypeScript/Node.js, independente do agente cliente. O transporte
 | Git | `git_status`, `git_diff` | leitura local |
 | Git | `git_commit` | escrita explícita |
 | CI | `get_workflow`, `get_logs` | leitura |
+| Contexto | `get_project_context` e recursos `nord-center-infra://projects/<projeto>/context` | leitura |
+
+## Contexto específico por projeto
+
+O MCP publica um recurso de contexto separado para cada projeto allowlistado e a ferramenta `get_project_context` recebe o argumento `project`. A resposta contém somente o perfil `projects/<projeto>.md`, os Markdown de `steering/<projeto>/` e os Markdown de `skills/<projeto>/`. O cliente deve selecionar o projeto da tarefa e solicitar somente o recurso correspondente (ou chamar a ferramenta com esse projeto); o servidor não injeta as instruções de todos os projetos em cada resposta. O conteúdo é limitado a 100.000 caracteres por projeto e a arquivos Markdown nas pastas allowlistadas.
 
 As ferramentas GitHub e CI consultam os repositórios canônicos de `nord-center-org` pela REST API; as ferramentas Git atuam somente nos caminhos locais allowlistados. Escritas remotas nunca alteram diretamente `main`, `master` ou `develop`, mesmo sem regras nativas de proteção no GitHub. `create_pr` abre PR para `develop`; `merge_pull_request` só mescla para `develop`, e exige PR aberto, não draft, sem conflito, pelo menos uma execução do Actions para o SHA exato do PR, uma execução concluída com sucesso e nenhuma execução pendente ou reprovada. `master` espelha produção e fica fora do merge automático; a promoção de `develop` para `master` pertence a um fluxo de release separado. `get_logs` limita o arquivo baixado e o texto retornado.
 

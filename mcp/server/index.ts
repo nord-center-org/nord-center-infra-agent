@@ -4,10 +4,12 @@ import { loadConfig } from "./config.js";
 import { registerCiTools } from "../tools/ci/index.js";
 import { registerGitTools } from "../tools/git/index.js";
 import { registerGitHubTools } from "../tools/github/index.js";
+import { registerProjectContext } from "../tools/projects/index.js";
 
 const config = loadConfig();
 const server = new McpServer({ name: config.name, version: config.version });
 registerGitHubTools(server, config);
 registerGitTools(server);
 registerCiTools(server, config);
+registerProjectContext(server);
 await server.connect(new StdioServerTransport());
