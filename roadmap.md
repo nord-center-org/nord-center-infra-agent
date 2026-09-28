@@ -29,17 +29,43 @@
 - [x] Selecionar projeto por argumento `project`
 - [x] Configurar backend, frontend e scripts SQL numa allowlist comum
 - [x] Resolver diretórios locais e repositórios GitHub pelo projeto selecionado
-- [ ] Validar acesso a recursos privados com token Fine-grained, se necessário
+- [x] Apontar backend, frontend e scripts SQL para os repositórios canônicos da organização `nord-center-org`
+- [x] Validar leitura de repositórios e workflows com token Fine-grained
 
-## Fase 5 — Adoção
+## Fase 5 — Contexto por projeto
 
-- [ ] Documentar conexão de clientes (Codex, Claude, Cursor e outros)
-- [ ] Validar instruções nos três projetos consumidores
-- [ ] Ajustar skills e perfis a partir do uso real
+- [ ] Expor perfil, steering e skills do projeto selecionado por recursos/prompts MCP
+- [ ] Garantir que o cliente carregue somente instruções do projeto escolhido
+- [ ] Validar o contexto com tarefas representativas de backend, frontend e SQL
 
-## Fase 6 — Serviço remoto
+## Fase 6 — CI por projeto
 
-- [ ] Definir autenticação, autorização e hospedagem
-- [ ] Implementar transporte remoto
-- [ ] Configurar CI/CD e observabilidade
-- [ ] Avaliar Railway ou plataforma equivalente
+- [ ] Executar MCP CI em pushes e PRs para `develop` e `master`
+- [x] Manter o backend com build/test em PR para `develop` e `master`
+- [ ] Criar CI de PR para frontend (lint, build e testes)
+- [ ] Criar validação segura de PR para SQL sem executar migrações no banco compartilhado
+- [ ] Exigir PR e checks aprovados em `develop`; manter `master` protegido como espelho de produção
+
+## Fase 7 — Fluxo automatizado de ponta a ponta
+
+- [ ] Implementar operação para aplicar alterações multi-arquivo em uma única branch de trabalho/commit
+- [ ] Orquestrar PR para `develop`, aguardar Actions do SHA atual e mesclar somente após sucesso
+- [ ] Tratar timeout, conflito, falha, repetição idempotente e ausência de workflow
+- [ ] Manter promoção de `develop` para `master` fora do fluxo automático do agente
+
+## Fase 8 — Serviço remoto no Railway
+
+- [ ] Implementar transporte MCP remoto Streamable HTTP
+- [ ] Publicar endpoint somente por HTTPS no Railway
+- [ ] Separar autenticação do cliente MCP da credencial GitHub mantida pelo serviço
+- [ ] Configurar secrets, autorização por projeto, logs sem segredos e limites de chamadas
+- [ ] Configurar deploy e health checks
+
+## Fase 9 — Integração e testes end-to-end
+
+- [ ] Integrar clientes remotos (ChatGPT/API, Codex, Claude, Cursor), conforme suporte de cada um
+- [ ] Testar autenticação, escopo de projetos e negação de operações não permitidas
+- [ ] Testar cenário completo em sandbox: solicitação → branch → edição → PR → CI → merge em `develop`
+- [ ] Confirmar que nenhuma operação automática altera `master`
+- [ ] Executar validação SQL em banco descartável e confirmar migração em `develop` somente após merge
+- [ ] Monitorar falhas e definir procedimento de pausa/rollback antes de ampliar o uso

@@ -22,7 +22,7 @@ Servidor MCP em TypeScript/Node.js, independente do agente cliente. O transporte
 | Git | `git_commit` | escrita explícita |
 | CI | `get_workflow`, `get_logs` | leitura |
 
-As ferramentas GitHub e CI consultam os repositórios reais pela REST API; as ferramentas Git atuam somente nos caminhos locais allowlistados. Escritas remotas nunca alteram diretamente branches protegidas. `create_pr` abre PR para `develop`; `merge_pull_request` só mescla para `develop`, e exige PR aberto, não draft, sem conflito, pelo menos uma execução do Actions para o SHA exato do PR, uma execução concluída com sucesso e nenhuma execução pendente ou reprovada. `get_logs` limita o arquivo baixado e o texto retornado.
+As ferramentas GitHub e CI consultam os repositórios canônicos de `nord-center-org` pela REST API; as ferramentas Git atuam somente nos caminhos locais allowlistados. Escritas remotas nunca alteram diretamente branches protegidas. `create_pr` abre PR para `develop`; `merge_pull_request` só mescla para `develop`, e exige PR aberto, não draft, sem conflito, pelo menos uma execução do Actions para o SHA exato do PR, uma execução concluída com sucesso e nenhuma execução pendente ou reprovada. `master` é a branch protegida que espelha produção e fica fora do merge automático; a promoção de `develop` para `master` pertence a um fluxo de release separado. `get_logs` limita o arquivo baixado e o texto retornado.
 
 ## Exemplo de conexão de cliente MCP
 

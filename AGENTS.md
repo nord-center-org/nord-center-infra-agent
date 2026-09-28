@@ -18,7 +18,7 @@ Antes de alterar um consumidor, leia seu perfil em `projects/` e confira o códi
 
 - Nunca versionar PATs, API keys, segredos, senhas ou credenciais; use ambiente ou secret manager.
 - O fluxo automático de alterações de qualquer projeto consumidor parte de `develop`, cria uma branch de trabalho e pode criar commit e mesclar de volta somente em `develop`, depois das validações configuradas.
-- Nunca escreva, faça commit ou mescle automaticamente em `main`, `master` ou em qualquer branch diferente de `develop`.
+- `master` é a branch protegida que espelha produção; promoção para ela ocorre em fluxo de release separado. `main`, se existir, também não é destino automático.
 - Se `develop` não existir, houver conflitos ou as validações falharem, pare e informe o motivo; não tente outro destino.
 - Não execute comandos arbitrários por meio de ferramentas MCP.
 

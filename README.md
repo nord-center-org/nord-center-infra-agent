@@ -18,7 +18,7 @@ Infraestrutura compartilhada para apoiar agentes de desenvolvimento nos projetos
 
 ## Estado do MCP
 
-A estrutura das ferramentas está definida; as integrações serão implementadas incrementalmente. Solicitações de alteração em qualquer projeto consumidor poderão gerar commit e merge automático exclusivamente para `develop`, após as verificações configuradas passarem. `main`, `master` e outras branches não são destinos permitidos.
+A estrutura das ferramentas está definida; as integrações serão implementadas incrementalmente. Solicitações de alteração em qualquer projeto consumidor poderão gerar commit e merge automático exclusivamente para `develop`, após as verificações configuradas passarem. `master` é a branch protegida que espelha produção e recebe promoção por um fluxo de release separado. `main`, se existir, e outras branches não são destinos permitidos.
 
 O servidor usa transporte local `stdio` para permitir conexão por diferentes clientes MCP. Credenciais devem ser fornecidas por variáveis de ambiente ou gerenciador de segredos. Consulte [mcp/README.md](mcp/README.md) para configuração e estado de implementação.
 
