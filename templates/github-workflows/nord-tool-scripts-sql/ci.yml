@@ -1,0 +1,83 @@
+name: SQL PR Validation
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+  push:
+    branches:
+      - develop
+      - master
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sql-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: sql-static-validation
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Validate filelist paths
+        run: |
+          python - <<'PY'
+          from pathlib import Path, PurePosixPath
+          import sys
+
+          root = Path.cwd().resolve()
+          entries = [line.strip() for line in Path("filelist.txt").read_text(encoding="utf-8").splitlines() if line.strip() and not line.lstrip().startswith("#")]
+          errors = []
+          for entry in entries:
+              path = PurePosixPath(entry)
+              target = (root / Path(*path.parts)).resolve()
+              if path.is_absolute() or ".." in path.parts or not target.is_relative_to(root) or target.suffix.lower() != ".sql" or not target.is_file():
+                  errors.append(entry)
+          if errors:
+              print("Invalid or missing SQL filelist entries:", *errors, sep="\n- ")
+              sys.exit(1)
+          print(f"Validated {len(entries)} SQL filelist entries.")
+          PY
+
+      - name: Determine changed SQL files
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          BEFORE_SHA: ${{ github.event.before }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.sha }}
+        run: |
+          if [ "$EVENT_NAME" = "pull_request" ]; then
+            base="$BASE_SHA"
+          elif [ "$BEFORE_SHA" = "0000000000000000000000000000000000000000" ]; then
+            base="${HEAD_SHA}^"
+          else
+            base="$BEFORE_SHA"
+          fi
+          git diff --name-only --diff-filter=ACMR "$base" "$HEAD_SHA" -- '*.sql' > changed-sql-files.txt
+          cat changed-sql-files.txt
+
+      - name: Setup SQLFluff
+        run: python -m pip install "sqlfluff==3.4.2"
+
+      - name: Parse changed SQL without executing it
+        run: |
+          if [ ! -s changed-sql-files.txt ]; then
+            echo "No SQL files changed."
+            exit 0
+          fi
+          while IFS= read -r file; do
+            sqlfluff parse --dialect postgres "$file"
+          done < changed-sql-files.txt

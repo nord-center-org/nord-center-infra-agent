@@ -17,7 +17,7 @@ function parseToolResult(result, toolName) {
 try {
   await client.connect(transport);
   const tools = await client.listTools();
-  const required = ["get_file", "search_code", "create_branch", "update_file", "create_pr", "get_pull_request", "merge_pull_request", "get_workflow", "get_logs", "get_project_context"];
+  const required = ["get_file", "search_code", "create_branch", "update_file", "create_pr", "get_pull_request", "merge_pull_request", "apply_changes_and_merge", "get_workflow", "get_logs", "get_project_context"];
   const registered = new Set(tools.tools.map((tool) => tool.name));
   const missing = required.filter((name) => !registered.has(name));
   if (missing.length) throw new Error(`Missing MCP tools: ${missing.join(", ")}`);
