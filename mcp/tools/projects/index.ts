@@ -1,8 +1,8 @@
 import { readdir, readFile } from "node:fs/promises";
 import path from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
-import { z } from "zod";
-import { INFRA_ROOT, PROJECT_NAMES, type ProjectName } from "../../server/projects.js";
+import { INFRA_ROOT, type ProjectName } from "../../server/projects.js";
+import { projectInputSchema, type ServerConfig } from "../../server/config.js";
 
 const MAX_CONTEXT_CHARS = 100_000;
 
@@ -53,11 +53,13 @@ function asTextResult(value: unknown) {
   return { content: [{ type: "text" as const, text: JSON.stringify(value, null, 2) }] };
 }
 
-export function registerProjectContext(server: McpServer) {
+export function registerProjectContext(server: McpServer, config: ServerConfig) {
+  const projects = config.allowedProjects;
+  const projectSchema = projectInputSchema(config);
   server.registerTool("get_project_context", {
     title: "Carregar contexto do projeto",
     description: "Retorna o perfil, steering e skills Markdown do projeto selecionado na allowlist.",
-    inputSchema: { project: z.enum(PROJECT_NAMES) },
+    inputSchema: { project: projectSchema },
   }, async ({ project }) => {
     try {
       return asTextResult(await loadProjectContext(project));
@@ -66,7 +68,7 @@ export function registerProjectContext(server: McpServer) {
     }
   });
 
-  for (const project of PROJECT_NAMES) {
+  for (const project of projects) {
     const uri = `nord-center-infra://projects/${project}/context`;
     server.registerResource(`${project}-context`, uri, {
       title: `Contexto do projeto ${project}`,

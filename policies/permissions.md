@@ -12,3 +12,4 @@ O fluxo global de branches e integração está definido em `git-workflow.md`.
 - Deploy e publicação não fazem parte dessa autorização.
 - O MCP não deve aceitar comandos shell arbitrários como ferramenta genérica.
 - Tokens devem ter menor privilégio e vir do ambiente ou de secret manager.
+- No transporte remoto, cada credencial bearer do cliente deve autorizar somente os projetos necessários; ela nunca substitui nem recebe o `GITHUB_TOKEN` do serviço.

@@ -1,10 +1,10 @@
 import { z } from "zod";
 import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ServerConfig } from "../../server/config.js";
-import { getProject, PROJECT_NAMES } from "../../server/projects.js";
+import { getProject } from "../../server/projects.js";
+import { projectInputSchema } from "../../server/config.js";
 import { encodePath, githubJson, githubRequest, repoPath } from "./client.js";
 
-const projectSchema = z.enum(PROJECT_NAMES);
 const protectedBranches = new Set(["main", "master", "develop"]);
 const isProtectedBranch = (branch: string) => protectedBranches.has(branch) || /^(main|master|develop)\//.test(branch);
 const failure = (error: unknown) => ({
@@ -31,6 +31,7 @@ interface WorkflowRuns {
 }
 
 export function registerGitHubTools(server: McpServer, config: ServerConfig): void {
+  const projectSchema = projectInputSchema(config);
   server.registerTool("get_file", {
     description: "Lê um arquivo de um dos projetos configurados no GitHub.",
     inputSchema: { project: projectSchema, path: z.string().min(1), ref: z.string().optional() },
