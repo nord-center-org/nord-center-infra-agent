@@ -14,6 +14,8 @@ Este repositório, `nord-center-infra-agent`, mantém infraestrutura compartilha
 
 Antes de alterar um consumidor, leia seu perfil em `projects/` e confira o código/configuração atual. Em seguida, carregue somente os arquivos de `skills/<projeto>/` e `steering/<projeto>/` correspondentes ao repositório alvo. Aplique também as policies globais de `policies/`.
 
+Quando usar o MCP, chame `get_project_context` para o projeto alvo antes de qualquer operação de escrita e repasse o `context_token` retornado à ferramenta de escrita. O MCP recusa alterações sem esse token.
+
 ## Segurança e Git
 
 - Nunca versionar PATs, API keys, segredos, senhas ou credenciais; use ambiente ou secret manager.
