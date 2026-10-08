@@ -51,6 +51,10 @@ Os logs de acesso incluem método, rota sem query string, status, duração, req
 | CI | `get_workflow`, `get_logs` | leitura |
 | Contexto | `get_project_context` e recursos `nord-center-infra://projects/<projeto>/context` | leitura |
 
+## Fluxo obrigatório de desenvolvimento
+
+Toda tarefa começa com uma branch criada a partir de `develop` atualizado, antes de escrever código, plano, documentação ou configuração. Mantenha nessa branch o plano completo e todo o trabalho. Não trabalhe em `develop`, não faça commit ou push direto nela e não use merge local para integrá-la. Só publique a branch e abra PR para `develop` depois que todo o plano estiver concluído, o diff revisado e as verificações aprovadas. Quando o PR estiver mergeable e CI, revisões e proteções exigidas passarem, faça squash merge automaticamente pelo PR, sem aguardar nova solicitação do usuário. Se houver aprovação humana obrigatória, mantenha o PR aberto aguardando-a. Se a branch não puder ser criada/atualizada, o plano estiver incompleto, houver conflitos ou as verificações falharem, pare e reporte sem publicar nem integrar. Use `apply_changes_and_merge` somente depois de concluir o escopo inteiro, pois essa ferramenta abre o PR, aguarda CI e pode fazer squash merge automaticamente após sucesso.
+
 ## Contexto específico por projeto
 
 O MCP publica um recurso de contexto separado para cada projeto allowlistado e a ferramenta `get_project_context` recebe o argumento `project`. A resposta contém as policies globais em `policies/`, o perfil `projects/<projeto>.md`, as steerings de `steering/<projeto>/` e as skills de `skills/<projeto>/`. A ferramenta também emite um `context_token` aleatório, vinculado ao projeto e válido por até duas horas. Toda ferramenta MCP que altera repositório exige esse token; sem carregar o contexto, a chamada é recusada. O cliente deve selecionar o projeto da tarefa e solicitar somente o contexto correspondente. O conteúdo é limitado a 100.000 caracteres por projeto e a arquivos Markdown nas pastas allowlistadas.
