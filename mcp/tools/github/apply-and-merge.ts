@@ -4,6 +4,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ServerConfig } from "../../server/config.js";
 import { getProject, type ProjectName } from "../../server/projects.js";
 import { projectInputSchema } from "../../server/config.js";
+import { requireContextToken } from "../../server/context-gate.js";
 import { GitHubApiError, encodePath, githubJson, githubRequest, repoPath } from "./client.js";
 
 const branchSchema = z.string().regex(/^(feature|fix|chore|refactor|docs)\/[A-Za-z0-9][A-Za-z0-9._/-]*$/).min(8).max(200)
@@ -175,9 +176,10 @@ export function registerApplyAndMergeTool(server: McpServer, config: ServerConfi
   server.registerTool("apply_changes_and_merge", {
     title: "Aplicar alterações e integrar em develop",
     description: "Cria um único commit multi-arquivo numa branch de trabalho, abre/reutiliza PR para develop, aguarda GitHub Actions para o SHA atual e faz squash merge somente após sucesso. Em falha ou timeout, mantém o PR aberto e informa o motivo.",
-    inputSchema: { ...inputSchema, project: projectSchema },
-  }, async ({ project, branch, changes, message, title, body, timeout_seconds }) => {
+    inputSchema: { ...inputSchema, project: projectSchema, context_token: z.string().min(32) },
+  }, async ({ project, context_token, branch, changes, message, title, body, timeout_seconds }) => {
     try {
+      requireContextToken(project, context_token);
       validateChanges(changes);
       const existingBranchSha = await readBranch(config, project, branch);
       let commitSha: string;

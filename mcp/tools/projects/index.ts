@@ -3,6 +3,7 @@ import path from "node:path";
 import { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { INFRA_ROOT, type ProjectName } from "../../server/projects.js";
 import { projectInputSchema, type ServerConfig } from "../../server/config.js";
+import { issueContextToken } from "../../server/context-gate.js";
 
 const MAX_CONTEXT_CHARS = 100_000;
 
@@ -26,9 +27,10 @@ async function markdownFiles(directory: string): Promise<string[]> {
 
 async function loadProjectContext(project: ProjectName) {
   const profilePath = path.join(INFRA_ROOT, "projects", `${project}.md`);
+  const policiesDir = path.join(INFRA_ROOT, "policies");
   const steeringDir = path.join(INFRA_ROOT, "steering", project);
   const skillsDir = path.join(INFRA_ROOT, "skills", project);
-  const paths = [profilePath, ...await markdownFiles(steeringDir), ...await markdownFiles(skillsDir)];
+  const paths = [...await markdownFiles(policiesDir), profilePath, ...await markdownFiles(steeringDir), ...await markdownFiles(skillsDir)];
   const documents: Array<{ path: string; content: string }> = [];
   let totalChars = 0;
 
@@ -42,7 +44,7 @@ async function loadProjectContext(project: ProjectName) {
     documents.push({ path: relativePath, content });
   }
 
-  if (documents.length === 0 || documents[0]?.path !== `projects/${project}.md`) {
+  if (!documents.some((document) => document.path === `projects/${project}.md`)) {
     throw new Error(`Perfil do projeto não encontrado: projects/${project}.md`);
   }
 
@@ -62,7 +64,8 @@ export function registerProjectContext(server: McpServer, config: ServerConfig) 
     inputSchema: { project: projectSchema },
   }, async ({ project }) => {
     try {
-      return asTextResult(await loadProjectContext(project));
+      const context = await loadProjectContext(project);
+      return asTextResult({ ...context, context_token: issueContextToken(project), token_expires_in_seconds: 7200 });
     } catch (error) {
       return { ...asTextResult({ error: error instanceof Error ? error.message : String(error) }), isError: true };
     }

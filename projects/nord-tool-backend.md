@@ -3,7 +3,7 @@
 - Repositório irmão: `../nord-tool-backend`.
 - Repositório canônico: `nord-center-org/nord-tool-backend`.
 - Propósito: backend do Nord Tool.
-- Stack observada: Java 11, Maven, Spring Boot 2.7.15, Spring Web, Validation, Spring Data JPA, PostgreSQL e testes Spring Boot/JUnit 5.
+- Stack observada: Java 11, Maven, Spring Boot 2.7.15, Spring Web, Validation, Spring JDBC, PostgreSQL e testes Spring Boot/JUnit 5.
 - Containerização: Docker e Docker Compose.
 - Instruções específicas: `skills/nord-tool-backend/` e `steering/nord-tool-backend/`.
 

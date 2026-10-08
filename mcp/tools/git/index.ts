@@ -6,6 +6,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import { getProject } from "../../server/projects.js";
 import type { ProjectName } from "../../server/projects.js";
 import { projectInputSchema, type ServerConfig } from "../../server/config.js";
+import { requireContextToken } from "../../server/context-gate.js";
 
 const execFileAsync = promisify(execFile);
 const protectedBranches = new Set(["main", "master", "develop"]);
@@ -50,10 +51,11 @@ export function registerGitTools(server: McpServer, config: ServerConfig): void 
   });
 
   server.registerTool("git_commit", {
-    description: "Cria commit local dos arquivos explicitamente informados; bloqueia main, master e develop.",
-    inputSchema: { project: projectSchema, message: z.string().min(1).max(200), files: z.array(z.string().min(1)).min(1).max(50) },
-  }, async ({ project, message, files }) => {
+    description: "Cria commit local dos arquivos explicitamente informados; exige context_token de get_project_context e bloqueia main, master e develop.",
+    inputSchema: { project: projectSchema, context_token: z.string().min(32), message: z.string().min(1).max(200), files: z.array(z.string().min(1)).min(1).max(50) },
+  }, async ({ project, context_token, message, files }) => {
     try {
+      requireContextToken(project, context_token);
       const branch = (await git(project, ["branch", "--show-current"])).trim();
       if (!branch || isProtectedBranch(branch)) throw new Error(`Commit bloqueado na branch protegida '${branch || "(detached HEAD)"}'. Use uma branch de trabalho derivada de develop.`);
       const safeFiles = [...new Set(files.map(validateRelativeFile))];
