@@ -2,6 +2,7 @@
 
 - Preserve Java 11 e Spring Boot 2.7.15 salvo solicitação explícita de migração.
 - Siga o desenho existente entre controller, service e repository; evite lógica de negócio em controllers.
+- Nomes obrigatórios: `*Service` é sempre interface e `*ServiceImpl` é a implementação (`@Service`); classes de apoio usam `*Calculator`, `*Provider`/`*Client` etc., nunca `*Service`. Detalhes em `steering/nord-tool-backend/coding-standards.md`.
 - Use forms/DTOs e validação nas fronteiras HTTP; não exponha diretamente modelos de persistência ou projections sem seguir o contrato existente.
 - Trate erros sem revelar stack traces, credenciais ou dados pessoais.
 - Consulte `pom.xml` antes de propor dependências e valide com Maven.
