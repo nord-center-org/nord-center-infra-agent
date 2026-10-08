@@ -43,17 +43,19 @@ Os logs de acesso incluem método, rota sem query string, status, duração, req
 | Área | Ferramenta | Acesso |
 |---|---|---|
 | GitHub | `get_file`, `search_code`, `get_pull_request` | leitura |
-| GitHub | `create_branch`, `update_file`, `create_pr` | escrita delimitada; PR somente para `develop` |
-| GitHub | `merge_pull_request` | merge somente em `develop`, exige execuções do Actions concluídas com sucesso e ausência de conflitos |
-| GitHub | `apply_changes_and_merge` | commit atômico com vários arquivos, PR para `develop`, espera por Actions e merge squash condicionado |
+| GitHub | `create_branch`, `update_file`, `create_pr` | escrita delimitada; exigem `context_token` obtido por `get_project_context`; PR somente para `develop` |
+| GitHub | `merge_pull_request` | exige `context_token`; merge somente em `develop`, exige execuções do Actions concluídas com sucesso e ausência de conflitos |
+| GitHub | `apply_changes_and_merge` | exige `context_token`; commit atômico com vários arquivos, PR para `develop`, espera por Actions e merge squash condicionado |
 | Git | `git_status`, `git_diff` | leitura local |
-| Git | `git_commit` | escrita explícita |
+| Git | `git_commit` | escrita explícita com `context_token` |
 | CI | `get_workflow`, `get_logs` | leitura |
 | Contexto | `get_project_context` e recursos `nord-center-infra://projects/<projeto>/context` | leitura |
 
 ## Contexto específico por projeto
 
-O MCP publica um recurso de contexto separado para cada projeto allowlistado e a ferramenta `get_project_context` recebe o argumento `project`. A resposta contém somente o perfil `projects/<projeto>.md`, os Markdown de `steering/<projeto>/` e os Markdown de `skills/<projeto>/`. O cliente deve selecionar o projeto da tarefa e solicitar somente o recurso correspondente (ou chamar a ferramenta com esse projeto); o servidor não injeta as instruções de todos os projetos em cada resposta. O conteúdo é limitado a 100.000 caracteres por projeto e a arquivos Markdown nas pastas allowlistadas.
+O MCP publica um recurso de contexto separado para cada projeto allowlistado e a ferramenta `get_project_context` recebe o argumento `project`. A resposta contém as policies globais em `policies/`, o perfil `projects/<projeto>.md`, as steerings de `steering/<projeto>/` e as skills de `skills/<projeto>/`. A ferramenta também emite um `context_token` aleatório, vinculado ao projeto e válido por até duas horas. Toda ferramenta MCP que altera repositório exige esse token; sem carregar o contexto, a chamada é recusada. O cliente deve selecionar o projeto da tarefa e solicitar somente o contexto correspondente. O conteúdo é limitado a 100.000 caracteres por projeto e a arquivos Markdown nas pastas allowlistadas.
+
+Essa barreira vale para alterações feitas pelas ferramentas MCP via `stdio` e Streamable HTTP, para todos os clientes conectados. Ela não controla edição direta pelo filesystem, terminal ou outras ferramentas do cliente; para cobrir esses caminhos, configure o agente em ambiente sem escrita direta nos repositórios e exponha somente as ferramentas controladas.
 
 As ferramentas GitHub e CI consultam os repositórios canônicos de `nord-center-org` pela REST API; as ferramentas Git atuam somente nos caminhos locais allowlistados. Escritas remotas nunca alteram diretamente `main`, `master` ou `develop`, mesmo sem regras nativas de proteção no GitHub. `create_pr` abre PR para `develop`; `merge_pull_request` só mescla para `develop`, e exige PR aberto, não draft, sem conflito, pelo menos uma execução do Actions para o SHA exato do PR, uma execução concluída com sucesso e nenhuma execução pendente ou reprovada. `master` espelha produção e fica fora do merge automático; a promoção de `develop` para `master` pertence a um fluxo de release separado. `get_logs` limita o arquivo baixado e o texto retornado.
 

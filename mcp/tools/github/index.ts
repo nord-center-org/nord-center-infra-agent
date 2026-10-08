@@ -3,6 +3,7 @@ import type { McpServer } from "@modelcontextprotocol/sdk/server/mcp.js";
 import type { ServerConfig } from "../../server/config.js";
 import { getProject } from "../../server/projects.js";
 import { projectInputSchema } from "../../server/config.js";
+import { requireContextToken } from "../../server/context-gate.js";
 import { encodePath, githubJson, githubRequest, repoPath } from "./client.js";
 
 const protectedBranches = new Set(["main", "master", "develop"]);
@@ -58,9 +59,10 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
 
   server.registerTool("create_branch", {
     description: "Cria uma branch de trabalho no projeto selecionado a partir de develop.",
-    inputSchema: { project: projectSchema, branch: z.string().regex(/^[A-Za-z0-9._/-]+$/).min(1).max(200) },
-  }, async ({ project, branch }) => {
+    inputSchema: { project: projectSchema, context_token: z.string().min(32), branch: z.string().regex(/^[A-Za-z0-9._/-]+$/).min(1).max(200) },
+  }, async ({ project, context_token, branch }) => {
     try {
+      requireContextToken(project, context_token);
       if (isProtectedBranch(branch)) throw new Error("Nome reservado: use uma branch de trabalho, nunca main, master ou develop.");
       const ref = await githubRequest<GitRef>(config, repoPath(project, `/git/ref/${refPath("develop")}`));
       const result = await githubJson<{ ref: string; object: { sha: string } }>(config, repoPath(project, "/git/refs"), "POST", { ref: `refs/heads/${branch}`, sha: ref.object.sha });
@@ -70,9 +72,10 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
 
   server.registerTool("update_file", {
     description: "Cria ou atualiza um arquivo em uma branch de trabalho (nunca diretamente em branches protegidas).",
-    inputSchema: { project: projectSchema, branch: z.string().min(1), path: z.string().min(1), content: z.string(), message: z.string().min(1).max(200) },
-  }, async ({ project, branch, path, content, message }) => {
+    inputSchema: { project: projectSchema, context_token: z.string().min(32), branch: z.string().min(1), path: z.string().min(1), content: z.string(), message: z.string().min(1).max(200) },
+  }, async ({ project, context_token, branch, path, content, message }) => {
     try {
+      requireContextToken(project, context_token);
       if (isProtectedBranch(branch)) throw new Error("Não é permitido alterar arquivos diretamente em main, master ou develop.");
       let sha: string | undefined;
       try {
@@ -90,9 +93,10 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
 
   server.registerTool("create_pr", {
     description: "Abre um Pull Request para develop; outros destinos são rejeitados.",
-    inputSchema: { project: projectSchema, head: z.string().min(1), title: z.string().min(1).max(256), body: z.string().default(""), draft: z.boolean().default(false) },
-  }, async ({ project, head, title, body, draft }) => {
+    inputSchema: { project: projectSchema, context_token: z.string().min(32), head: z.string().min(1), title: z.string().min(1).max(256), body: z.string().default(""), draft: z.boolean().default(false) },
+  }, async ({ project, context_token, head, title, body, draft }) => {
     try {
+      requireContextToken(project, context_token);
       if (isProtectedBranch(head)) throw new Error("A origem do Pull Request deve ser uma branch de trabalho.");
       const result = await githubJson<{ number: number; html_url: string; base: { ref: string } }>(config, repoPath(project, "/pulls"), "POST", { title, body, head, base: "develop", draft });
       return text({ project, number: result.number, url: result.html_url, base: result.base.ref });
@@ -111,9 +115,10 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
 
   server.registerTool("merge_pull_request", {
     description: "Mescla um PR exclusivamente para develop após confirmar que o GitHub reporta o PR mergeable e as execuções relevantes do GitHub Actions passaram.",
-    inputSchema: { project: projectSchema, number: z.number().int().positive(), method: z.enum(["squash", "merge", "rebase"]).default("squash") },
-  }, async ({ project, number, method }) => {
+    inputSchema: { project: projectSchema, context_token: z.string().min(32), number: z.number().int().positive(), method: z.enum(["squash", "merge", "rebase"]).default("squash") },
+  }, async ({ project, context_token, number, method }) => {
     try {
+      requireContextToken(project, context_token);
       const pr = await githubRequest<PullRequest>(config, repoPath(project, `/pulls/${number}`));
       if (pr.base.ref !== "develop") throw new Error(`Merge bloqueado: o PR aponta para '${pr.base.ref}', mas somente develop é permitido.`);
       if (pr.state !== "open" || pr.merged) throw new Error("Merge bloqueado: o Pull Request não está aberto.");
