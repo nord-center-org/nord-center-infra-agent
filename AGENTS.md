@@ -19,9 +19,10 @@ Quando usar o MCP, chame `get_project_context` para o projeto alvo antes de qual
 ## Segurança e Git
 
 - Nunca versionar PATs, API keys, segredos, senhas ou credenciais; use ambiente ou secret manager.
-- O fluxo automático de alterações de qualquer projeto consumidor parte de `develop`, cria uma branch de trabalho e pode criar commit e mesclar de volta somente em `develop`, depois das validações configuradas.
+- Em qualquer repositório trabalhado por esta infra, inclusive este repositório quando tiver `develop`, todo trabalho — também planos e documentação — começa em uma branch dedicada criada a partir de `develop`; nunca edite, commite, faça push ou integre alterações diretamente em `develop`.
+- Finalize o escopo e as validações na branch de trabalho, publique somente essa branch e abra um Pull Request para `develop`. Quando o PR estiver mergeable e todas as verificações e proteções exigidas passarem, faça squash merge automaticamente pelo fluxo de PR, sem aguardar nova solicitação. Nunca faça merge direto/local em `develop` nem contorne uma revisão exigida.
 - `master` espelha produção; promoção para ela ocorre em fluxo de release separado. `develop` pode continuar como branch padrão. O MCP bloqueia operações automáticas em `master` mesmo sem proteção nativa no GitHub. `main`, se existir, também não é destino automático.
-- Se `develop` não existir, houver conflitos ou as validações falharem, pare e informe o motivo; não tente outro destino.
+- Se `develop` não existir, não puder ser atualizado, houver conflitos ou as validações falharem, pare e informe o motivo; não trabalhe em `develop` nem tente outro destino.
 - Não execute comandos arbitrários por meio de ferramentas MCP.
 
 ## Objetivo
