@@ -15,6 +15,7 @@ Infraestrutura compartilhada para apoiar agentes de desenvolvimento nos projetos
 - [nord-tool-backend](projects/nord-tool-backend.md)
 - [nord-tool-frontend](projects/nord-tool-frontend.md)
 - [nord-tool-scripts-sql](projects/nord-tool-scripts-sql.md)
+- [lugia-center](projects/lugia-center.md) (fora da allowlist do MCP por enquanto)
 
 ## Estado do MCP
 

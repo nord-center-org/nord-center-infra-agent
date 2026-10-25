@@ -25,6 +25,10 @@ Quando usar o MCP, chame `get_project_context` para o projeto alvo antes de qual
 - Se `develop` não existir, não puder ser atualizado, houver conflitos ou as validações falharem, pare e informe o motivo; não trabalhe em `develop` nem tente outro destino.
 - Não execute comandos arbitrários por meio de ferramentas MCP.
 
+## Novidades
+
+Toda entrega visível para quem usa o NordTool atualiza as novidades do mascote Lugia Nexus; veja `policies/novidades.md`.
+
 ## Objetivo
 
 Começar com um MCP local TypeScript/Node.js via `stdio`; avaliar hospedagem e transporte remoto em fase posterior. Consulte `mcp/README.md` e `roadmap.md` para estado e próximos passos.
