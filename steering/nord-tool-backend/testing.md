@@ -27,8 +27,16 @@ Regras da exceção:
 - Classes de apoio sem `@Test` (fixtures, builders, dados de exemplo) ficam em `src/test/java/br/com/nord_tool_backend/support/` e são permitidas.
 - Ao criar ou alterar rota pública, atualize a allowlist de `RotasProtegidasGuardTest` no mesmo PR e justifique a rota na descrição.
 
+## Cobertura mínima e gates do pipeline
+
+- A cobertura de **linhas** do conjunto das classes `*ServiceImpl` deve ficar em **no mínimo 90%**. O JaCoCo mede só essas classes (as únicas que a política permite testar) e o `jacoco:check` falha o `mvn verify` abaixo do mínimo, definido na propriedade `cobertura.minima` do `pom.xml`.
+- O gate roda no job **Build & Testes** do `pipeline-dev.yml`, tanto na checagem do PR para `develop` quanto no pipeline do merge; com ele falhando, o PR não deve ser mesclado e o deploy no Railway não acontece.
+- Todo `ServiceImpl` novo ou alterado deve vir com testes no `*ServiceImplTest` correspondente que mantenham a cobertura total acima do mínimo. Não reduza `cobertura.minima`, não amplie exclusões do JaCoCo e não crie testes artificiais sem asserções para atingir o número.
+- A cobertura de branches aparece no resumo do run apenas como informação, sem gate; ao mexer em um `ServiceImpl`, cubra também os caminhos de decisão das regras alteradas.
+- No mesmo job, `scripts/verificar-politica-testes.sh` valida esta política. O job **Qualidade de Código** roda `mvn compile pmd:check spotbugs:check` e também bloqueia: não deixe apontamentos novos do PMD ou do SpotBugs.
+
 ## Suíte legada e execução
 
 - A regra vale para todo teste novo ou alterado. Testes já existentes fora do padrão são legados; não os apague incidentalmente durante uma feature ou correção. Uma migração que os remova deve ser uma tarefa explícita, revisar o que deixará de ser verificado e atualizar o gate Maven para impedir o retorno dessas categorias.
-- Comandos Maven documentados: `mvn clean`, `mvn install` e `mvn test`. Execute apenas os comandos solicitados ou pertinentes à alteração; `mvn test` executará também os testes legados enquanto eles continuarem no repositório.
+- Comandos Maven documentados: `mvn clean`, `mvn install`, `mvn test` e `mvn verify`. Antes de abrir PR, rode `mvn verify` (testes e gate de cobertura; o relatório fica em `target/site/jacoco/index.html`) e `mvn compile pmd:check spotbugs:check`, que reproduzem os gates do CI; `mvn test` sozinho não verifica a cobertura.
 - Informe quais comandos e testes foram executados, quais falharam e quais lacunas foram verificadas manualmente. Nunca afirme uma validação que não ocorreu.
