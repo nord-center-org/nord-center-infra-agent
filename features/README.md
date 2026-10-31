@@ -1,0 +1,24 @@
+# Catálogo de features
+
+Registro do que cada funcionalidade do NordTool faz, uma pasta por feature. As regras estão em [policies/features.md](../policies/features.md) e os modelos em [templates/feature/](../templates/feature/).
+
+Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. Se existir, o pedido é uma nova versão dela.
+
+| Feature | Slug | Versão atual | Repositórios | Status |
+|---|---|---|---|---|
+| _Nenhuma feature registrada ainda._ | | | | |
+
+`Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
+
+## Funcionalidades ainda sem registro
+
+Estas telas já existiam no app quando o registro começou (rotas do frontend em 2026-10-30) e ainda não têm pasta. Um pedido que mexa em uma delas é tratado como legado: registre o estado atual em `v1.md` retroativo e entregue o pedido como v2, conforme a policy.
+
+- Autenticação e conta: `/login`, `/cadastro`, `/esqueci-senha`, `/redefinir-senha`, `/configuracoes`
+- Início e painel: `/`, `/dashboard`, `/lugia`
+- `/apartamentos`, `/entregas`, `/treinamentos`
+- Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/repertorio`, `/gestao/treinos`
+- Mapeamentos: `/mapeamentos/conferencias`, `/mapeamentos/pendencias`, `/mapeamentos/relatorio-fotografico`
+- Organizacional: `/organizacional/controle-chaves`, `/organizacional/cronograma`, `/organizacional/diario-obras`, `/organizacional/escadinha`, `/organizacional/fluxograma`, `/organizacional/fvs`, `/organizacional/medicoes`, `/organizacional/projetos`, `/organizacional/rte`
+
+Ao registrar uma delas, retire-a desta lista no mesmo PR.

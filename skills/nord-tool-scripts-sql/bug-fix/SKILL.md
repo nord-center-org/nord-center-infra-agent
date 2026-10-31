@@ -12,4 +12,4 @@ description: Diagnose and fix defects in nord-tool-scripts-sql scripts, filelist
 5. Para defeitos de dados, corrija o DML apropriado e torne a operação repetível segura quando necessário. Atualize o `filelist.txt` somente com os caminhos que devem rodar para aplicar a correção, na ordem das dependências.
 6. Avalie os dados existentes e os consumidores do backend. Antes de uma operação destrutiva ou conversão, defina a estratégia de recuperação exigida pelo steering de segurança.
 7. Faça revisão estática sempre. Se houver um banco seguro configurado, execute e confira a correção; a ausência desse banco não bloqueia a alteração nem sua aprovação. Registre quando a execução em banco não foi realizada.
-8. Siga as policies globais de Git e reporte a causa, os arquivos alterados e as verificações realmente executadas.
+8. Siga as policies globais de Git, com a branch nomeada `fix-<slug>-<resumo>` conforme a [policy de features](../../../policies/features.md), e reporte a causa, os arquivos alterados e as verificações realmente executadas. Se o defeito estiver numa feature registrada, acrescente a correção ao `README.md` dela em `features/<slug>/`.

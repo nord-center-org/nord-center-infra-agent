@@ -11,6 +11,8 @@ Este repositório, `nord-center-infra-agent`, mantém infraestrutura compartilha
 - `steering/<projeto>/`: regras permanentes de arquitetura, código, segurança e validação específicas de cada projeto.
 - `policies/`: permissões e proteção de branches.
 - `projects/`: contexto específico de cada repositório consumidor.
+- `features/`: registro de cada funcionalidade do NordTool, uma pasta por feature com a ficha atual e um arquivo por versão.
+- `templates/`: modelos da documentação de feature e dos workflows de CI.
 
 Antes de alterar um consumidor, leia seu perfil em `projects/` e confira o código/configuração atual. Em seguida, carregue somente os arquivos de `skills/<projeto>/` e `steering/<projeto>/` correspondentes ao repositório alvo. Aplique também as policies globais de `policies/`.
 
@@ -24,6 +26,10 @@ Quando usar o MCP, chame `get_project_context` para o projeto alvo antes de qual
 - `master` espelha produção; promoção para ela ocorre em fluxo de release separado. `develop` pode continuar como branch padrão. O MCP bloqueia operações automáticas em `master` mesmo sem proteção nativa no GitHub. `main`, se existir, também não é destino automático.
 - Se `develop` não existir, não puder ser atualizado, houver conflitos ou as validações falharem, pare e informe o motivo; não trabalhe em `develop` nem tente outro destino.
 - Não execute comandos arbitrários por meio de ferramentas MCP.
+
+## Registro de features
+
+Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrado como uma feature em `features/<slug>/`, e toda melhoria de uma feature existente é uma nova versão dela (`v2`, `v3`…). Antes de criar a branch, classifique o pedido e escolha o nome conforme `policies/features.md`: `feature-<slug>` ou `feature-<slug>-vN`, com até 50 caracteres e o mesmo nome em todos os repositórios da entrega, inclusive este. A especificação técnica e o porquê de cada decisão ficam no `vN.md` da feature, entregue no mesmo conjunto de PRs.
 
 ## Novidades
 

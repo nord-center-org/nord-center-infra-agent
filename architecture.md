@@ -9,6 +9,8 @@ O `nord-center-infra-agent` é a infraestrutura compartilhada de agentes para os
 - `steering/<projeto>/`: regras de arquitetura, código e validação selecionadas por projeto.
 - `policies/`: limites de permissões e proteção de branches.
 - `projects/`: stack, comandos e convenções específicas de cada repositório consumidor.
+- `features/`: registro de cada funcionalidade do NordTool, com a ficha atual e um arquivo por versão.
+- `templates/`: modelos da documentação de feature e dos workflows de CI.
 
 Agentes devem identificar o repositório alvo e carregar somente o perfil, steering e skills daquele projeto. As policies em `policies/` são globais e continuam válidas para todos.
 
@@ -22,3 +24,4 @@ Agentes devem identificar o repositório alvo e carregar somente o perfil, steer
 - **ADR-006 — Integração e produção separadas:** alterações de agentes partem de `develop`, são validadas por PR e podem ser mescladas automaticamente somente para `develop`. `master` espelha produção; promovê-la é um fluxo de release separado. `develop` pode continuar como branch padrão. As regras nativas de proteção do GitHub são opcionais; o MCP sempre aplica seus próprios bloqueios. `main`, se existir, não é branch canônica de produção.
 - **ADR-010 — HTTP remoto com escopo por cliente:** O transporte Streamable HTTP cria uma sessão por cliente autenticado. Credenciais remotas são distintas de `GITHUB_TOKEN` e cada uma recebe uma allowlist explícita de projetos. O serviço valida Host/Origin, impõe HTTPS quando implantado publicamente, limita chamadas e não registra tokens nem corpos MCP. Sessões são mantidas em memória; a primeira implantação Railway deve usar uma instância até existir armazenamento compartilhado de sessão.
 - **ADR-011 — Release de produção manual:** A promoção de `develop` para `master` exige PR e aprovação humana conforme `policies/release.md`; nenhuma operação MCP pode realizá-la.
+- **ADR-012 — Registro de features:** cada funcionalidade tem um slug fixo e uma pasta em `features/<slug>/` com a ficha atual e um arquivo por versão; melhorias são novas versões (`feature-<slug>-vN`). O mesmo nome de branch, com até 50 caracteres, é usado em todos os repositórios da entrega, conforme `policies/features.md`.

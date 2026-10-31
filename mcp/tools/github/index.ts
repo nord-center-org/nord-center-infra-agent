@@ -4,6 +4,7 @@ import type { ServerConfig } from "../../server/config.js";
 import { getProject } from "../../server/projects.js";
 import { projectInputSchema } from "../../server/config.js";
 import { requireContextToken } from "../../server/context-gate.js";
+import { WORK_BRANCH_RULE, isWorkBranch } from "../../server/branches.js";
 import { encodePath, githubJson, githubRequest, repoPath } from "./client.js";
 
 const protectedBranches = new Set(["main", "master", "develop"]);
@@ -58,12 +59,13 @@ export function registerGitHubTools(server: McpServer, config: ServerConfig): vo
   });
 
   server.registerTool("create_branch", {
-    description: "Cria uma branch de trabalho no projeto selecionado a partir de develop.",
+    description: "Cria uma branch de trabalho no projeto selecionado a partir de develop, no padrão <tipo>-<slug> de policies/features.md (até 50 caracteres).",
     inputSchema: { project: projectSchema, context_token: z.string().min(32), branch: z.string().regex(/^[A-Za-z0-9._/-]+$/).min(1).max(200) },
   }, async ({ project, context_token, branch }) => {
     try {
       requireContextToken(project, context_token);
       if (isProtectedBranch(branch)) throw new Error("Nome reservado: use uma branch de trabalho, nunca main, master ou develop.");
+      if (!isWorkBranch(branch)) throw new Error(`Nome de branch fora do padrão: ${branch}. ${WORK_BRANCH_RULE}`);
       const ref = await githubRequest<GitRef>(config, repoPath(project, `/git/ref/${refPath("develop")}`));
       const result = await githubJson<{ ref: string; object: { sha: string } }>(config, repoPath(project, "/git/refs"), "POST", { ref: `refs/heads/${branch}`, sha: ref.object.sha });
       return text({ project, branch: result.ref, sha: result.object.sha, source: "develop" });

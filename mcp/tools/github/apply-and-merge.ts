@@ -5,10 +5,10 @@ import type { ServerConfig } from "../../server/config.js";
 import { getProject, type ProjectName } from "../../server/projects.js";
 import { projectInputSchema } from "../../server/config.js";
 import { requireContextToken } from "../../server/context-gate.js";
+import { WORK_BRANCH_RULE, isWorkBranch } from "../../server/branches.js";
 import { GitHubApiError, encodePath, githubJson, githubRequest, repoPath } from "./client.js";
 
-const branchSchema = z.string().regex(/^(feature|fix|chore|refactor|docs)\/[A-Za-z0-9][A-Za-z0-9._/-]*$/).min(8).max(200)
-  .refine((branch) => !branch.includes("..") && !branch.endsWith("/") && !branch.endsWith(".") && !branch.includes("//"), "Nome de branch inválido.");
+const branchSchema = z.string().refine(isWorkBranch, WORK_BRANCH_RULE);
 const inputSchema = {
   branch: branchSchema,
   changes: z.array(z.object({ path: z.string().min(1).max(500), content: z.string() })).min(1).max(100),
