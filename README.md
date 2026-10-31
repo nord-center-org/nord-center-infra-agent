@@ -9,6 +9,8 @@ Infraestrutura compartilhada para apoiar agentes de desenvolvimento nos projetos
 - `steering/<projeto>/`: regras de arquitetura, código, segurança e validação próprias de cada projeto.
 - `policies/`: limites operacionais e proteções de branches.
 - `projects/`: contexto específico de cada repositório consumidor.
+- `features/`: registro de cada funcionalidade do NordTool, com a ficha atual e um arquivo por versão ([catálogo](features/README.md)).
+- `templates/`: modelos da documentação de feature e dos workflows de CI.
 
 ## Projetos configurados
 
@@ -25,4 +27,4 @@ O servidor mantém o transporte local `stdio` e está iniciando o modo remoto St
 
 ## Uso das instruções
 
-Identifique primeiro o repositório alvo. Carregue somente o perfil em `projects/`, as steering em `steering/<projeto>/` e as skills em `skills/<projeto>/` correspondentes a ele. Consulte `policies/` para as regras globais de permissão e branch. Essas instruções não substituem revisão de código nem os comandos oficiais de build e teste de cada projeto.
+Identifique primeiro o repositório alvo. Carregue somente o perfil em `projects/`, as steering em `steering/<projeto>/` e as skills em `skills/<projeto>/` correspondentes a ele. Consulte `policies/` para as regras globais de permissão e branch. Para pedidos de funcionalidade, consulte o [catálogo de features](features/README.md) e siga [policies/features.md](policies/features.md). Essas instruções não substituem revisão de código nem os comandos oficiais de build e teste de cada projeto.

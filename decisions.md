@@ -43,3 +43,7 @@ O MCP mantém o transporte `stdio` para clientes locais e adiciona Streamable HT
 ## ADR-011: Promoção para master com aprovação humana
 
 `master` representa produção e fica fora das ferramentas de escrita e merge automático. A promoção exige um PR de release revisto e integrado manualmente por um owner da organização, conforme `policies/release.md`.
+
+## ADR-012: Registro de funcionalidades por feature e versão
+
+Cada funcionalidade do NordTool tem um slug fixo e uma pasta em `features/<slug>/`, com a ficha do estado atual (`README.md`) e um arquivo por versão (`v1.md`, `v2.md`…) contendo a especificação técnica e o porquê de cada decisão, principalmente das tomadas por agentes. Uma melhoria de uma feature existente é uma nova versão, não uma feature nova. O slug aparece no nome da branch (`feature-<slug>` ou `feature-<slug>-vN`, com até 50 caracteres e o mesmo em todos os repositórios da entrega) e no título do squash commit (`feat(<slug>-vN): …`), o que liga código, PRs e documentação. A documentação fica centralizada nesta infra porque uma feature costuma atravessar SQL, backend e frontend. O MCP só cria branches nesse padrão. As regras estão em `policies/features.md`.

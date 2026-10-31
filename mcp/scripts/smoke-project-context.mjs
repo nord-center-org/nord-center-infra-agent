@@ -29,7 +29,7 @@ try {
     if (!toolText || toolText.type !== "text") throw new Error(`Tool returned no text for ${project}.`);
     const toolContext = JSON.parse(toolText.text);
     if (context.project !== project || toolContext.project !== project) throw new Error(`Wrong project returned for ${project}.`);
-    for (const prefix of [`projects/${project}.md`, `steering/${project}/`, `skills/${project}/`]) {
+    for (const prefix of ["features/README.md", `projects/${project}.md`, `steering/${project}/`, `skills/${project}/`]) {
       if (!context.documents.some((document) => document.path === prefix || document.path.startsWith(prefix))) {
         throw new Error(`Context for ${project} is missing ${prefix}.`);
       }

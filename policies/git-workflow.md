@@ -3,7 +3,7 @@
 Esta policy vale para todos os repositórios trabalhados pelos agentes através desta infra, independentemente de stack, inclusive `nord-center-infra-agent` quando houver `develop`.
 
 1. Confirme o repositório e leia seu perfil, steering e skills específicas antes de editar.
-2. Atualize a referência `develop` a partir do remoto canônico e crie uma branch dedicada de trabalho baseada nela antes de escrever qualquer código, plano, documentação ou configuração. Nomeie a branch pelo tipo e objetivo, por exemplo `feature/...`, `fix/...` ou `docs/...`.
+2. Atualize a referência `develop` a partir do remoto canônico e crie uma branch dedicada de trabalho baseada nela antes de escrever qualquer código, plano, documentação ou configuração. Nomeie a branch conforme [features.md](features.md): `feature-<slug>` para uma feature nova, `feature-<slug>-vN` para uma nova versão de uma feature existente, `fix-<slug>-<resumo>` para uma correção ou outro prefixo permitido, sempre com até 50 caracteres.
 3. Nunca use `develop` como branch de trabalho. Não edite arquivos, crie commits, faça push nem execute merge local diretamente em `develop`.
 4. Inspecione o estado da branch de trabalho e preserve alterações existentes que não pertençam à solicitação. Mantenha nela o plano, toda a implementação, documentação, revisões e validações até concluir o escopo solicitado.
 5. Revise o diff e execute todas as verificações indicadas pelo steering do projeto. Não publique nem solicite integração enquanto houver itens do plano pendentes ou validações falhas.
