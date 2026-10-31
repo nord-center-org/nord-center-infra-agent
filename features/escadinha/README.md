@@ -40,7 +40,7 @@ Todas registradas a partir do código de 2026-10-30; o porquê das decisões ant
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-10-30 | Registro retroativo do que já existia no código | `docs-inventario-features` | PR_INFRA_LINK |
+| [v1](v1.md) | 2026-10-30 | Registro retroativo do que já existia no código | `docs-inventario-features` | [infra#19](https://github.com/nord-center-org/nord-center-infra-agent/pull/19) |
 
 ## Correções
 
