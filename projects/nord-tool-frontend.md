@@ -12,4 +12,5 @@
 - Preserve TypeScript e os padrões de componentes e estilos já usados em `src/`.
 - Confira `package.json` e lockfile antes de alterar dependências.
 - Execute `npm run lint` e `npm run build` para mudanças relevantes; use `npm test` quando aplicável.
+- CI/CD: `.github/workflows/pipeline.yml` faz checagem leve no PR para `develop` e, no merge, o pipeline completo com deploy no Railway pela CLI (auto-deploy do GitHub desligado). Detalhes em [validação](../steering/nord-tool-frontend/testing.md).
 - Não presuma que integrações ou serviços presentes no ambiente local estão disponíveis em produção; consulte a configuração do projeto.
