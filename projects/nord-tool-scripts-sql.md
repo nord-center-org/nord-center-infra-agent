@@ -5,6 +5,7 @@
 - Propósito: scripts PostgreSQL de estrutura e dados consumidos pelo `nord-tool-backend`.
 - Stack: PostgreSQL; execução por shell/Git Bash através de `./executa-sql.sh`.
 - O runner exige `DATABASE_URL`, cria o schema `nord_tool` se necessário e executa todos os caminhos listados em `filelist.txt`, na ordem; interrompe ao primeiro erro SQL.
+- CI/CD: `.github/workflows/pipeline.yml` valida o `filelist.txt` e a sintaxe no PR para `develop`; no merge que altera SQL, aplica o `filelist.txt` no banco de desenvolvimento do Railway pelo Actions, só depois da validação. Detalhes em [validação](../steering/nord-tool-scripts-sql/testing.md).
 
 ## Convenções essenciais
 

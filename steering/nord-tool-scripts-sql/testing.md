@@ -23,6 +23,13 @@ A revisão estática não comprova que os scripts executam corretamente no banco
 
 Se não houver conexão disponível, continue a revisão e o fluxo de aprovação com a validação estática. Registre que a execução em banco não foi feita; não declare o comportamento de execução como validado. A indisponibilidade de banco, por si só, não bloqueia a alteração nem sua aprovação.
 
+## Pipeline e aplicação no Railway
+
+- O `.github/workflows/pipeline.yml` roda no PR para `develop` a **Validação SQL** (caminhos do `filelist.txt` existentes e parse dos SQL alterados com SQLFluff) e o **Secret Scanning** (Gitleaks nos commits novos). As duas precisam passar antes do merge. O parse confere a sintaxe, não a execução no banco.
+- No merge em `develop`, se o merge alterou `DDL/`, `DML/`, `filelist.txt` ou `executa-sql.sh` e a validação passou, o job **Aplicar no Railway (develop)** executa o `executa-sql.sh` no banco de desenvolvimento (secret `DATABASE_URL` do environment `dev`) e lista no resumo do run os scripts aplicados. Sem essas alterações, o job é pulado.
+- Mesclar em `develop` aplica, portanto, **todo o `filelist.txt`** no banco de desenvolvimento do Railway. Antes do merge, confira que ele lista só o que deve rodar e que cada script pode ser reexecutado com segurança. Uma falha nesse job deixa o banco no ponto em que o script parou; corrija com um novo PR.
+- O run do Actions é o registro de que as alterações chegaram ao banco. O serviço Postgres do Railway fica sem auto-deploy pelo GitHub; não o religue, senão cada merge reinicia o banco e roda os scripts fora do pipeline.
+
 ## Registro do resultado
 
 Ao reportar a validação, diferencie claramente:
