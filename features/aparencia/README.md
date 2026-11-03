@@ -27,7 +27,7 @@ Deixa cada pessoa escolher como o app aparece no aparelho dela: tema claro, escu
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-03 | Registro retroativo do tema claro/escuro | — | — |
-| [v2](v2.md) | 2026-11-03 | Opção de animações (seguir o aparelho, sempre ligadas, desligadas) | `feature-aparencia-v2` | ver v2 |
+| [v2](v2.md) | 2026-11-03 | Opção de animações (seguir o aparelho, sempre ligadas, desligadas) | `feature-aparencia-v2` | [frontend#152](https://github.com/nord-center-org/nord-tool-frontend/pull/152), [infra#21](https://github.com/nord-center-org/nord-center-infra-agent/pull/21) |
 
 ## Correções
 
