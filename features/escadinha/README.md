@@ -34,7 +34,7 @@ Acompanha a obra pavimento a pavimento no padrão da escadinha da Cury: cada cé
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-03 | Registro retroativo da escadinha, da leitura de projetos e do 3D por camadas | — | — |
-| [v2](v2.md) | 2026-11-03 | Cômodos e vãos pelos rótulos do projeto, uma peça do 3D por atividade, navegação livre e 3D do apartamento | `feature-escadinha-v2` | a preencher |
+| [v2](v2.md) | 2026-11-03 | Cômodos e vãos pelos rótulos do projeto, uma peça do 3D por atividade, navegação livre e 3D do apartamento | `feature-escadinha-v2` | [frontend#153](https://github.com/nord-center-org/nord-tool-frontend/pull/153), [infra#24](https://github.com/nord-center-org/nord-center-infra-agent/pull/24) |
 
 ## Correções
 
