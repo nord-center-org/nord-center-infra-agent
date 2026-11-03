@@ -6,6 +6,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 
 | Feature | Slug | Versão atual | Repositórios | Status |
 |---|---|---|---|---|
+| Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v2](cronograma-semanal/v2.md) | scripts-sql, backend, frontend | ativa |
 
 `Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
