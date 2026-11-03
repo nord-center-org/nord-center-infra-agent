@@ -8,6 +8,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 |---|---|---|---|---|
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v2](cronograma-semanal/v2.md) | scripts-sql, backend, frontend | ativa |
+| Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 
 `Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
 
@@ -20,6 +21,6 @@ Estas telas já existiam no app quando o registro começou (rotas do frontend em
 - `/apartamentos`, `/entregas`, `/treinamentos`
 - Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/repertorio`, `/gestao/treinos`
 - Mapeamentos: `/mapeamentos/conferencias`, `/mapeamentos/pendencias`, `/mapeamentos/relatorio-fotografico`
-- Organizacional: `/organizacional/controle-chaves`, `/organizacional/diario-obras`, `/organizacional/escadinha`, `/organizacional/fluxograma`, `/organizacional/fvs`, `/organizacional/medicoes`, `/organizacional/projetos`, `/organizacional/rte`
+- Organizacional: `/organizacional/controle-chaves`, `/organizacional/diario-obras`, `/organizacional/fluxograma`, `/organizacional/fvs`, `/organizacional/medicoes`, `/organizacional/projetos`, `/organizacional/rte`
 
 Ao registrar uma delas, retire-a desta lista no mesmo PR.
