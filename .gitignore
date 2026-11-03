@@ -4,3 +4,7 @@ mcp/dist/
 mcp/.env
 mcp/.env.*
 !mcp/.env.example
+
+# Vigia de issue: segredos e estado local
+vigia-issue/.env
+vigia-issue/.vigia-estado.json

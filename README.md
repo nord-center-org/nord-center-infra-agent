@@ -11,6 +11,7 @@ Infraestrutura compartilhada para apoiar agentes de desenvolvimento nos projetos
 - `projects/`: contexto específico de cada repositório consumidor.
 - `features/`: registro de cada funcionalidade do NordTool, com a ficha atual e um arquivo por versão ([catálogo](features/README.md)).
 - `templates/`: modelos da documentação de feature e dos workflows de CI.
+- `vigia-issue/`: script local que transforma uma issue do GitHub num chat com a IA (Gemini CLI ou Claude Code, sem API paga); veja [vigia-issue/README.md](vigia-issue/README.md).
 
 ## Projetos configurados
 
