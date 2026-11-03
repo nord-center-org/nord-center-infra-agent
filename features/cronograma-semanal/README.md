@@ -30,7 +30,7 @@ Organiza as demandas e a rotina de cada pessoa da obra. As demandas aparecem em 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-03 | Registro retroativo do que a tela já fazia | — | — |
-| [v2](v2.md) | 2026-11-03 | Exportar Lista e Rotina em imagem e lembrar os filtros | `feature-cronograma-semanal-v2` | ver v2 |
+| [v2](v2.md) | 2026-11-03 | Exportar Lista e Rotina em imagem e lembrar os filtros | `feature-cronograma-semanal-v2` | [frontend#151](https://github.com/nord-center-org/nord-tool-frontend/pull/151), [infra#20](https://github.com/nord-center-org/nord-center-infra-agent/pull/20) |
 
 ## Correções
 
