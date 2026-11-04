@@ -30,7 +30,7 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. A
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-11-04 | Chamados com prints marcados, resposta e status pelos administradores | `feature-sac` | a preencher |
+| [v1](v1.md) | 2026-11-04 | Chamados com prints marcados, resposta e status pelos administradores | `feature-sac` | [sql#64](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/64), [backend#107](https://github.com/nord-center-org/nord-tool-backend/pull/107), [frontend#154](https://github.com/nord-center-org/nord-tool-frontend/pull/154), [infra#25](https://github.com/nord-center-org/nord-center-infra-agent/pull/25) |
 
 ## Correções
 
