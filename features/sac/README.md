@@ -43,4 +43,4 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. A
 
 ## Dependências e impactos
 
-Reaproveita a ferramenta de captura da Lugia (agora o print volta para a tela que pediu) e o editor de fotos do [relatório fotográfico](../README.md). Permissão nova `SAC` na tela de Acessos.
+Reaproveita a ferramenta de captura da Lugia (agora o print volta para a tela que pediu) e o editor de fotos do [relatório fotográfico](../README.md). Permissão nova `SAC` na tela de Acessos. A resposta a um chamado também gera aviso no celular pela feature [notificacoes](../notificacoes/README.md).

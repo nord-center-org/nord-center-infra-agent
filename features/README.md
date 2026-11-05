@@ -9,6 +9,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v2](cronograma-semanal/v2.md) | scripts-sql, backend, frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
+| Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v1](placas/v1.md) | scripts-sql, backend, frontend | ativa |
 | SAC | [`sac`](sac/README.md) | [v2](sac/v2.md) | scripts-sql, backend, frontend | ativa |
 
