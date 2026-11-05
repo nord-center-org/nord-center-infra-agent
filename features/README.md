@@ -11,6 +11,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v1](placas/v1.md) | scripts-sql, backend, frontend | ativa |
+| Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v2](relatorio-fotografico/v2.md) | scripts-sql, backend, frontend | ativa |
 | SAC | [`sac`](sac/README.md) | [v2](sac/v2.md) | scripts-sql, backend, frontend | ativa |
 
 `Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
@@ -23,7 +24,7 @@ Estas telas já existiam no app quando o registro começou (rotas do frontend em
 - Início e painel: `/`, `/dashboard`, `/lugia`
 - `/apartamentos`, `/entregas`, `/treinamentos`
 - Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/repertorio`, `/gestao/treinos`
-- Mapeamentos: `/mapeamentos/conferencias`, `/mapeamentos/pendencias`, `/mapeamentos/relatorio-fotografico`
+- Mapeamentos: `/mapeamentos/conferencias`, `/mapeamentos/pendencias`
 - Organizacional: `/organizacional/controle-chaves`, `/organizacional/diario-obras`, `/organizacional/fluxograma`, `/organizacional/fvs`, `/organizacional/medicoes`, `/organizacional/projetos`, `/organizacional/rte`
 
 Ao registrar uma delas, retire-a desta lista no mesmo PR.

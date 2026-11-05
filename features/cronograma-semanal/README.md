@@ -39,4 +39,4 @@ Organiza as demandas e a rotina de cada pessoa da obra. As demandas aparecem em 
 
 ## Dependências e impactos
 
-Usa o tema claro/escuro do app (a imagem exportada é sempre clara) e as novidades do Lugia Nexus. Demandas criadas, alteradas, movidas e compartilhadas e os horários e prazos geram avisos no celular pela feature [notificacoes](../notificacoes/README.md).
+Usa o tema claro/escuro do app (a imagem exportada é sempre clara) e as novidades do Lugia Nexus. Demandas criadas, alteradas, movidas e compartilhadas e os horários e prazos geram avisos no celular pela feature [notificacoes](../notificacoes/README.md). A tela de compartilhar, as pessoas e as equipes também servem ao [relatório fotográfico](../relatorio-fotografico/README.md).
