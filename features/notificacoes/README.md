@@ -33,7 +33,7 @@ Manda avisos do NordTool direto para o celular (ou computador), mesmo com o app 
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-11-05 | Web Push por aparelho com avisos do cronograma, lembretes de horário e prazo e respostas do SAC | `feature-notificacoes` | _(a preencher)_ |
+| [v1](v1.md) | 2026-11-05 | Web Push por aparelho com avisos do cronograma, lembretes de horário e prazo e respostas do SAC | `feature-notificacoes` | [sql#67](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/67), [backend#110](https://github.com/nord-center-org/nord-tool-backend/pull/110), [frontend#157](https://github.com/nord-center-org/nord-tool-frontend/pull/157), [infra#28](https://github.com/nord-center-org/nord-center-infra-agent/pull/28) |
 
 ## Correções
 
