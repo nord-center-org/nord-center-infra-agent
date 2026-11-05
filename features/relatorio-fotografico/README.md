@@ -32,7 +32,7 @@ Relatórios com fotos organizadas por item (observação + fotos), criados livre
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | — (retroativo) | Relatórios por obra/fase, modelos, edição de fotos e PDF | — | não registrados |
-| [v2](v2.md) | 2026-11-05 | Relatórios por usuário, administrador vê todos e compartilhamento com pessoas e equipes | `feature-relatorio-fotografico-v2` | _(a preencher)_ |
+| [v2](v2.md) | 2026-11-05 | Relatórios por usuário, administrador vê todos e compartilhamento com pessoas e equipes | `feature-relatorio-fotografico-v2` | [sql#68](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/68), [backend#111](https://github.com/nord-center-org/nord-tool-backend/pull/111), [frontend#158](https://github.com/nord-center-org/nord-tool-frontend/pull/158), [infra#29](https://github.com/nord-center-org/nord-center-infra-agent/pull/29) |
 
 ## Correções
 
