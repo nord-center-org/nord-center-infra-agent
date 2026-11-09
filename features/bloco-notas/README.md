@@ -31,7 +31,7 @@ Cadernos pessoais para escrever à mão, no estilo dos apps de anotação em PDF
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-11-09 | Cadernos à mão no estilo dos apps de anotação, com PDF importado e exportado | `feature-bloco-notas` | _(a preencher)_ |
+| [v1](v1.md) | 2026-11-09 | Cadernos à mão no estilo dos apps de anotação, com PDF importado e exportado | `feature-bloco-notas` | [sql#69](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/69), [backend#114](https://github.com/nord-center-org/nord-tool-backend/pull/114), [frontend#159](https://github.com/nord-center-org/nord-tool-frontend/pull/159), [infra#30](https://github.com/nord-center-org/nord-center-infra-agent/pull/30) |
 
 ## Correções
 
