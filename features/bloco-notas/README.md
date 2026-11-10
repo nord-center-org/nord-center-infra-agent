@@ -4,13 +4,18 @@
 |---|---|
 | Slug | `bloco-notas` |
 | Status | ativa |
-| Versão atual | [v2](v2.md) |
+| Versão atual | [v3](v3.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Mapeamentos > Bloco de notas (`/mapeamentos/bloco-notas`) |
 
 ## O que faz
 
-Cadernos pessoais para escrever à mão, no estilo dos apps de anotação em PDF: páginas com papel pautado, quadriculado, pontilhado ou em branco; caneta que sente a pressão da caneta stylus, marca-texto, borracha, formas, texto, imagens e laço para selecionar; PDFs, imagens, Word, planilhas e textos importados viram páginas para anotar por cima, e os PDFs ficam nítidos em qualquer zoom; caixas de texto formatadas; páginas que giram; um documento de texto no estilo do Word por caderno, em páginas ou contínuo, que pode ficar lado a lado com o desenho; o caderno inteiro sai em PDF.
+A central dos arquivos de cada pessoa:
+- **cadernos** para escrever à mão e anotar PDFs (com documento estilo Word, páginas que giram e outros formatos como página);
+- **planilhas** no estilo do Google Sheets, com fórmulas em português e Excel de ida e volta;
+- **documentos** no estilo do Word.
+
+Tudo fica numa lista só, com filtro e busca.
 
 ## Regras de negócio vigentes
 
@@ -25,12 +30,16 @@ Cadernos pessoais para escrever à mão, no estilo dos apps de anotação em PDF
 - **RN-09** Cada caderno tem um documento de texto (até 2 MB), salvo sozinho com controle de versão como as páginas; só aceita formatação de texto, tabelas e imagens (nada de scripts). No PDF exportado ele vem antes das páginas. _(v2)_
 - **RN-10** PDFs de até 15 MB guardam o original: a página é desenhada na resolução da tela e exportada vetorial. Maiores entram só como imagem, com aviso. Também viram páginas: imagens (1 página), .docx, planilhas e .txt (folhas A4); PowerPoint, .doc e HEIC são recusados. _(v2)_
 - **RN-11** Tocar de novo na ferramenta ativa (ou Esc) solta o lápis: o toque só rola e dá zoom. _(v2)_
+- **RN-12** A central reúne cadernos, planilhas e documentos da pessoa (até 500 planilhas e documentos), com filtro por tipo e busca pelo nome. _(v3)_
+- **RN-13** Planilha: várias páginas, fórmulas (também em português, como =SOMA e =SE com ";") e números com vírgula; até 5 MB; salva sozinha com versão; baixa em Excel. _(v3)_
+- **RN-14** Documento avulso: o mesmo editor do documento do caderno, até 2 MB, sem scripts; baixa em PDF. _(v3)_
+- **RN-15** Na central, "Abrir arquivo" abre Excel/CSV como planilha, Word como documento e PDF, imagem e texto como caderno. _(v3)_
 
 ## Onde está no código
 
-- **SQL:** `DDL/66.bloco_notas_ddl.sql` (`bloco_caderno`, `bloco_pagina`, `bloco_imagem`) e `DDL/68.bloco_notas_v2_ddl.sql` (rotação, documento, `bloco_pdf`).
-- **Backend:** `BlocoNotasReadController` e `BlocoNotasWriteController` (`/api/v1/nord-tool/blocos-notas`), `BlocoNotasServiceImpl`, `BlocoNotasRepositoryImpl`, `query/bloco-notas.properties`.
-- **Frontend:** `pages/BlocoNotas.tsx`, `components/bloco/` (`EditorCaderno`, `PaginaVista`, `desenho.ts`, `pdfBloco.ts`, `imagensBloco.ts`, `EditorCaixaTexto`, `DocumentoCaderno`, `documento.ts`, `pdfOriginal.ts`, `arquivosBloco.ts`), `services/BlocoNotasService.ts`, `utils/blocoNotas.ts`.
+- **SQL:** `DDL/66.bloco_notas_ddl.sql` (`bloco_caderno`, `bloco_pagina`, `bloco_imagem`) e `DDL/68.bloco_notas_v2_ddl.sql` (rotação, documento, `bloco_pdf`) e `DDL/71.bloco_arquivo_ddl.sql` (planilhas e documentos avulsos).
+- **Backend:** `BlocoNotasReadController` e `BlocoNotasWriteController` (`/api/v1/nord-tool/blocos-notas`), `BlocoNotasServiceImpl`, `BlocoNotasRepositoryImpl`, `query/bloco-notas.properties`; v3: `BlocoArquivoReadController`/`WriteController` (`/blocos-notas/arquivos`), `BlocoArquivoServiceImpl`, `query/bloco-arquivo.properties`.
+- **Frontend:** `pages/BlocoNotas.tsx`, `components/bloco/` (`EditorCaderno`, `PaginaVista`, `desenho.ts`, `pdfBloco.ts`, `imagensBloco.ts`, `EditorCaixaTexto`, `DocumentoCaderno`, `documento.ts`, `pdfOriginal.ts`, `arquivosBloco.ts`, `EditorDocumentoAvulso`, `planilha/EditorPlanilha`, `planilha/idiomaPlanilha.ts`), `utils/planilha.ts`, `utils/centralBloco.ts`, `services/BlocoNotasService.ts`, `utils/blocoNotas.ts`.
 
 ## Versões
 
@@ -38,6 +47,7 @@ Cadernos pessoais para escrever à mão, no estilo dos apps de anotação em PDF
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-09 | Cadernos à mão no estilo dos apps de anotação, com PDF importado e exportado | `feature-bloco-notas` | [sql#69](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/69), [backend#114](https://github.com/nord-center-org/nord-tool-backend/pull/114), [frontend#159](https://github.com/nord-center-org/nord-tool-frontend/pull/159), [infra#30](https://github.com/nord-center-org/nord-center-infra-agent/pull/30) |
 | [v2](v2.md) | 2026-11-10 | Texto formatado, documento estilo Word lado a lado, girar página, PDF nítido, outros formatos e soltar o lápis | `feature-bloco-notas-v2` | [sql#71](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/71), [backend#116](https://github.com/nord-center-org/nord-tool-backend/pull/116), [frontend#161](https://github.com/nord-center-org/nord-tool-frontend/pull/161), [infra#32](https://github.com/nord-center-org/nord-center-infra-agent/pull/32) |
+| [v3](v3.md) | 2026-11-10 | Central do bloco: planilhas estilo Google Sheets e documentos estilo Word ao lado dos cadernos | `feature-bloco-notas-v3` | [sql#74](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/74), [backend#119](https://github.com/nord-center-org/nord-tool-backend/pull/119), [frontend#164](https://github.com/nord-center-org/nord-tool-frontend/pull/164), [infra#35](https://github.com/nord-center-org/nord-center-infra-agent/pull/35) |
 
 ## Correções
 
@@ -46,4 +56,4 @@ Cadernos pessoais para escrever à mão, no estilo dos apps de anotação em PDF
 
 ## Dependências e impactos
 
-Usa o armazenamento de arquivos (páginas de PDF e imagens), `pdfjs-dist`, `pdf-lib` e `xlsx`, que já estavam no frontend, `mammoth` (nova na v2, para ler .docx) e o redimensionamento de fotos do relatório fotográfico (`utils/imagem.ts`).
+Usa o armazenamento de arquivos (páginas de PDF e imagens), `pdfjs-dist`, `pdf-lib` e `xlsx`, que já estavam no frontend, `mammoth` (nova na v2, para ler .docx) `@fortune-sheet/react` e `@fortune-sheet/core` (nova na v3, planilha) e o redimensionamento de fotos do relatório fotográfico (`utils/imagem.ts`).

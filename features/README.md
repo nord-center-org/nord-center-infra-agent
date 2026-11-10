@@ -7,7 +7,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Feature | Slug | Versão atual | Repositórios | Status |
 |---|---|---|---|---|
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
-| Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v2](bloco-notas/v2.md) | scripts-sql, backend, frontend | ativa |
+| Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v3](bloco-notas/v3.md) | scripts-sql, backend, frontend | ativa |
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v2](cronograma-semanal/v2.md) | scripts-sql, backend, frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
