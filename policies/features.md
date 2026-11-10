@@ -71,4 +71,4 @@ O que fica em `develop` é o squash do PR, então o título e a descrição do P
 - [ ] `vN.md` com pedido, escopo, especificação técnica, regras, decisões com o porquê, validação e pendências.
 - [ ] `README.md` da feature e catálogo atualizados.
 - [ ] Título e descrição dos PRs no formato da seção 5.
-- [ ] Entrada nas novidades do Lugia Nexus quando a mudança for visível para quem usa o app ([novidades.md](novidades.md)).
+- [ ] Entrada nas novidades da tela inicial quando a mudança for visível para quem usa o app ([novidades.md](novidades.md)).
