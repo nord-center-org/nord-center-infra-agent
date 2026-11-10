@@ -11,6 +11,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v2](cronograma-semanal/v2.md) | scripts-sql, backend, frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
+| Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
 | Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v2](relatorio-fotografico/v2.md) | scripts-sql, backend, frontend | ativa |
