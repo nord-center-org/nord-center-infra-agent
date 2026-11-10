@@ -33,7 +33,7 @@ Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrad
 
 ## Novidades
 
-Toda entrega visível para quem usa o NordTool atualiza as novidades do mascote Lugia Nexus; veja `policies/novidades.md`.
+Toda entrega visível para quem usa o NordTool atualiza as novidades da tela inicial (contadas pelo avatar do dono; sem ele, pelo mascote Lugia Nexus); veja `policies/novidades.md`.
 
 ## Objetivo
 
