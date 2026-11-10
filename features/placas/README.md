@@ -33,6 +33,7 @@ Monta placas de aviso da obra para imprimir. Cada placa sai de um modelo de form
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-04 | Modelos de placa, placas por obra e exportação em PNG/PDF A4 | `feature-placas` | [sql#66](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/66), [backend#109](https://github.com/nord-center-org/nord-tool-backend/pull/109), [frontend#156](https://github.com/nord-center-org/nord-tool-frontend/pull/156), [infra#27](https://github.com/nord-center-org/nord-center-infra-agent/pull/27) |
+| [v2](v2.md) | 2026-11-10 | Imagens na folha (modelo e placa), editadas como no Canva | `feature-placas-v2` | [sql#70](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/70), [backend#115](https://github.com/nord-center-org/nord-tool-backend/pull/115), [frontend#160](https://github.com/nord-center-org/nord-tool-frontend/pull/160), [infra#31](https://github.com/nord-center-org/nord-center-infra-agent/pull/31) |
 
 ## Correções
 
