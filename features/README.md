@@ -18,7 +18,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Meus dados | [`meus-dados`](meus-dados/README.md) | [v1](meus-dados/v1.md) | backend, frontend | ativa |
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
-| Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v2](relatorio-fotografico/v2.md) | scripts-sql, backend, frontend | ativa |
+| Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v3](relatorio-fotografico/v3.md) | scripts-sql, backend, frontend | ativa |
 | SAC | [`sac`](sac/README.md) | [v2](sac/v2.md) | scripts-sql, backend, frontend | ativa |
 
 `Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
