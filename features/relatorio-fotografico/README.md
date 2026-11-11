@@ -36,7 +36,7 @@ Relatórios com fotos organizadas por item (observação + fotos), criados livre
 | [v1](v1.md) | — (retroativo) | Relatórios por obra/fase, modelos, edição de fotos e PDF | — | não registrados |
 | [v2](v2.md) | 2026-11-05 | Relatórios por usuário, administrador vê todos e compartilhamento com pessoas e equipes | `feature-relatorio-fotografico-v2` | [sql#68](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/68), [backend#111](https://github.com/nord-center-org/nord-tool-backend/pull/111), [frontend#158](https://github.com/nord-center-org/nord-tool-frontend/pull/158), [infra#29](https://github.com/nord-center-org/nord-center-infra-agent/pull/29) |
 | [v3](v3.md) | 2026-11-11 | Trocar o modelo do relatório depois de criado | `feature-relatorio-fotografico-v3` | [backend#123](https://github.com/nord-center-org/nord-tool-backend/pull/123), [frontend#172](https://github.com/nord-center-org/nord-tool-frontend/pull/172), [infra#43](https://github.com/nord-center-org/nord-center-infra-agent/pull/43) |
-| [v4](v4.md) | 2026-11-11 | Fotos do PDF sem o contorno cinza | `feature-relatorio-fotografico-v4` | frontend (a abrir), infra (a abrir) |
+| [v4](v4.md) | 2026-11-11 | Fotos do PDF sem o contorno cinza | `feature-relatorio-fotografico-v4` | [frontend#175](https://github.com/nord-center-org/nord-tool-frontend/pull/175), [infra#46](https://github.com/nord-center-org/nord-center-infra-agent/pull/46) |
 
 ## Correções
 
