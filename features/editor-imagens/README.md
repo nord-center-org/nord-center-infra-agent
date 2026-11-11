@@ -37,7 +37,7 @@ Editor de imagens no estilo do Paint.net, no aparelho:
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-10 | Editor de imagens estilo Paint.net na central do bloco, no relatório fotográfico e nas placas | `feature-editor-imagens` | [frontend#166](https://github.com/nord-center-org/nord-tool-frontend/pull/166), [infra#37](https://github.com/nord-center-org/nord-center-infra-agent/pull/37) |
-| [v2](v2.md) | 2026-11-11 | Varinha mágica: seleção por cor para tirar o fundo | `feature-editor-imagens-v2` | frontend (a abrir), infra (a abrir) |
+| [v2](v2.md) | 2026-11-11 | Varinha mágica: seleção por cor para tirar o fundo | `feature-editor-imagens-v2` | [frontend#174](https://github.com/nord-center-org/nord-tool-frontend/pull/174), [infra#45](https://github.com/nord-center-org/nord-center-infra-agent/pull/45) |
 
 ## Correções
 
