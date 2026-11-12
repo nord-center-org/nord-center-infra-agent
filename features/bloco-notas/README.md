@@ -58,6 +58,7 @@ Tudo fica numa lista só, com filtro e busca.
 
 | Data | Branch | O que foi corrigido | PRs |
 |---|---|---|---|
+| 2026-11-12 | `fix-bloco-notas-planilha-mover` | Planilha: não dava para mover linhas e colunas (o editor não tem isso pronto), Shift + rodinha do mouse não rolava para os lados (o Chrome manda deltaY com Shift e o editor só rola na horizontal com deltaX) e dois cliques na borda do cabeçalho não ajustavam a largura ao texto. Entraram: botões "Mover" e Alt+Shift+setas (as células vão inteiras, a largura/altura acompanha e as fórmulas da página passam a apontar para as mesmas células; não move por cima de células mescladas), o reenvio do giro com Shift como horizontal e o ajuste da largura pelo texto mais largo (todas as colunas selecionadas, se a borda for de uma delas). Código em `utils/moverPlanilha.ts`, `utils/larguraColuna.ts` (testados) e `components/bloco/planilha/EditorPlanilha.tsx`. | frontend (a abrir), infra (a abrir) |
 
 ## Dependências e impactos
 
