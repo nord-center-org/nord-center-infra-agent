@@ -27,7 +27,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 
 - **RN-01** As músicas ficam só no aparelho (IndexedDB do navegador): o áudio, a análise, a cifra, os tempos das linhas e os ajustes. Nada é enviado ao servidor, e cada aparelho tem o seu repertório. _(v1)_
 - **RN-02** Arquivo de áudio de até 60 MB. Título e artista vêm do nome do arquivo ("Artista - Música") e podem ser editados. _(v1)_
-- **RN-03** A análise é feita uma vez, ao abrir a música pela primeira vez, e fica guardada. Mede:
+- **RN-03** A análise é feita ao abrir a música pela primeira vez e fica guardada. É refeita sozinha quando foi feita por uma versão anterior do analisador, ou à mão em "Refazer análise". Mede:
   - o tom, pelos perfis de Krumhansl;
   - o BPM e as batidas;
   - os acordes maiores e menores por batida;
