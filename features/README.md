@@ -11,7 +11,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v5](bloco-notas/v5.md) | scripts-sql, backend, frontend | ativa |
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Conversor de arquivos | [`conversor-arquivos`](conversor-arquivos/README.md) | [v1](conversor-arquivos/v1.md) | frontend | ativa |
-| Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v3](cronograma-semanal/v3.md) | scripts-sql, backend, frontend | ativa |
+| Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v4](cronograma-semanal/v4.md) | scripts-sql, backend, frontend | ativa |
 | Editor de imagens | [`editor-imagens`](editor-imagens/README.md) | [v2](editor-imagens/v2.md) | frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
