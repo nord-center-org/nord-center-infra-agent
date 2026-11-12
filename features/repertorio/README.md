@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v1](v1.md) |
+| Versão atual | [v2](v2.md) |
 | Repositórios | nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -16,7 +16,7 @@ No player dá para:
 - mudar o tom e o andamento, um sem mexer no outro;
 - separar a música em voz, baixo, bateria e outros, com volume, mudo e solo em cada faixa.
 
-Ao lado da letra, o instrumento escolhido mostra as notas descendo até onde se toca, como nos vídeos de piano. Pode ser:
+Ao lado da letra, o instrumento escolhido mostra as notas descendo até onde se toca, como nos vídeos de piano. Cada nota traz o nome (em C D E ou Dó Ré Mi) e, no braço, a casa; a próxima já aparece marcada no braço antes de chegar. O instrumento pode ser:
 - baixo de 4 ou 5 cordas, com a linha do baixo;
 - violão/guitarra, com as formas dos acordes;
 - teclado.
@@ -32,7 +32,8 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - o BPM e as batidas;
   - os acordes maiores e menores por batida;
   - as notas do baixo (E1 a G3). _(v1)_
-- **RN-04** Tom de −12 a +12 semitons e andamento de 50% a 150%. O tom, o andamento, o instrumento e a transposição da cifra ficam salvos na música. _(v1)_
+- **RN-04** Tom de −12 a +12 semitons e andamento de 50% a 150%. O tom, o andamento, o instrumento, a transposição da cifra e o jeito de nomear as notas ficam salvos na música. _(v1; v2: nome das notas)_
+- **RN-07** As notas no instrumento mostram o nome no tom que está tocando, já com a transposição. O padrão é C D E; dá para trocar por Dó Ré Mi, sempre com sustenido. _(v2)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -65,6 +66,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-12 | Músicas com tom, BPM, acordes e baixo reconhecidos, tom/andamento, faixas separadas, cifra rolando e instrumento animado | `feature-repertorio` | [frontend#176](https://github.com/nord-center-org/nord-tool-frontend/pull/176), [infra#47](https://github.com/nord-center-org/nord-center-infra-agent/pull/47) |
+| [v2](v2.md) | 2026-11-12 | Nome das notas (C D E ou Dó Ré Mi) e casa no instrumento; próxima nota marcada no braço | `feature-repertorio-v2` | frontend (a abrir), infra (a abrir) |
 
 ## Correções
 
