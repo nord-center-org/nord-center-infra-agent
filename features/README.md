@@ -19,6 +19,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
 | Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v4](relatorio-fotografico/v4.md) | scripts-sql, backend, frontend | ativa |
+| Repertório | [`repertorio`](repertorio/README.md) | [v1](repertorio/v1.md) | frontend | ativa |
 | SAC | [`sac`](sac/README.md) | [v2](sac/v2.md) | scripts-sql, backend, frontend | ativa |
 
 `Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
@@ -30,7 +31,7 @@ Estas telas já existiam no app quando o registro começou (rotas do frontend em
 - Autenticação e conta: `/login`, `/cadastro`, `/esqueci-senha`, `/redefinir-senha`, `/configuracoes`
 - Início e painel: `/`, `/dashboard`, `/lugia`
 - `/apartamentos`, `/entregas`, `/treinamentos`
-- Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/repertorio`, `/gestao/treinos`
+- Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/treinos`
 - Mapeamentos: `/mapeamentos/conferencias`, `/mapeamentos/pendencias`
 - Organizacional: `/organizacional/controle-chaves`, `/organizacional/diario-obras`, `/organizacional/fluxograma`, `/organizacional/fvs`, `/organizacional/medicoes`, `/organizacional/projetos`, `/organizacional/rte`
 

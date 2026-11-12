@@ -1,0 +1,80 @@
+# Repertório
+
+| | |
+|---|---|
+| Slug | `repertorio` |
+| Status | ativa |
+| Versão atual | [v1](v1.md) |
+| Repositórios | nord-tool-frontend |
+| Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
+
+## O que faz
+
+A pessoa envia uma música (MP3, WAV, M4A, OGG ou FLAC) e o app reconhece, no próprio aparelho, o tom, o BPM, as batidas, os acordes e a linha do baixo.
+
+No player dá para:
+- mudar o tom e o andamento, um sem mexer no outro;
+- separar a música em voz, baixo, bateria e outros, com volume, mudo e solo em cada faixa.
+
+Ao lado da letra, o instrumento escolhido mostra as notas descendo até onde se toca, como nos vídeos de piano. Pode ser:
+- baixo de 4 ou 5 cordas, com a linha do baixo;
+- violão/guitarra, com as formas dos acordes;
+- teclado.
+
+A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, a linha atual fica em destaque e vai se preenchendo, e a letra rola sozinha. Sem cifra, dá para gerar uma com os acordes reconhecidos.
+
+## Regras de negócio vigentes
+
+- **RN-01** As músicas ficam só no aparelho (IndexedDB do navegador): o áudio, a análise, a cifra, os tempos das linhas e os ajustes. Nada é enviado ao servidor, e cada aparelho tem o seu repertório. _(v1)_
+- **RN-02** Arquivo de áudio de até 60 MB. Título e artista vêm do nome do arquivo ("Artista - Música") e podem ser editados. _(v1)_
+- **RN-03** A análise é feita uma vez, ao abrir a música pela primeira vez, e fica guardada. Mede:
+  - o tom, pelos perfis de Krumhansl;
+  - o BPM e as batidas;
+  - os acordes maiores e menores por batida;
+  - as notas do baixo (E1 a G3). _(v1)_
+- **RN-04** Tom de −12 a +12 semitons e andamento de 50% a 150%. O tom, o andamento, o instrumento e a transposição da cifra ficam salvos na música. _(v1)_
+- **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
+- **RN-06** Sobre a cifra:
+  - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
+  - se a cifra estiver em outro tom (por exemplo, com capotraste), o app oferece transpô-la para casar com o áudio;
+  - linhas sem acorde ficam entre as vizinhas;
+  - "Marcar linhas" grava os tempos à mão, e "Automático" volta ao cálculo. _(v1)_
+
+## Onde está no código
+
+- **Frontend:**
+  - `pages/Repertorio.tsx`: lista, envio e exclusão;
+  - `components/repertorio/`:
+    - `PlayerRepertorio.tsx`: o player;
+    - `CifraRolando.tsx`: a cifra;
+    - `desenhoInstrumento.ts`: o canvas do instrumento;
+    - `motorAudio.ts`: tom, andamento e faixas;
+  - `utils/musica/` (puro, testado em node):
+    - `teoria.ts`: notas, acordes e transposição;
+    - `cifra.ts`;
+    - `analise.ts`: FFT, tom, BPM, batidas, acordes e baixo;
+    - `instrumentos.ts`: braço, digitação, formas de acorde e o que cai na tela;
+    - `sincronia.ts`;
+    - `separacao.ts`;
+    - `repertorioDb.ts`: IndexedDB;
+  - `workers/analiseMusica.worker.ts` e `workers/separacaoMusica.worker.ts`;
+  - rota em `App.tsx` e `media-src blob:` na CSP (`vite.config.ts`).
+
+## Versões
+
+| Versão | Data | Resumo | Branch | PRs |
+|---|---|---|---|---|
+| [v1](v1.md) | 2026-11-12 | Músicas com tom, BPM, acordes e baixo reconhecidos, tom/andamento, faixas separadas, cifra rolando e instrumento animado | `feature-repertorio` | [frontend#176](https://github.com/nord-center-org/nord-tool-frontend/pull/176), [infra#47](https://github.com/nord-center-org/nord-center-infra-agent/pull/47) |
+
+## Correções
+
+| Data | Branch | O que foi corrigido | PRs |
+|---|---|---|---|
+
+## Dependências e impactos
+
+Nenhuma dependência nova: tudo usa Web Audio, canvas, Web Workers e IndexedDB.
+
+A CSP do build ganhou `media-src 'self' blob:`. Sem isso, os áudios do aparelho não tocariam no app publicado.
+
+A tela antes era um "em construção".
