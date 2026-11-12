@@ -40,7 +40,7 @@ Organiza as demandas e a rotina de cada pessoa da obra. As demandas aparecem em 
 | [v1](v1.md) | 2026-11-03 | Registro retroativo do que a tela já fazia | — | — |
 | [v2](v2.md) | 2026-11-03 | Exportar Lista e Rotina em imagem e lembrar os filtros | `feature-cronograma-semanal-v2` | [frontend#151](https://github.com/nord-center-org/nord-tool-frontend/pull/151), [infra#20](https://github.com/nord-center-org/nord-center-infra-agent/pull/20) |
 | [v3](v3.md) | 2026-11-11 | Atividade com dia de início e de fim, escolhidos no calendário (chamado #2) | `feature-cronograma-semanal-v3` | [sql#75](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/75), [backend#124](https://github.com/nord-center-org/nord-tool-backend/pull/124), [frontend#173](https://github.com/nord-center-org/nord-tool-frontend/pull/173), [infra#44](https://github.com/nord-center-org/nord-center-infra-agent/pull/44) |
-| [v4](v4.md) | 2026-11-12 | Chat de demandas sem IA (interpretado no aparelho) | `feature-cronograma-semanal-v4` | frontend (a abrir), infra (a abrir) |
+| [v4](v4.md) | 2026-11-12 | Chat de demandas sem IA (interpretado no aparelho) | `feature-cronograma-semanal-v4` | [frontend#179](https://github.com/nord-center-org/nord-tool-frontend/pull/179), [infra#50](https://github.com/nord-center-org/nord-center-infra-agent/pull/50) |
 
 ## Correções
 
