@@ -66,7 +66,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-12 | Músicas com tom, BPM, acordes e baixo reconhecidos, tom/andamento, faixas separadas, cifra rolando e instrumento animado | `feature-repertorio` | [frontend#176](https://github.com/nord-center-org/nord-tool-frontend/pull/176), [infra#47](https://github.com/nord-center-org/nord-center-infra-agent/pull/47) |
-| [v2](v2.md) | 2026-11-12 | Nome das notas (C D E ou Dó Ré Mi) e casa no instrumento; próxima nota marcada no braço | `feature-repertorio-v2` | frontend (a abrir), infra (a abrir) |
+| [v2](v2.md) | 2026-11-12 | Nome das notas (C D E ou Dó Ré Mi) e casa no instrumento; próxima nota marcada no braço | `feature-repertorio-v2` | [frontend#177](https://github.com/nord-center-org/nord-tool-frontend/pull/177), [infra#48](https://github.com/nord-center-org/nord-center-infra-agent/pull/48) |
 
 ## Correções
 
