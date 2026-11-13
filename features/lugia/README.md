@@ -40,7 +40,7 @@ nos repositórios.
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-13 | Registro retroativo: chat multi-IA, Automático, agente | — | — |
-| [v2](v2.md) | 2026-11-13 | Secretária local: Ollama na máquina do dono, via Cloudflare Tunnel + Access, com protetor do hardware | `feature-lugia-v2` | backend (a abrir), frontend (a abrir), infra (a abrir) |
+| [v2](v2.md) | 2026-11-13 | Secretária local: Ollama na máquina do dono, via Cloudflare Tunnel + Access, com protetor do hardware | `feature-lugia-v2` | [backend#125](https://github.com/nord-center-org/nord-tool-backend/pull/125), [frontend#181](https://github.com/nord-center-org/nord-tool-frontend/pull/181), [infra#52](https://github.com/nord-center-org/nord-center-infra-agent/pull/52) |
 
 ## Correções
 
