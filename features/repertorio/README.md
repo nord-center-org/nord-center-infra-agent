@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v3](v3.md) |
+| Versão atual | [v4](v4.md) |
 | Repositórios | nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -35,6 +35,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-04** Tom de −12 a +12 semitons e andamento de 50% a 150%. O tom, o andamento, o instrumento e a transposição da cifra ficam salvos na música. _(v1)_
 - **RN-07** As notas no instrumento mostram o nome no tom que está tocando, já com a transposição, como na cifra: com bemol nos tons escritos com bemol (F, Bb, Eb, Ab, Db, Gb e as menores relativas) e com sustenido nos outros. _(v2)_
 - **RN-08** "Todas as notas" é uma preferência do aparelho (vale para todas as músicas), guardada no navegador; começa desligada. _(v3)_
+- **RN-09** No baixo e no violão dá para ver as notas caindo ou o mapa do braço em pé, com todas as notas coloridas pela letra escrita (C verde, D vermelho, E amarelo, F azul, G rosa, A marrom, B grafite); a nota que toca acende. A escolha é do aparelho. _(v4)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -69,6 +70,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v1](v1.md) | 2026-11-12 | Músicas com tom, BPM, acordes e baixo reconhecidos, tom/andamento, faixas separadas, cifra rolando e instrumento animado | `feature-repertorio` | [frontend#176](https://github.com/nord-center-org/nord-tool-frontend/pull/176), [infra#47](https://github.com/nord-center-org/nord-center-infra-agent/pull/47) |
 | [v2](v2.md) | 2026-11-12 | Nome das notas (como na cifra) e casa no instrumento; próxima nota marcada no braço; linha do baixo mais limpa | `feature-repertorio-v2` | [frontend#177](https://github.com/nord-center-org/nord-tool-frontend/pull/177), [infra#48](https://github.com/nord-center-org/nord-center-infra-agent/pull/48) |
 | [v3](v3.md) | 2026-11-12 | "Todas as notas": braço/teclado com todas as notas em cinza, a que toca acende | `feature-repertorio-v3` | [frontend#178](https://github.com/nord-center-org/nord-tool-frontend/pull/178), [infra#49](https://github.com/nord-center-org/nord-center-infra-agent/pull/49) |
+| [v4](v4.md) | 2026-11-13 | "Mapa do braço": braço em pé com todas as notas coloridas pela letra, a que toca acende | `feature-repertorio-v4` | _a preencher_ |
 
 ## Correções
 
