@@ -6,6 +6,10 @@
 - Stack observada: Node.js 22.18+ executando TypeScript direto (sem build), Hono, `pg`, Zod e os SDKs oficiais `@anthropic-ai/sdk`, `openai` e `@google/genai`.
 - Comandos observados no `package.json`: `npm run dev`, `npm start`, `npm run typecheck`, `npm test`.
 
+## Situação
+
+- O app usa a Lugia que fica no `nord-tool-backend` (`service/lugia/`, `/lugia` no backend). O `lugia-center` não está ligado ao frontend (`VITE_LUGIA_BASE_URL` vazia aponta para o backend). Novos provedores e mudanças da Lugia vão no backend; ver `features/lugia/`.
+
 ## Orientações
 
 - Leia `AGENTS.md` e `README.md` do próprio repositório antes de alterar.
