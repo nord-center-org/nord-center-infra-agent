@@ -5,7 +5,7 @@
 | Slug | `repertorio` |
 | Status | ativa |
 | Versão atual | [v7](v7.md) |
-| Repositórios | nord-tool-frontend |
+| Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
 ## O que faz
