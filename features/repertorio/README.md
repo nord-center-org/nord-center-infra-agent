@@ -70,7 +70,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v1](v1.md) | 2026-11-12 | Músicas com tom, BPM, acordes e baixo reconhecidos, tom/andamento, faixas separadas, cifra rolando e instrumento animado | `feature-repertorio` | [frontend#176](https://github.com/nord-center-org/nord-tool-frontend/pull/176), [infra#47](https://github.com/nord-center-org/nord-center-infra-agent/pull/47) |
 | [v2](v2.md) | 2026-11-12 | Nome das notas (como na cifra) e casa no instrumento; próxima nota marcada no braço; linha do baixo mais limpa | `feature-repertorio-v2` | [frontend#177](https://github.com/nord-center-org/nord-tool-frontend/pull/177), [infra#48](https://github.com/nord-center-org/nord-center-infra-agent/pull/48) |
 | [v3](v3.md) | 2026-11-12 | "Todas as notas": braço/teclado com todas as notas em cinza, a que toca acende | `feature-repertorio-v3` | [frontend#178](https://github.com/nord-center-org/nord-tool-frontend/pull/178), [infra#49](https://github.com/nord-center-org/nord-center-infra-agent/pull/49) |
-| [v4](v4.md) | 2026-11-13 | "Mapa do braço": braço em pé com todas as notas coloridas pela letra, a que toca acende | `feature-repertorio-v4` | _a preencher_ |
+| [v4](v4.md) | 2026-11-13 | "Mapa do braço": braço em pé com todas as notas coloridas pela letra, a que toca acende | `feature-repertorio-v4` | [frontend#184](https://github.com/nord-center-org/nord-tool-frontend/pull/184), [infra#55](https://github.com/nord-center-org/nord-center-infra-agent/pull/55) |
 
 ## Correções
 
