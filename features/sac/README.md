@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `sac` |
 | Status | ativa |
-| Versão atual | [v3](v3.md) |
+| Versão atual | [v4](v4.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Visão Geral > SAC (`/sac`) |
 
@@ -21,14 +21,15 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. U
 - **RN-05** O rascunho (texto e prints) fica guardado enquanto a pessoa vai a outra tela tirar o print. _(v1)_
 - **RN-06** Quando um administrador responde ou muda o status do chamado de outra pessoa, o chamado fica com novidade até quem abriu ver "Meus chamados": o avatar de quem respondeu aparece no Início avisando, o item SAC do menu ganha um selo vermelho e, nas outras telas, um aviso flutuante (uma vez por novidade). Responder o próprio chamado não gera novidade. _(v2)_
 - **RN-07** Para o ADMIN do SAC, o selo do menu mostra quantos chamados estão abertos (azul) quando ele não tem novidade. _(v2)_
-- **RN-08** Em "Meus chamados" e "Todos os chamados" dá para marcar chamados e exportar um ZIP com `chamados.md` (status, quem abriu, tela, data, descrição, resposta e os prints) e a pasta `imagens/`. _(v2)_
+- **RN-08** Em "Meus chamados" e "Todos os chamados" dá para marcar chamados e exportar um PDF com, para cada um, título, status, quem abriu, data, tela, o que precisa mudar, a resposta e os prints ao lado. _(v2, alterada na v4)_
 - **RN-09** Em todas as telas, menos no próprio SAC e durante a captura de print, há um botão pequeno no canto inferior direito que abre uma janelinha com o avatar do dono do NordTool para abrir um chamado ali mesmo; a tela em que a pessoa está vai junto. _(v3)_
+- **RN-10** Pela janelinha do botão do SAC, o chamado pode levar até 6 prints, desta tela ou de outra; o texto fica guardado enquanto se tira o print. _(v4)_
 
 ## Onde está no código
 
 - **SQL:** `DDL/61.sac_chamado_ddl.sql` (`sac_chamado`, `sac_chamado_imagem`, imagens em `arquivo_armazenado`) e `DDL/62.sac_chamado_novidade_ddl.sql` (`in_novidade`).
 - **Backend:** `SacReadController` e `SacWriteController` (`/api/v1/nord-tool/sac`), `SacServiceImpl`, `SacRepositoryImpl`, `query/sac.properties`, módulo `SAC` em `Modulo`.
-- **Frontend:** `pages/Sac.tsx`, `services/SacService.ts`, `utils/sac.ts`, `components/sac/` (`BotaoSac`, `rascunhoSac`, `NovidadesSacProvider`, `AvisoSacInicio`, `SeloSac`, `AvatarDoAdm`), `hooks/useNovidadesSac.ts`; captura em `components/lugia/CapturaLugiaProvider.tsx` (com destino); marcação com `components/relatorio/EditorFoto.tsx`.
+- **Frontend:** `pages/Sac.tsx`, `services/SacService.ts`, `utils/sac.ts`, `components/sac/` (`BotaoSac`, `rascunhoSac`, `pdfChamados`, `imagensSac`, `NovidadesSacProvider`, `AvisoSacInicio`, `SeloSac`, `AvatarDoAdm`), `hooks/useNovidadesSac.ts`; captura em `components/lugia/CapturaLugiaProvider.tsx` (com destino); marcação com `components/relatorio/EditorFoto.tsx`.
 
 ## Versões
 
@@ -37,6 +38,7 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. U
 | [v1](v1.md) | 2026-11-04 | Chamados com prints marcados, resposta e status pelos administradores | `feature-sac` | [sql#64](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/64), [backend#107](https://github.com/nord-center-org/nord-tool-backend/pull/107), [frontend#154](https://github.com/nord-center-org/nord-tool-frontend/pull/154), [infra#25](https://github.com/nord-center-org/nord-center-infra-agent/pull/25) |
 | [v2](v2.md) | 2026-11-04 | Aviso de novidade com o avatar do ADM no Início, selo no menu e exportação dos chamados com prints | `feature-sac-v2` | [sql#65](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/65), [backend#108](https://github.com/nord-center-org/nord-tool-backend/pull/108), [frontend#155](https://github.com/nord-center-org/nord-tool-frontend/pull/155), [infra#26](https://github.com/nord-center-org/nord-center-infra-agent/pull/26) |
 | [v3](v3.md) | 2026-11-13 | Botão pequeno no canto de todas as telas com janelinha e avatar para abrir o chamado | `feature-sac-v3` | [frontend#182](https://github.com/nord-center-org/nord-tool-frontend/pull/182), [infra#53](https://github.com/nord-center-org/nord-center-infra-agent/pull/53) |
+| [v4](v4.md) | 2026-11-13 | Exportação em PDF (texto e prints ao lado) e vários prints na janelinha | `feature-sac-v4` | _a preencher_ |
 
 ## Correções
 
