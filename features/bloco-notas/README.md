@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `bloco-notas` |
 | Status | ativa |
-| Versão atual | [v5](v5.md) |
+| Versão atual | [v6](v6.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Mapeamentos > Bloco de notas (`/mapeamentos/bloco-notas`) |
 
@@ -37,6 +37,8 @@ Tudo fica numa lista só, com filtro e busca.
 - **RN-16** "Perguntar à Lugia" (quem tem acesso ao módulo Lugia) responde com base nas caixas de texto, nos documentos e nas planilhas da própria pessoa, nunca nos de outra; aceita foto e PDF. _(v4)_
 - **RN-17** As ações sugeridas (abrir, criar caderno, anotar, criar documento, criar planilha, renomear) só acontecem quando a pessoa toca em "Fazer"; não há ação de excluir. _(v4)_
 - **RN-18** Na planilha, as funções têm o nome do Google Sheets em português, na célula e na ajuda. Dá para digitar com `;` e vírgula decimal; a célula guarda a fórmula com vírgula entre os argumentos. Critérios (CONT.SE, SOMASE…) não diferenciam maiúsculas nem acentos. Data digitada é dd/mm/aaaa. _(v5)_
+- **RN-19** No caderno, o zoom vai de 10% a 1600% em qualquer folha. A rodinha do mouse dá zoom no ponto do cursor (pode ser trocada para rolar; Ctrl + rodinha sempre dá zoom) e arrastar com a rodinha apertada move a folha. O PDF entra pela barra de ferramentas. _(v6)_
+- **RN-20** Enquanto a pessoa digita (caixa de texto, documento ou campo), Ctrl+Z, Ctrl+Y, Delete e Esc agem no texto, nunca no desenho. _(v6)_
 
 ## Onde está no código
 
@@ -53,6 +55,7 @@ Tudo fica numa lista só, com filtro e busca.
 | [v3](v3.md) | 2026-11-10 | Central do bloco: planilhas estilo Google Sheets e documentos estilo Word ao lado dos cadernos | `feature-bloco-notas-v3` | [sql#74](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/74), [backend#119](https://github.com/nord-center-org/nord-tool-backend/pull/119), [frontend#164](https://github.com/nord-center-org/nord-tool-frontend/pull/164), [infra#35](https://github.com/nord-center-org/nord-center-infra-agent/pull/35) |
 | [v4](v4.md) | 2026-11-10 | Chat dos cadernos: a Lugia pesquisa no Bloco de notas, lê fotos e cria ou anota com confirmação | `feature-bloco-notas-v4` | [backend#121](https://github.com/nord-center-org/nord-tool-backend/pull/121), [frontend#169](https://github.com/nord-center-org/nord-tool-frontend/pull/169), [infra#40](https://github.com/nord-center-org/nord-center-infra-agent/pull/40) |
 | [v5](v5.md) | 2026-11-11 | Planilha em português: funções do Sheets em português, PROCX, UNIRTEXTO, MÁXIMOSES, datas e números no jeito brasileiro | `feature-bloco-notas-v5` | [frontend#171](https://github.com/nord-center-org/nord-tool-frontend/pull/171), [infra#42](https://github.com/nord-center-org/nord-center-infra-agent/pull/42) |
+| [v6](v6.md) | 2026-11-13 | Caderno: zoom com a rodinha no cursor até 1600%, arrastar com a rodinha, PDF na barra e atalhos que respeitam o texto | `feature-bloco-notas-v6` | _a preencher_ |
 
 ## Correções
 
