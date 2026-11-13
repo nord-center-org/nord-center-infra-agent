@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v8](v8.md) |
+| Versão atual | [v9](v9.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -46,6 +46,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-17** Mudou em dois aparelhos: vale a mexida por último. Excluir apaga do aparelho e da conta; os outros aparelhos apagam a cópia ao abrir a lista. _(v7)_
 - **RN-18** Cada instrumento tem timbres para escolher; a faixa do estúdio guarda o seu (e o WAV sai com ele); no instrumento online e no sintetizador do player a escolha é do aparelho. _(v8)_
 - **RN-19** No instrumento online: sustentar (botão ou Shift), transpor (−12 a +12), escala destacada (as de fora ficam apagadas, mas tocam), acorde com uma tecla (ou do campo harmônico da escala), força e, no baixo e no violão, tocar no braço. Preferências do aparelho. _(v8)_
+- **RN-20** Na grade do estúdio, "Pôr notas" põe (ou tira) uma nota de um quadradinho por clique e estica arrastando; "Selecionar" seleciona por clique ou retângulo para copiar, recortar, colar no ponto escolhido (em qualquer faixa), duplicar, apagar e mover. _(v9)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -88,6 +89,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v6](v6.md) | 2026-11-13 | Instrumento online e aba "Criar" (estúdio de faixas com grade, gravação, WAV) | `feature-repertorio-v6` | [frontend#186](https://github.com/nord-center-org/nord-tool-frontend/pull/186), [infra#57](https://github.com/nord-center-org/nord-center-infra-agent/pull/57) |
 | [v7](v7.md) | 2026-11-13 | Músicas e criações na conta: abrem em qualquer aparelho | `feature-repertorio-v7` | [sql#76](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/76), [backend#126](https://github.com/nord-center-org/nord-tool-backend/pull/126), [frontend#187](https://github.com/nord-center-org/nord-tool-frontend/pull/187), [infra#58](https://github.com/nord-center-org/nord-center-infra-agent/pull/58) |
 | [v8](v8.md) | 2026-11-13 | Timbres por instrumento e ferramentas para tocar (braço, sustentar, transpor, escala, acorde com 1 tecla, metrônomo) | `feature-repertorio-v8` | [frontend#189](https://github.com/nord-center-org/nord-tool-frontend/pull/189), [infra#60](https://github.com/nord-center-org/nord-center-infra-agent/pull/60) |
+| [v9](v9.md) | 2026-11-13 | Grade do estúdio: um quadradinho por clique, modos pôr/selecionar, copiar e colar notas | `feature-repertorio-v9` | [frontend#190](https://github.com/nord-center-org/nord-tool-frontend/pull/190), [infra#61](https://github.com/nord-center-org/nord-center-infra-agent/pull/61) |
 
 ## Correções
 
