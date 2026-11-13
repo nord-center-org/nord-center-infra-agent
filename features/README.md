@@ -15,6 +15,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Editor de imagens | [`editor-imagens`](editor-imagens/README.md) | [v2](editor-imagens/v2.md) | frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
+| Lugia | [`lugia`](lugia/README.md) | [v2](lugia/v2.md) | backend, frontend | ativa |
 | Meus dados | [`meus-dados`](meus-dados/README.md) | [v1](meus-dados/v1.md) | backend, frontend | ativa |
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
@@ -29,7 +30,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 Estas telas já existiam no app quando o registro começou (rotas do frontend em 2026-10-30) e ainda não têm pasta. Um pedido que mexa em uma delas é tratado como legado: registre o estado atual em `v1.md` retroativo e entregue o pedido como v2, conforme a policy.
 
 - Autenticação e conta: `/login`, `/cadastro`, `/esqueci-senha`, `/redefinir-senha`, `/configuracoes`
-- Início e painel: `/`, `/dashboard`, `/lugia`
+- Início e painel: `/`, `/dashboard`
 - `/apartamentos`, `/entregas`, `/treinamentos`
 - Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/treinos`
 - Mapeamentos: `/mapeamentos/conferencias`, `/mapeamentos/pendencias`
