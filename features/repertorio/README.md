@@ -93,6 +93,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 
 | Data | Branch | O que foi corrigido | PRs |
 |---|---|---|---|
+| 2026-11-13 | `fix-repertorio-baixo-picotado` | Notas do baixo picotadas: a mesma nota em seguida só se separa se o som do grave caiu antes do novo ataque (nota segurada com bumbo por cima vira uma só). Ataques e batidas eram marcados ~40 ms cedo (o fluxo espectral reage quando o som entra na janela); agora vão para a metade da subida da energia (<10 ms do ataque real), o que acerta a troca das notas e a cifra rolando. Análise na versão 3 (o player refaz as músicas guardadas). Testes em `analise.test.ts` com áudio sintético (nota segurada com bumbo, notas curtas rápidas, troca sem ataque, trocas no meio de acordes e bateria). | [frontend#188](https://github.com/nord-center-org/nord-tool-frontend/pull/188) |
 
 ## Dependências e impactos
 
