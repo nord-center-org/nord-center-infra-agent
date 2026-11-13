@@ -4,13 +4,13 @@
 |---|---|
 | Slug | `sac` |
 | Status | ativa |
-| Versão atual | [v2](v2.md) |
+| Versão atual | [v3](v3.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Visão Geral > SAC (`/sac`) |
 
 ## O que faz
 
-Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. A pessoa escreve o pedido, tira prints de qualquer tela com a ferramenta de captura, marca os prints com seta, círculo, quadrado ou rabisco e envia. Os administradores veem todos os chamados, respondem e mudam o status; quem abriu é avisado (o avatar de quem respondeu aparece no Início até ela abrir o chamado) e acompanha em "Meus chamados". Chamados selecionados podem ser exportados num ZIP com a descrição e os prints.
+Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. Um botão pequeno no canto de todas as telas abre uma janelinha com o avatar do dono para abrir o chamado ali mesmo. A pessoa escreve o pedido, tira prints de qualquer tela com a ferramenta de captura, marca os prints com seta, círculo, quadrado ou rabisco e envia. Os administradores veem todos os chamados, respondem e mudam o status; quem abriu é avisado (o avatar de quem respondeu aparece no Início até ela abrir o chamado) e acompanha em "Meus chamados". Chamados selecionados podem ser exportados num ZIP com a descrição e os prints.
 
 ## Regras de negócio vigentes
 
@@ -22,12 +22,13 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. A
 - **RN-06** Quando um administrador responde ou muda o status do chamado de outra pessoa, o chamado fica com novidade até quem abriu ver "Meus chamados": o avatar de quem respondeu aparece no Início avisando, o item SAC do menu ganha um selo vermelho e, nas outras telas, um aviso flutuante (uma vez por novidade). Responder o próprio chamado não gera novidade. _(v2)_
 - **RN-07** Para o ADMIN do SAC, o selo do menu mostra quantos chamados estão abertos (azul) quando ele não tem novidade. _(v2)_
 - **RN-08** Em "Meus chamados" e "Todos os chamados" dá para marcar chamados e exportar um ZIP com `chamados.md` (status, quem abriu, tela, data, descrição, resposta e os prints) e a pasta `imagens/`. _(v2)_
+- **RN-09** Em todas as telas, menos no próprio SAC e durante a captura de print, há um botão pequeno no canto inferior direito que abre uma janelinha com o avatar do dono do NordTool para abrir um chamado ali mesmo; a tela em que a pessoa está vai junto. _(v3)_
 
 ## Onde está no código
 
 - **SQL:** `DDL/61.sac_chamado_ddl.sql` (`sac_chamado`, `sac_chamado_imagem`, imagens em `arquivo_armazenado`) e `DDL/62.sac_chamado_novidade_ddl.sql` (`in_novidade`).
 - **Backend:** `SacReadController` e `SacWriteController` (`/api/v1/nord-tool/sac`), `SacServiceImpl`, `SacRepositoryImpl`, `query/sac.properties`, módulo `SAC` em `Modulo`.
-- **Frontend:** `pages/Sac.tsx`, `services/SacService.ts`, `utils/sac.ts`, `components/sac/` (`NovidadesSacProvider`, `AvisoSacInicio`, `SeloSac`, `AvatarDoAdm`), `hooks/useNovidadesSac.ts`; captura em `components/lugia/CapturaLugiaProvider.tsx` (com destino); marcação com `components/relatorio/EditorFoto.tsx`.
+- **Frontend:** `pages/Sac.tsx`, `services/SacService.ts`, `utils/sac.ts`, `components/sac/` (`BotaoSac`, `rascunhoSac`, `NovidadesSacProvider`, `AvisoSacInicio`, `SeloSac`, `AvatarDoAdm`), `hooks/useNovidadesSac.ts`; captura em `components/lugia/CapturaLugiaProvider.tsx` (com destino); marcação com `components/relatorio/EditorFoto.tsx`.
 
 ## Versões
 
@@ -35,6 +36,7 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. A
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-04 | Chamados com prints marcados, resposta e status pelos administradores | `feature-sac` | [sql#64](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/64), [backend#107](https://github.com/nord-center-org/nord-tool-backend/pull/107), [frontend#154](https://github.com/nord-center-org/nord-tool-frontend/pull/154), [infra#25](https://github.com/nord-center-org/nord-center-infra-agent/pull/25) |
 | [v2](v2.md) | 2026-11-04 | Aviso de novidade com o avatar do ADM no Início, selo no menu e exportação dos chamados com prints | `feature-sac-v2` | [sql#65](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/65), [backend#108](https://github.com/nord-center-org/nord-tool-backend/pull/108), [frontend#155](https://github.com/nord-center-org/nord-tool-frontend/pull/155), [infra#26](https://github.com/nord-center-org/nord-center-infra-agent/pull/26) |
+| [v3](v3.md) | 2026-11-13 | Botão pequeno no canto de todas as telas com janelinha e avatar para abrir o chamado | `feature-sac-v3` | _a preencher_ |
 
 ## Correções
 
