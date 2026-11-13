@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v5](v5.md) |
+| Versão atual | [v6](v6.md) |
 | Repositórios | nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -37,6 +37,10 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-08** "Todas as notas" é uma preferência do aparelho (vale para todas as músicas), guardada no navegador; começa desligada. _(v3)_
 - **RN-09** No baixo e no violão dá para ver as notas caindo ou o mapa do braço em pé, com todas as notas coloridas pela letra escrita (C verde, D vermelho, E amarelo, F azul, G rosa, A marrom, B grafite); a nota que toca acende. A escolha é do aparelho. _(v4)_
 - **RN-10** O sintetizador (desligado no começo) toca as notas que o instrumento mostra, com timbre de baixo, violão ou teclado, no tom e no andamento escolhidos, nas duas vistas; liga/desliga e volume são do aparelho; pausa, pulo e troca de instrumento/tom cortam o som. _(v5)_
+- **RN-11** O instrumento online toca baixo, teclado, violão, sintetizador e bateria pela tela ou pelo teclado do computador; não grava nada. _(v6)_
+- **RN-12** Em "Criar", cada criação fica só no aparelho, com 40–240 BPM, 1–64 compassos de 4 tempos, até 12 faixas e 4.000 notas por faixa; clicar numa célula da grade põe ou tira a nota. _(v6)_
+- **RN-13** Gravar começa do início com um compasso de contagem e o metrônomo; as notas tocadas entram na faixa escolhida ao parar, encaixadas na grade (se ligado), sem duplicar. _(v6)_
+- **RN-14** Com alguma faixa em solo, só as em solo soam; faixas mudas nunca soam (nem no WAV nem ao mandar para Músicas). _(v6)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -73,6 +77,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v3](v3.md) | 2026-11-12 | "Todas as notas": braço/teclado com todas as notas em cinza, a que toca acende | `feature-repertorio-v3` | [frontend#178](https://github.com/nord-center-org/nord-tool-frontend/pull/178), [infra#49](https://github.com/nord-center-org/nord-center-infra-agent/pull/49) |
 | [v4](v4.md) | 2026-11-13 | "Mapa do braço": braço em pé com todas as notas coloridas pela letra, a que toca acende | `feature-repertorio-v4` | [frontend#184](https://github.com/nord-center-org/nord-tool-frontend/pull/184), [infra#55](https://github.com/nord-center-org/nord-center-infra-agent/pull/55) |
 | [v5](v5.md) | 2026-11-13 | Sintetizador do instrumento tocando junto com a música | `feature-repertorio-v5` | [frontend#185](https://github.com/nord-center-org/nord-tool-frontend/pull/185), [infra#56](https://github.com/nord-center-org/nord-center-infra-agent/pull/56) |
+| [v6](v6.md) | 2026-11-13 | Instrumento online e aba "Criar" (estúdio de faixas com grade, gravação, WAV) | `feature-repertorio-v6` | [frontend#186](https://github.com/nord-center-org/nord-tool-frontend/pull/186), [infra#57](https://github.com/nord-center-org/nord-center-infra-agent/pull/57) |
 
 ## Correções
 
