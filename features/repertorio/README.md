@@ -84,7 +84,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v4](v4.md) | 2026-11-13 | "Mapa do braço": braço em pé com todas as notas coloridas pela letra, a que toca acende | `feature-repertorio-v4` | [frontend#184](https://github.com/nord-center-org/nord-tool-frontend/pull/184), [infra#55](https://github.com/nord-center-org/nord-center-infra-agent/pull/55) |
 | [v5](v5.md) | 2026-11-13 | Sintetizador do instrumento tocando junto com a música | `feature-repertorio-v5` | [frontend#185](https://github.com/nord-center-org/nord-tool-frontend/pull/185), [infra#56](https://github.com/nord-center-org/nord-center-infra-agent/pull/56) |
 | [v6](v6.md) | 2026-11-13 | Instrumento online e aba "Criar" (estúdio de faixas com grade, gravação, WAV) | `feature-repertorio-v6` | [frontend#186](https://github.com/nord-center-org/nord-tool-frontend/pull/186), [infra#57](https://github.com/nord-center-org/nord-center-infra-agent/pull/57) |
-| [v7](v7.md) | 2026-11-13 | Músicas e criações na conta: abrem em qualquer aparelho | `feature-repertorio-v7` | _a preencher_ |
+| [v7](v7.md) | 2026-11-13 | Músicas e criações na conta: abrem em qualquer aparelho | `feature-repertorio-v7` | [sql#76](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/76), [backend#126](https://github.com/nord-center-org/nord-tool-backend/pull/126), [frontend#187](https://github.com/nord-center-org/nord-tool-frontend/pull/187), [infra#58](https://github.com/nord-center-org/nord-center-infra-agent/pull/58) |
 
 ## Correções
 
