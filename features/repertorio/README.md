@@ -163,7 +163,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v10](v10.md) | 2026-11-13 | Escolher o que mostrar no player; escrever a cifra tocando, com a letra (chamado #5) | `feature-repertorio-v10` | [frontend#192](https://github.com/nord-center-org/nord-tool-frontend/pull/192), [infra#63](https://github.com/nord-center-org/nord-center-infra-agent/pull/63) |
 | [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193), [infra#64](https://github.com/nord-center-org/nord-center-infra-agent/pull/64) |
 | [v12](v12.md) | 2026-11-14 | Compartilhar a cifra com pessoas do NordTool (aba "Recebidas") e imagem da cifra | `feature-repertorio-v12` | [sql#77](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/77), [backend#127](https://github.com/nord-center-org/nord-tool-backend/pull/127), [frontend#194](https://github.com/nord-center-org/nord-tool-frontend/pull/194), [infra#65](https://github.com/nord-center-org/nord-center-infra-agent/pull/65) |
-| [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195) |
+| [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195), [infra#66](https://github.com/nord-center-org/nord-center-infra-agent/pull/66) |
 
 ## Correções
 
