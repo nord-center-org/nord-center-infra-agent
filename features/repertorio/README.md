@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v10](v10.md) |
+| Versão atual | [v11](v11.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -49,18 +49,35 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-20** Na grade do estúdio, "Pôr notas" põe (ou tira) uma nota de um quadradinho por clique e estica arrastando; "Selecionar" seleciona por clique ou retângulo para copiar, recortar, colar no ponto escolhido (em qualquer faixa), duplicar, apagar e mover. _(v9)_
 - **RN-21** O player mostra a cifra e o instrumento, só a cifra ou só o instrumento (escolha do aparelho); escrevendo a cifra, ela sempre aparece. _(v10)_
 - **RN-22** Em "Escrever cifra":
-  - cada acorde apertado é marcado no tempo atual da música (com "No tempo", na batida mais próxima, até 0,2 s);
-  - um novo no mesmo instante substitui o anterior;
+  - com uma sílaba escolhida, o acorde apertado fica em cima dela (o mesmo lugar troca o acorde); _(v11)_
+  - sem sílaba escolhida, o acorde é marcado no tempo atual da música (com "No tempo", na batida mais próxima, até 0,2 s), e um novo no mesmo instante substitui o anterior;
   - "Próxima linha" marca o começo do próximo verso da letra;
-  - "Desfazer" tira a última marca.
+  - "Desfazer" volta a última mudança. _(alterada na v11)_
 
-  A letra e as marcas ficam na música e na conta. _(v10)_
+  A letra e os acordes ficam na música e na conta. _(v10, alterada na v11)_
 - **RN-23** "Aplicar na cifra" troca a cifra pela escrita:
   - os acordes antes do primeiro verso marcado viram a intro;
   - cada verso marcado recebe os acordes do seu trecho, na posição proporcional ao tempo;
-  - os tempos das linhas são gravados.
+  - os acordes postos na sílaba ficam nela;
+  - os tempos das linhas são gravados (sem nenhum, o player calcula pelos acordes).
 
-  _(v10)_
+  _(v10, alterada na v11)_
+- **RN-24** "Identificar letra" reconhece a letra no aparelho:
+  - o áudio não sai do aparelho; o reconhecedor (Whisper) baixa uma vez do Hugging Face (~80 MB o rápido, ~250 MB o mais preciso) e fica no cache do navegador;
+  - usa a voz separada, se as faixas já foram separadas;
+  - cada verso vem com a hora em que começa;
+  - frases que o reconhecedor inventa em trecho instrumental (legendas, "obrigado por assistir", interjeições soltas) saem;
+  - trocar uma letra que já existe pede confirmação.
+
+  _(v11)_
+- **RN-25** Num verso escolhido, o trecho começa no começo do verso e termina no próximo, e pode ser mudado:
+  - "Ouvir" toca só o trecho e para no fim;
+  - "Cifra do trecho" analisa só aquele pedaço do áudio, troca os acordes do verso pelos reconhecidos (o verso passa a começar no começo do trecho) e toca para conferir;
+  - "Letra da linha" reconhece e troca só a letra daquele verso.
+
+  _(v11)_
+- **RN-26** "Tom da cifra" − e + sobem ou descem meio tom a cifra escrita (e o que está sendo escrito) sem mudar o áudio: os acordes ficam sobre a mesma sílaba e a linha "Tom:" acompanha. _(v11)_
+- **RN-27** O instrumento (braço, teclado e sintetizador) segue a cifra escrita — os acordes das linhas com tempo, na posição de cada um, e no baixo a fundamental (ou o baixo invertido) — ou o que foi reconhecido no áudio. A escolha é do aparelho; sem acordes com tempo na cifra, segue o áudio. _(v11)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -79,19 +96,21 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - `components/repertorio/`:
     - `PlayerRepertorio.tsx`: o player;
     - `CifraRolando.tsx`: a cifra;
-    - `EscreverCifra.tsx`: escrever a cifra tocando (v10);
+    - `EscreverCifra.tsx`: escrever a cifra tocando (v10), na sílaba, por trecho e com a letra identificada (v11);
     - `desenhoInstrumento.ts`: o canvas do instrumento;
     - `motorAudio.ts`: tom, andamento e faixas;
   - `utils/musica/` (puro, testado em node):
     - `teoria.ts`: notas, acordes e transposição;
     - `cifra.ts`;
-    - `escritaCifra.ts`: campo harmônico e montagem da cifra escrita (v10);
+    - `escritaCifra.ts`: campo harmônico e montagem da cifra escrita (v10), acordes na sílaba e trechos (v11);
+    - `letra.ts`: janelas, limpeza e linhas da letra identificada (v11);
+    - `seguirCifra.ts`: o instrumento segue a cifra (v11);
     - `analise.ts`: FFT, tom, BPM, batidas, acordes e baixo;
     - `instrumentos.ts`: braço, digitação, formas de acorde e o que cai na tela;
     - `sincronia.ts`;
     - `separacao.ts`;
     - `repertorioDb.ts`: IndexedDB;
-  - `workers/analiseMusica.worker.ts` e `workers/separacaoMusica.worker.ts`;
+  - `workers/analiseMusica.worker.ts`, `workers/separacaoMusica.worker.ts` e `workers/letraMusica.worker.ts` (v11);
   - rota em `App.tsx` e `media-src blob:` na CSP (`vite.config.ts`).
 
 ## Versões
@@ -108,6 +127,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v8](v8.md) | 2026-11-13 | Timbres por instrumento e ferramentas para tocar (braço, sustentar, transpor, escala, acorde com 1 tecla, metrônomo) | `feature-repertorio-v8` | [frontend#189](https://github.com/nord-center-org/nord-tool-frontend/pull/189), [infra#60](https://github.com/nord-center-org/nord-center-infra-agent/pull/60) |
 | [v9](v9.md) | 2026-11-13 | Grade do estúdio: um quadradinho por clique, modos pôr/selecionar, copiar e colar notas | `feature-repertorio-v9` | [frontend#190](https://github.com/nord-center-org/nord-tool-frontend/pull/190), [infra#61](https://github.com/nord-center-org/nord-center-infra-agent/pull/61) |
 | [v10](v10.md) | 2026-11-13 | Escolher o que mostrar no player; escrever a cifra tocando, com a letra (chamado #5) | `feature-repertorio-v10` | [frontend#192](https://github.com/nord-center-org/nord-tool-frontend/pull/192), [infra#63](https://github.com/nord-center-org/nord-center-infra-agent/pull/63) |
+| [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193), [infra#64](https://github.com/nord-center-org/nord-center-infra-agent/pull/64) |
 
 ## Correções
 
@@ -117,7 +137,11 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 
 ## Dependências e impactos
 
-Nenhuma dependência nova: tudo usa Web Audio, canvas, Web Workers e IndexedDB.
+Até a v10, nenhuma dependência: tudo usa Web Audio, canvas, Web Workers e IndexedDB.
+
+Na v11 entraram `@huggingface/transformers` e `onnxruntime-web` (versões exatas), que fazem o reconhecimento de fala no aparelho.
+- O motor (`.wasm`, ~27 MB, ~7 MB comprimido) vai nos arquivos do app e só é baixado quando se identifica uma letra.
+- O modelo vem do Hugging Face. Por isso o `connect-src` da CSP inclui `huggingface.co`, `*.huggingface.co` e `*.hf.co`.
 
 A CSP do build ganhou `media-src 'self' blob:`. Sem isso, os áudios do aparelho não tocariam no app publicado.
 
