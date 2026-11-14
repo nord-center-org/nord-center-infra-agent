@@ -5,6 +5,7 @@
 | Slug | `repertorio` |
 | Status | ativa |
 | Versão atual | [v9](v9.md) |
+| [v10](v10.md) | 2026-11-13 | Escolher o que mostrar no player; escrever a cifra tocando, com a letra (chamado #5) | `feature-repertorio-v10` | [frontend#192](https://github.com/nord-center-org/nord-tool-frontend/pull/192) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -47,12 +48,27 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-18** Cada instrumento tem timbres para escolher; a faixa do estúdio guarda o seu (e o WAV sai com ele); no instrumento online e no sintetizador do player a escolha é do aparelho. _(v8)_
 - **RN-19** No instrumento online: sustentar (botão ou Shift), transpor (−12 a +12), escala destacada (as de fora ficam apagadas, mas tocam), acorde com uma tecla (ou do campo harmônico da escala), força e, no baixo e no violão, tocar no braço. Preferências do aparelho. _(v8)_
 - **RN-20** Na grade do estúdio, "Pôr notas" põe (ou tira) uma nota de um quadradinho por clique e estica arrastando; "Selecionar" seleciona por clique ou retângulo para copiar, recortar, colar no ponto escolhido (em qualquer faixa), duplicar, apagar e mover. _(v9)_
+- **RN-21** O player mostra a cifra e o instrumento, só a cifra ou só o instrumento (escolha do aparelho); escrevendo a cifra, ela sempre aparece. _(v10)_
+- **RN-22** Em "Escrever cifra":
+  - cada acorde apertado é marcado no tempo atual da música (com "No tempo", na batida mais próxima, até 0,2 s);
+  - um novo no mesmo instante substitui o anterior;
+  - "Próxima linha" marca o começo do próximo verso da letra;
+  - "Desfazer" tira a última marca.
+
+  A letra e as marcas ficam na música e na conta. _(v10)_
+- **RN-23** "Aplicar na cifra" troca a cifra pela escrita:
+  - os acordes antes do primeiro verso marcado viram a intro;
+  - cada verso marcado recebe os acordes do seu trecho, na posição proporcional ao tempo;
+  - os tempos das linhas são gravados.
+
+  _(v10)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
   - se a cifra estiver em outro tom (por exemplo, com capotraste), o app oferece transpô-la para casar com o áudio;
   - linhas sem acorde ficam entre as vizinhas;
   - "Marcar linhas" grava os tempos à mão, e "Automático" volta ao cálculo. _(v1)_
+  - "Escrever cifra" monta a cifra tocando (RN-22 e RN-23). _(v10)_
 
 ## Onde está no código
 
@@ -64,11 +80,13 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - `components/repertorio/`:
     - `PlayerRepertorio.tsx`: o player;
     - `CifraRolando.tsx`: a cifra;
+    - `EscreverCifra.tsx`: escrever a cifra tocando (v10);
     - `desenhoInstrumento.ts`: o canvas do instrumento;
     - `motorAudio.ts`: tom, andamento e faixas;
   - `utils/musica/` (puro, testado em node):
     - `teoria.ts`: notas, acordes e transposição;
     - `cifra.ts`;
+    - `escritaCifra.ts`: campo harmônico e montagem da cifra escrita (v10);
     - `analise.ts`: FFT, tom, BPM, batidas, acordes e baixo;
     - `instrumentos.ts`: braço, digitação, formas de acorde e o que cai na tela;
     - `sincronia.ts`;
