@@ -160,7 +160,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v12](v12.md) | 2026-11-14 | Compartilhar a cifra com pessoas do NordTool (aba "Recebidas") e imagem da cifra | `feature-repertorio-v12` | [sql#77](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/77), [backend#127](https://github.com/nord-center-org/nord-tool-backend/pull/127), [frontend#194](https://github.com/nord-center-org/nord-tool-frontend/pull/194), [infra#65](https://github.com/nord-center-org/nord-center-infra-agent/pull/65) |
 | [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195), [infra#66](https://github.com/nord-center-org/nord-center-infra-agent/pull/66) |
 | [v14](v14.md) | 2026-11-14 | Cifra com pads e arrasto livre, notas do braço que tocam, instrumento online no player e volume da música e carregando sem modal | `feature-repertorio-v14` | [frontend#196](https://github.com/nord-center-org/nord-tool-frontend/pull/196), [infra#67](https://github.com/nord-center-org/nord-center-infra-agent/pull/67) |
-| [v15](v15.md) | 2026-11-14 | Sustenido como padrão, notação Dó/Ré/Mi e ícone de ajustes com as opções secundárias | `feature-repertorio-v15` | [frontend#197](https://github.com/nord-center-org/nord-tool-frontend/pull/197), infra (este PR) |
+| [v15](v15.md) | 2026-11-14 | Sustenido como padrão, notação Dó/Ré/Mi e ícone de ajustes com as opções secundárias | `feature-repertorio-v15` | [frontend#197](https://github.com/nord-center-org/nord-tool-frontend/pull/197), [infra#68](https://github.com/nord-center-org/nord-center-infra-agent/pull/68) |
 
 ## Correções
 
