@@ -102,7 +102,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - se a cifra estiver em outro tom (por exemplo, com capotraste), o app oferece transpô-la para casar com o áudio;
   - linhas sem acorde ficam entre as vizinhas;
   - "Marcar linhas" grava os tempos à mão, e "Automático" volta ao cálculo. _(v1)_
-  - "Escrever cifra" monta a cifra tocando (RN-22 e RN-23). _(v10)_
+  - "Escrever cifra" monta a cifra a partir da letra, com os acordes postos com o mouse e o tempo achado sozinho (RN-22, RN-23 e RN-31). _(v10, alterada na v13)_
 
 ## Onde está no código
 
