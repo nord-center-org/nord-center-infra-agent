@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v12](v12.md) |
+| Versão atual | [v13](v13.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -48,20 +48,8 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-19** No instrumento online: sustentar (botão ou Shift), transpor (−12 a +12), escala destacada (as de fora ficam apagadas, mas tocam), acorde com uma tecla (ou do campo harmônico da escala), força e, no baixo e no violão, tocar no braço. Preferências do aparelho. _(v8)_
 - **RN-20** Na grade do estúdio, "Pôr notas" põe (ou tira) uma nota de um quadradinho por clique e estica arrastando; "Selecionar" seleciona por clique ou retângulo para copiar, recortar, colar no ponto escolhido (em qualquer faixa), duplicar, apagar e mover. _(v9)_
 - **RN-21** O player mostra a cifra e o instrumento, só a cifra ou só o instrumento (escolha do aparelho); escrevendo a cifra, ela sempre aparece. _(v10)_
-- **RN-22** Em "Escrever cifra":
-  - com uma sílaba escolhida, o acorde apertado fica em cima dela (o mesmo lugar troca o acorde); _(v11)_
-  - sem sílaba escolhida, o acorde é marcado no tempo atual da música (com "No tempo", na batida mais próxima, até 0,2 s), e um novo no mesmo instante substitui o anterior;
-  - "Próxima linha" marca o começo do próximo verso da letra;
-  - "Desfazer" volta a última mudança. _(alterada na v11)_
-
-  A letra e os acordes ficam na música e na conta. _(v10, alterada na v11)_
-- **RN-23** "Aplicar na cifra" troca a cifra pela escrita:
-  - os acordes antes do primeiro verso marcado viram a intro;
-  - cada verso marcado recebe os acordes do seu trecho, na posição proporcional ao tempo;
-  - os acordes postos na sílaba ficam nela;
-  - os tempos das linhas são gravados (sem nenhum, o player calcula pelos acordes).
-
-  _(v10, alterada na v11)_
+- **RN-22** "Escrever cifra" tem dois passos: a letra (colada ou identificada) e os acordes postos com o mouse em cima das sílabas (RN-31). Não se marca tempo: o tempo de cada linha vem da letra identificada ou dos acordes postos (sincronia com o áudio). A letra fica na música e na conta. _(v10, alterada na v11 e na v13)_
+- **RN-23** A letra do primeiro passo vira a cifra (sem acordes), com as horas da letra identificada como tempos das linhas. Se a música já tem cifra, pede confirmação. _(v10, alterada na v11 e na v13)_
 - **RN-24** "Identificar letra" reconhece a letra no aparelho:
   - o áudio não sai do aparelho; o reconhecedor (Whisper) baixa uma vez do Hugging Face (~80 MB o rápido, ~250 MB o mais preciso) e fica no cache do navegador;
   - usa a voz separada, se as faixas já foram separadas;
@@ -70,12 +58,11 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - trocar uma letra que já existe pede confirmação.
 
   _(v11)_
-- **RN-25** Num verso escolhido, o trecho começa no começo do verso e termina no próximo, e pode ser mudado:
-  - "Ouvir" toca só o trecho e para no fim;
-  - "Cifra do trecho" analisa só aquele pedaço do áudio, troca os acordes do verso pelos reconhecidos (o verso passa a começar no começo do trecho) e toca para conferir;
-  - "Letra da linha" reconhece e troca só a letra daquele verso.
+- **RN-25** Na linha escolhida do editor:
+  - "Ouvir" toca só o trecho dela;
+  - "Cifra da linha" analisa só esse trecho do áudio e troca os acordes da linha pelos reconhecidos.
 
-  _(v11)_
+  O trecho é o tempo automático da linha, até a próxima. _(v11, alterada na v13)_
 - **RN-26** "Tom da cifra" − e + sobem ou descem meio tom a cifra escrita (e o que está sendo escrito) sem mudar o áudio: os acordes ficam sobre a mesma sílaba e a linha "Tom:" acompanha. _(v11)_
 - **RN-27** O instrumento (braço, teclado e sintetizador) segue a cifra escrita — os acordes das linhas com tempo, na posição de cada um, e no baixo a fundamental (ou o baixo invertido) — ou o que foi reconhecido no áudio. A escolha é do aparelho; sem acordes com tempo na cifra, segue o áudio. _(v11)_
 - **RN-28** "Compartilhar" manda a cifra como está na tela (no tom que se ouve), sem o áudio, para pessoas ativas do NordTool:
@@ -97,13 +84,25 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - baixa no computador e, no celular que permite, abre o compartilhar do aparelho.
 
   _(v12)_
+- **RN-31** Em "Mexer nos acordes":
+  - clicar numa sílaba e tocar num acorde põe o acorde em cima dela (o que já estava naquela coluna é trocado);
+  - arrastar um acorde o leva para outra sílaba ou linha;
+  - Delete tira o acorde escolhido e Backspace desfaz.
+
+  Só as linhas de acordes do texto mudam: um verso sem acordes ganha a linha de cima, uma linha de acordes que fica vazia some, e a letra não muda. _(v13)_
+- **RN-32** Clicar no nome de um acorde na cifra:
+  - toca o acorde como o instrumento escolhido toca, com o timbre escolhido;
+  - acende as notas no braço ou no teclado por 1,5 s;
+  - não muda o ponto da música.
+
+  _(v13)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
   - se a cifra estiver em outro tom (por exemplo, com capotraste), o app oferece transpô-la para casar com o áudio;
   - linhas sem acorde ficam entre as vizinhas;
   - "Marcar linhas" grava os tempos à mão, e "Automático" volta ao cálculo. _(v1)_
-  - "Escrever cifra" monta a cifra tocando (RN-22 e RN-23). _(v10)_
+  - "Escrever cifra" monta a cifra a partir da letra, com os acordes postos com o mouse e o tempo achado sozinho (RN-22, RN-23 e RN-31). _(v10, alterada na v13)_
 
 ## Onde está no código
 
@@ -112,6 +111,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **Backend (v7):** `RepertorioReadController`/`RepertorioWriteController` (`/api/v1/nord-tool/repertorio`), `RepertorioServiceImpl`, `RepertorioRepositoryImpl`, `query/repertorio.properties`; cota em `nord-tool.repertorio.cota-mb`. Na v12: `/pessoas`, `/cifras-enviadas`, `/cifras-recebidas`, `RepertorioCifraDto`, `RepertorioEnvioDto` e `RepertorioCifraEnvioForm`.
 - **Frontend (v7):** `services/RepertorioService.ts`, `utils/musica/repertorioConta.ts`, `components/repertorio/sincronizacao.ts`.
 - **Frontend (v12):** `components/repertorio/CompartilharCifra.tsx`, `CifrasRecebidas.tsx`, `desenhoCifra.ts` e `utils/musica/imagemCifra.ts`.
+- **Frontend (v13):** `components/repertorio/EditorAcordes.tsx`, `utils/musica/edicaoCifra.ts`, os acordes clicáveis em `CifraRolando.tsx` e o `tocarAcorde`/destaque no `PlayerRepertorio.tsx`.
 - **Frontend:**
   - `pages/Repertorio.tsx`: lista, envio e exclusão;
   - `components/repertorio/`:
@@ -150,6 +150,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v10](v10.md) | 2026-11-13 | Escolher o que mostrar no player; escrever a cifra tocando, com a letra (chamado #5) | `feature-repertorio-v10` | [frontend#192](https://github.com/nord-center-org/nord-tool-frontend/pull/192), [infra#63](https://github.com/nord-center-org/nord-center-infra-agent/pull/63) |
 | [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193), [infra#64](https://github.com/nord-center-org/nord-center-infra-agent/pull/64) |
 | [v12](v12.md) | 2026-11-14 | Compartilhar a cifra com pessoas do NordTool (aba "Recebidas") e imagem da cifra | `feature-repertorio-v12` | [sql#77](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/77), [backend#127](https://github.com/nord-center-org/nord-tool-backend/pull/127), [frontend#194](https://github.com/nord-center-org/nord-tool-frontend/pull/194), [infra#65](https://github.com/nord-center-org/nord-center-infra-agent/pull/65) |
+| [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195), [infra#66](https://github.com/nord-center-org/nord-center-infra-agent/pull/66) |
 
 ## Correções
 
