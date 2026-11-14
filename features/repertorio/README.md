@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v13](v13.md) |
+| Versão atual | [v14](v14.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -84,18 +84,23 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - baixa no computador e, no celular que permite, abre o compartilhar do aparelho.
 
   _(v12)_
-- **RN-31** Em "Mexer nos acordes":
-  - clicar numa sílaba e tocar num acorde põe o acorde em cima dela (o que já estava naquela coluna é trocado);
-  - arrastar um acorde o leva para outra sílaba ou linha;
+- **RN-31** Em "Escrever cifra", os acordes vêm de pads:
+  - arrastar um pad ou um acorde e soltar em cima da sílaba põe ou move o acorde, e uma marca mostra onde ele cai;
+  - clicar na sílaba e tocar no pad também põe (o que já estava naquela coluna é trocado);
+  - soltar fora da letra não muda nada;
   - Delete tira o acorde escolhido e Backspace desfaz.
 
-  Só as linhas de acordes do texto mudam: um verso sem acordes ganha a linha de cima, uma linha de acordes que fica vazia some, e a letra não muda. _(v13)_
+  Só as linhas de acordes do texto mudam; a letra não muda. _(v13, alterada na v14)_
 - **RN-32** Clicar no nome de um acorde na cifra:
   - toca o acorde como o instrumento escolhido toca, com o timbre escolhido;
   - acende as notas no braço ou no teclado por 1,5 s;
   - não muda o ponto da música.
 
   _(v13)_
+- **RN-33** Clicar numa nota do braço, do mapa do braço ou do teclado toca o som dela, com o timbre do instrumento, e a acende por um instante. Não muda o ponto da música. _(v14)_
+- **RN-34** O que demora (análise, separar faixas, identificar letra, cifra da linha) aparece num aviso no canto, com progresso, sem impedir o uso da tela. "Cancelar" interrompe a tarefa sem mensagem de erro; cancelar a análise ao abrir deixa a música abrir sem análise. _(v14)_
+- **RN-35** O player tem o botão "Instrumento online", que abre o instrumento para tocar junto com a música. _(v14)_
+- **RN-36** O player tem o volume da música (0 a 150%) e um botão de tirar o som, que valem para todas as faixas, não mexem no sintetizador nem no som das notas clicadas e ficam guardados no aparelho. _(v14)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -151,6 +156,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193), [infra#64](https://github.com/nord-center-org/nord-center-infra-agent/pull/64) |
 | [v12](v12.md) | 2026-11-14 | Compartilhar a cifra com pessoas do NordTool (aba "Recebidas") e imagem da cifra | `feature-repertorio-v12` | [sql#77](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/77), [backend#127](https://github.com/nord-center-org/nord-tool-backend/pull/127), [frontend#194](https://github.com/nord-center-org/nord-tool-frontend/pull/194), [infra#65](https://github.com/nord-center-org/nord-center-infra-agent/pull/65) |
 | [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195), [infra#66](https://github.com/nord-center-org/nord-center-infra-agent/pull/66) |
+| [v14](v14.md) | 2026-11-14 | Cifra com pads e arrasto livre, notas do braço que tocam, instrumento online no player e volume da música e carregando sem modal | `feature-repertorio-v14` | [frontend#196](https://github.com/nord-center-org/nord-tool-frontend/pull/196), [infra#67](https://github.com/nord-center-org/nord-center-infra-agent/pull/67) |
 
 ## Correções
 
