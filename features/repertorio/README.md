@@ -48,20 +48,8 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-19** No instrumento online: sustentar (botão ou Shift), transpor (−12 a +12), escala destacada (as de fora ficam apagadas, mas tocam), acorde com uma tecla (ou do campo harmônico da escala), força e, no baixo e no violão, tocar no braço. Preferências do aparelho. _(v8)_
 - **RN-20** Na grade do estúdio, "Pôr notas" põe (ou tira) uma nota de um quadradinho por clique e estica arrastando; "Selecionar" seleciona por clique ou retângulo para copiar, recortar, colar no ponto escolhido (em qualquer faixa), duplicar, apagar e mover. _(v9)_
 - **RN-21** O player mostra a cifra e o instrumento, só a cifra ou só o instrumento (escolha do aparelho); escrevendo a cifra, ela sempre aparece. _(v10)_
-- **RN-22** Em "Escrever cifra":
-  - com uma sílaba escolhida, o acorde apertado fica em cima dela (o mesmo lugar troca o acorde); _(v11)_
-  - sem sílaba escolhida, o acorde é marcado no tempo atual da música (com "No tempo", na batida mais próxima, até 0,2 s), e um novo no mesmo instante substitui o anterior;
-  - "Próxima linha" marca o começo do próximo verso da letra;
-  - "Desfazer" volta a última mudança. _(alterada na v11)_
-
-  A letra e os acordes ficam na música e na conta. _(v10, alterada na v11)_
-- **RN-23** "Aplicar na cifra" troca a cifra pela escrita:
-  - os acordes antes do primeiro verso marcado viram a intro;
-  - cada verso marcado recebe os acordes do seu trecho, na posição proporcional ao tempo;
-  - os acordes postos na sílaba ficam nela;
-  - os tempos das linhas são gravados (sem nenhum, o player calcula pelos acordes).
-
-  _(v10, alterada na v11)_
+- **RN-22** "Escrever cifra" tem dois passos: a letra (colada ou identificada) e os acordes postos com o mouse em cima das sílabas (RN-31). Não se marca tempo: o tempo de cada linha vem da letra identificada ou dos acordes postos (sincronia com o áudio). A letra fica na música e na conta. _(v10, alterada na v11 e na v13)_
+- **RN-23** A letra do primeiro passo vira a cifra (sem acordes), com as horas da letra identificada como tempos das linhas. Se a música já tem cifra, pede confirmação. _(v10, alterada na v11 e na v13)_
 - **RN-24** "Identificar letra" reconhece a letra no aparelho:
   - o áudio não sai do aparelho; o reconhecedor (Whisper) baixa uma vez do Hugging Face (~80 MB o rápido, ~250 MB o mais preciso) e fica no cache do navegador;
   - usa a voz separada, se as faixas já foram separadas;
@@ -70,12 +58,11 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - trocar uma letra que já existe pede confirmação.
 
   _(v11)_
-- **RN-25** Num verso escolhido, o trecho começa no começo do verso e termina no próximo, e pode ser mudado:
-  - "Ouvir" toca só o trecho e para no fim;
-  - "Cifra do trecho" analisa só aquele pedaço do áudio, troca os acordes do verso pelos reconhecidos (o verso passa a começar no começo do trecho) e toca para conferir;
-  - "Letra da linha" reconhece e troca só a letra daquele verso.
+- **RN-25** Na linha escolhida do editor:
+  - "Ouvir" toca só o trecho dela;
+  - "Cifra da linha" analisa só esse trecho do áudio e troca os acordes da linha pelos reconhecidos.
 
-  _(v11)_
+  O trecho é o tempo automático da linha, até a próxima. _(v11, alterada na v13)_
 - **RN-26** "Tom da cifra" − e + sobem ou descem meio tom a cifra escrita (e o que está sendo escrito) sem mudar o áudio: os acordes ficam sobre a mesma sílaba e a linha "Tom:" acompanha. _(v11)_
 - **RN-27** O instrumento (braço, teclado e sintetizador) segue a cifra escrita — os acordes das linhas com tempo, na posição de cada um, e no baixo a fundamental (ou o baixo invertido) — ou o que foi reconhecido no áudio. A escolha é do aparelho; sem acordes com tempo na cifra, segue o áudio. _(v11)_
 - **RN-28** "Compartilhar" manda a cifra como está na tela (no tom que se ouve), sem o áudio, para pessoas ativas do NordTool:
