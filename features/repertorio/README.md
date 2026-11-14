@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v11](v11.md) |
+| Versão atual | [v12](v12.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -78,6 +78,25 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   _(v11)_
 - **RN-26** "Tom da cifra" − e + sobem ou descem meio tom a cifra escrita (e o que está sendo escrito) sem mudar o áudio: os acordes ficam sobre a mesma sílaba e a linha "Tom:" acompanha. _(v11)_
 - **RN-27** O instrumento (braço, teclado e sintetizador) segue a cifra escrita — os acordes das linhas com tempo, na posição de cada um, e no baixo a fundamental (ou o baixo invertido) — ou o que foi reconhecido no áudio. A escolha é do aparelho; sem acordes com tempo na cifra, segue o áudio. _(v11)_
+- **RN-28** "Compartilhar" manda a cifra como está na tela (no tom que se ouve), sem o áudio, para pessoas ativas do NordTool:
+  - cada uma recebe a sua cópia, com um recado opcional (até 300 caracteres);
+  - até 30 pessoas por envio e 300 cópias por pessoa por dia;
+  - não dá para mandar para si mesmo;
+  - a cifra vai com até 64 mil caracteres.
+
+  _(v12)_
+- **RN-29** As cifras recebidas aparecem na aba "Recebidas", das mais novas para as mais antigas, e a aba mostra quantas ainda não foram abertas:
+  - abrir marca como lida;
+  - dá para mudar o tom, gerar a imagem e pôr a cifra numa música própria (troca a cifra dela, com confirmação se já tiver);
+  - excluir apaga só a cópia de quem recebeu.
+
+  _(v12)_
+- **RN-30** A imagem da cifra (PNG) tem título, artista, tom, a cifra com os acordes sobre as sílabas e o rodapé do NordTool:
+  - uma coluna (1080 px de largura) ou duas (1920 px) quando não cabe em 1920 px de altura;
+  - a fonte diminui para a linha mais comprida caber;
+  - baixa no computador e, no celular que permite, abre o compartilhar do aparelho.
+
+  _(v12)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
   - a hora de cada linha vem do alinhamento dos acordes da cifra com os acordes do áudio, testando os 12 tons;
@@ -89,8 +108,10 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 ## Onde está no código
 
 - **SQL (v7):** `DDL/73.repertorio_ddl.sql` (`repertorio_musica`, `repertorio_projeto`; áudio em `arquivo_armazenado`).
-- **Backend (v7):** `RepertorioReadController`/`RepertorioWriteController` (`/api/v1/nord-tool/repertorio`), `RepertorioServiceImpl`, `RepertorioRepositoryImpl`, `query/repertorio.properties`; cota em `nord-tool.repertorio.cota-mb`.
+- **SQL (v12):** `DDL/74.repertorio_cifra_enviada_ddl.sql` (`repertorio_cifra_enviada`).
+- **Backend (v7):** `RepertorioReadController`/`RepertorioWriteController` (`/api/v1/nord-tool/repertorio`), `RepertorioServiceImpl`, `RepertorioRepositoryImpl`, `query/repertorio.properties`; cota em `nord-tool.repertorio.cota-mb`. Na v12: `/pessoas`, `/cifras-enviadas`, `/cifras-recebidas`, `RepertorioCifraDto`, `RepertorioEnvioDto` e `RepertorioCifraEnvioForm`.
 - **Frontend (v7):** `services/RepertorioService.ts`, `utils/musica/repertorioConta.ts`, `components/repertorio/sincronizacao.ts`.
+- **Frontend (v12):** `components/repertorio/CompartilharCifra.tsx`, `CifrasRecebidas.tsx`, `desenhoCifra.ts` e `utils/musica/imagemCifra.ts`.
 - **Frontend:**
   - `pages/Repertorio.tsx`: lista, envio e exclusão;
   - `components/repertorio/`:
@@ -128,6 +149,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v9](v9.md) | 2026-11-13 | Grade do estúdio: um quadradinho por clique, modos pôr/selecionar, copiar e colar notas | `feature-repertorio-v9` | [frontend#190](https://github.com/nord-center-org/nord-tool-frontend/pull/190), [infra#61](https://github.com/nord-center-org/nord-center-infra-agent/pull/61) |
 | [v10](v10.md) | 2026-11-13 | Escolher o que mostrar no player; escrever a cifra tocando, com a letra (chamado #5) | `feature-repertorio-v10` | [frontend#192](https://github.com/nord-center-org/nord-tool-frontend/pull/192), [infra#63](https://github.com/nord-center-org/nord-center-infra-agent/pull/63) |
 | [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193), [infra#64](https://github.com/nord-center-org/nord-center-infra-agent/pull/64) |
+| [v12](v12.md) | 2026-11-14 | Compartilhar a cifra com pessoas do NordTool (aba "Recebidas") e imagem da cifra | `feature-repertorio-v12` | [sql#77](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/77), [backend#127](https://github.com/nord-center-org/nord-tool-backend/pull/127), [frontend#194](https://github.com/nord-center-org/nord-tool-frontend/pull/194), [infra#65](https://github.com/nord-center-org/nord-center-infra-agent/pull/65) |
 
 ## Correções
 
