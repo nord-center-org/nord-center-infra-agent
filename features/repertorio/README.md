@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v15](v15.md) |
+| Versão atual | [v16](v16.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -25,7 +25,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 
 ## Regras de negócio vigentes
 
-- **RN-01** As músicas (áudio, análise, cifra, tempos das linhas e ajustes) ficam no aparelho (IndexedDB) e, desde a v7, também na conta de quem as subiu: abrem em qualquer aparelho com a mesma conta (veja RN-15 a RN-17; áudio acima de 15 MB fica só no aparelho). _(v1, alterada na v7)_
+- **RN-01** As músicas (áudio, análise, cifra, tempos das linhas e ajustes) ficam no aparelho (IndexedDB) e, desde a v7, também no NordTool: abrem em qualquer aparelho, e desde a v16 para qualquer pessoa (RN-39) (veja RN-15 a RN-17; áudio acima de 15 MB fica só no aparelho). _(v1, alterada na v7 e na v16)_
 - **RN-02** Arquivo de áudio de até 60 MB. Título e artista vêm do nome do arquivo ("Artista - Música") e podem ser editados. _(v1)_
 - **RN-03** A análise é feita ao abrir a música pela primeira vez e fica guardada. É refeita sozinha quando foi feita por uma versão anterior do analisador, ou à mão em "Refazer análise". Mede:
   - o tom, pelos perfis de Krumhansl;
@@ -100,6 +100,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-33** Clicar numa nota do braço, do mapa do braço ou do teclado toca o som dela, com o timbre do instrumento, e a acende por um instante. Não muda o ponto da música. _(v14)_
 - **RN-34** O que demora (análise, separar faixas, identificar letra, cifra da linha) aparece num aviso no canto, com progresso, sem impedir o uso da tela. "Cancelar" interrompe a tarefa sem mensagem de erro; cancelar a análise ao abrir deixa a música abrir sem análise. _(v14)_
 - **RN-35** O player tem o botão "Instrumento online", que abre o instrumento para tocar junto com a música. _(v14)_
+- **RN-39** A aba é aberta a todos que entram no NordTool: qualquer pessoa vê, toca e edita as músicas e as criações de todos. Cada uma mostra quem criou e, se outra pessoa mexeu por último, quem editou. Só quem criou exclui (a tela esconde o botão e o servidor recusa). A cota de espaço e os limites de quantidade contam para quem criou. As cifras compartilhadas (RN da v12) continuam pessoais. _(v16)_
 - **RN-37** Os nomes das notas e dos acordes podem aparecer em letras (C, D, E) ou em português (Dó, Ré, Mi), com sustenido ou bemol. A escolha é do aparelho, vale para todas as telas do Repertório e só muda o que se vê: a cifra guardada, o som e a transposição continuam com as letras. _(v15)_
 - **RN-38** As opções secundárias do player (notação, o que mostrar, letra, tom da cifra, rolar, marcar linhas, segue cifra/áudio, todas as notas, queda, sintetizador, separar faixas e refazer análise) ficam no ícone de ajustes, no canto. _(v15)_
 - **RN-36** O player tem o volume da música (0 a 150%) e um botão de tirar o som, que valem para todas as faixas, não mexem no sintetizador nem no som das notas clicadas e ficam guardados no aparelho. _(v14)_
@@ -115,6 +116,9 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 
 - **SQL (v7):** `DDL/73.repertorio_ddl.sql` (`repertorio_musica`, `repertorio_projeto`; áudio em `arquivo_armazenado`).
 - **SQL (v12):** `DDL/74.repertorio_cifra_enviada_ddl.sql` (`repertorio_cifra_enviada`).
+- **SQL (v16):** `DDL/75.repertorio_aberto_ddl.sql` (`id_usuario_alteracao` e chave única no sistema).
+- **Backend (v16):** queries de `repertorio.properties` sem filtro por dono (exceto excluir, contar e somar espaço), `nmCriador`/`nmAlterador`/`inMinha` nos DTOs e a regra de excluir em `RepertorioServiceImpl`.
+- **Frontend (v16):** `autoriaDe`/`textoAutoria`/`renomear` em `utils/musica/repertorioConta.ts`, `sincronizacao.ts` e as listas em `pages/Repertorio.tsx` e `EstudioRepertorio.tsx`.
 - **Backend (v7):** `RepertorioReadController`/`RepertorioWriteController` (`/api/v1/nord-tool/repertorio`), `RepertorioServiceImpl`, `RepertorioRepositoryImpl`, `query/repertorio.properties`; cota em `nord-tool.repertorio.cota-mb`. Na v12: `/pessoas`, `/cifras-enviadas`, `/cifras-recebidas`, `RepertorioCifraDto`, `RepertorioEnvioDto` e `RepertorioCifraEnvioForm`.
 - **Frontend (v7):** `services/RepertorioService.ts`, `utils/musica/repertorioConta.ts`, `components/repertorio/sincronizacao.ts`.
 - **Frontend (v12):** `components/repertorio/CompartilharCifra.tsx`, `CifrasRecebidas.tsx`, `desenhoCifra.ts` e `utils/musica/imagemCifra.ts`.
@@ -161,6 +165,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195), [infra#66](https://github.com/nord-center-org/nord-center-infra-agent/pull/66) |
 | [v14](v14.md) | 2026-11-14 | Cifra com pads e arrasto livre, notas do braço que tocam, instrumento online no player e volume da música e carregando sem modal | `feature-repertorio-v14` | [frontend#196](https://github.com/nord-center-org/nord-tool-frontend/pull/196), [infra#67](https://github.com/nord-center-org/nord-center-infra-agent/pull/67) |
 | [v15](v15.md) | 2026-11-14 | Sustenido como padrão, notação Dó/Ré/Mi e ícone de ajustes com as opções secundárias | `feature-repertorio-v15` | [frontend#197](https://github.com/nord-center-org/nord-tool-frontend/pull/197), [infra#68](https://github.com/nord-center-org/nord-center-infra-agent/pull/68) |
+| [v16](v16.md) | 2026-11-14 | Aba aberta para todos (ver, tocar e editar), com quem criou e quem editou; só quem criou exclui | `feature-repertorio-v16` | [scripts-sql#78](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/78), [backend#129](https://github.com/nord-center-org/nord-tool-backend/pull/129), [frontend#198](https://github.com/nord-center-org/nord-tool-frontend/pull/198), infra (este PR) |
 
 ## Correções
 
