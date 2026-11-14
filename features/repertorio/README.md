@@ -127,7 +127,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v8](v8.md) | 2026-11-13 | Timbres por instrumento e ferramentas para tocar (braço, sustentar, transpor, escala, acorde com 1 tecla, metrônomo) | `feature-repertorio-v8` | [frontend#189](https://github.com/nord-center-org/nord-tool-frontend/pull/189), [infra#60](https://github.com/nord-center-org/nord-center-infra-agent/pull/60) |
 | [v9](v9.md) | 2026-11-13 | Grade do estúdio: um quadradinho por clique, modos pôr/selecionar, copiar e colar notas | `feature-repertorio-v9` | [frontend#190](https://github.com/nord-center-org/nord-tool-frontend/pull/190), [infra#61](https://github.com/nord-center-org/nord-center-infra-agent/pull/61) |
 | [v10](v10.md) | 2026-11-13 | Escolher o que mostrar no player; escrever a cifra tocando, com a letra (chamado #5) | `feature-repertorio-v10` | [frontend#192](https://github.com/nord-center-org/nord-tool-frontend/pull/192), [infra#63](https://github.com/nord-center-org/nord-center-infra-agent/pull/63) |
-| [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193) |
+| [v11](v11.md) | 2026-11-14 | Identificar a letra (no aparelho), acorde em cima da sílaba, cifra do trecho, tom da cifra e instrumento seguindo a cifra | `feature-repertorio-v11` | [frontend#193](https://github.com/nord-center-org/nord-tool-frontend/pull/193), [infra#64](https://github.com/nord-center-org/nord-center-infra-agent/pull/64) |
 
 ## Correções
 
