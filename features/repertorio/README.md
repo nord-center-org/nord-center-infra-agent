@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v14](v14.md) |
+| Versão atual | [v15](v15.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -33,7 +33,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - os acordes maiores e menores por batida;
   - as notas do baixo (E1 a E3). Cada nota começa num ataque no grave; o nome sai por votação no meio do trecho, só com a parte que sustenta; batidas (bumbo, caixa) e trechos sem nota clara são descartados. _(v1; v2: nova detecção do baixo)_
 - **RN-04** Tom de −12 a +12 semitons e andamento de 50% a 150%. O tom, o andamento, o instrumento e a transposição da cifra ficam salvos na música. _(v1)_
-- **RN-07** As notas no instrumento mostram o nome no tom que está tocando, já com a transposição, como na cifra: com bemol nos tons escritos com bemol (F, Bb, Eb, Ab, Db, Gb e as menores relativas) e com sustenido nos outros. _(v2)_
+- **RN-07** As notas e os acordes aparecem no tom que está tocando, já com a transposição, com sustenido (C#, F#…) em todo o Repertório; bemol é opção nos ajustes. _(v2, alterada na v15)_
 - **RN-08** "Todas as notas" é uma preferência do aparelho (vale para todas as músicas), guardada no navegador; começa desligada. _(v3)_
 - **RN-09** No baixo e no violão dá para ver as notas caindo ou o mapa do braço em pé, com todas as notas coloridas pela letra escrita (C verde, D vermelho, E amarelo, F azul, G rosa, A marrom, B grafite); a nota que toca acende. A escolha é do aparelho. _(v4)_
 - **RN-10** O sintetizador (desligado no começo) toca as notas que o instrumento mostra, com timbre de baixo, violão ou teclado, no tom e no andamento escolhidos, nas duas vistas; liga/desliga e volume são do aparelho; pausa, pulo e troca de instrumento/tom cortam o som. _(v5)_
@@ -100,6 +100,8 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-33** Clicar numa nota do braço, do mapa do braço ou do teclado toca o som dela, com o timbre do instrumento, e a acende por um instante. Não muda o ponto da música. _(v14)_
 - **RN-34** O que demora (análise, separar faixas, identificar letra, cifra da linha) aparece num aviso no canto, com progresso, sem impedir o uso da tela. "Cancelar" interrompe a tarefa sem mensagem de erro; cancelar a análise ao abrir deixa a música abrir sem análise. _(v14)_
 - **RN-35** O player tem o botão "Instrumento online", que abre o instrumento para tocar junto com a música. _(v14)_
+- **RN-37** Os nomes das notas e dos acordes podem aparecer em letras (C, D, E) ou em português (Dó, Ré, Mi), com sustenido ou bemol. A escolha é do aparelho, vale para todas as telas do Repertório e só muda o que se vê: a cifra guardada, o som e a transposição continuam com as letras. _(v15)_
+- **RN-38** As opções secundárias do player (notação, o que mostrar, letra, tom da cifra, rolar, marcar linhas, segue cifra/áudio, todas as notas, queda, sintetizador, separar faixas e refazer análise) ficam no ícone de ajustes, no canto. _(v15)_
 - **RN-36** O player tem o volume da música (0 a 150%) e um botão de tirar o som, que valem para todas as faixas, não mexem no sintetizador nem no som das notas clicadas e ficam guardados no aparelho. _(v14)_
 - **RN-05** A separação das faixas é aproximada, sem IA: as quatro faixas somadas dão a música original. Ela é refeita a cada vez que se pede e não fica guardada. _(v1)_
 - **RN-06** Sobre a cifra:
@@ -117,6 +119,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **Frontend (v7):** `services/RepertorioService.ts`, `utils/musica/repertorioConta.ts`, `components/repertorio/sincronizacao.ts`.
 - **Frontend (v12):** `components/repertorio/CompartilharCifra.tsx`, `CifrasRecebidas.tsx`, `desenhoCifra.ts` e `utils/musica/imagemCifra.ts`.
 - **Frontend (v13):** `components/repertorio/EditorAcordes.tsx`, `utils/musica/edicaoCifra.ts`, os acordes clicáveis em `CifraRolando.tsx` e o `tocarAcorde`/destaque no `PlayerRepertorio.tsx`.
+- **Frontend (v15):** `utils/musica/notacao.ts` (nomes exibidos: sustenido/bemol, letras/Dó Ré Mi), `components/repertorio/useNotacao.ts` (escolha do aparelho, compartilhada entre as telas) e o painel "Ajustes" no `PlayerRepertorio.tsx`; `corDaNota` em `instrumentos.ts` aceita o nome em português.
 - **Frontend:**
   - `pages/Repertorio.tsx`: lista, envio e exclusão;
   - `components/repertorio/`:
@@ -157,6 +160,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v12](v12.md) | 2026-11-14 | Compartilhar a cifra com pessoas do NordTool (aba "Recebidas") e imagem da cifra | `feature-repertorio-v12` | [sql#77](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/77), [backend#127](https://github.com/nord-center-org/nord-tool-backend/pull/127), [frontend#194](https://github.com/nord-center-org/nord-tool-frontend/pull/194), [infra#65](https://github.com/nord-center-org/nord-center-infra-agent/pull/65) |
 | [v13](v13.md) | 2026-11-14 | Mexer nos acordes na cifra (pôr e arrastar), som do acorde no instrumento escolhido e braço acendendo | `feature-repertorio-v13` | [frontend#195](https://github.com/nord-center-org/nord-tool-frontend/pull/195), [infra#66](https://github.com/nord-center-org/nord-center-infra-agent/pull/66) |
 | [v14](v14.md) | 2026-11-14 | Cifra com pads e arrasto livre, notas do braço que tocam, instrumento online no player e volume da música e carregando sem modal | `feature-repertorio-v14` | [frontend#196](https://github.com/nord-center-org/nord-tool-frontend/pull/196), [infra#67](https://github.com/nord-center-org/nord-center-infra-agent/pull/67) |
+| [v15](v15.md) | 2026-11-14 | Sustenido como padrão, notação Dó/Ré/Mi e ícone de ajustes com as opções secundárias | `feature-repertorio-v15` | [frontend#197](https://github.com/nord-center-org/nord-tool-frontend/pull/197), [infra#68](https://github.com/nord-center-org/nord-center-infra-agent/pull/68) |
 
 ## Correções
 
