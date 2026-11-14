@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | [v16](v16.md) |
+| Versão atual | [v17](v17.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Repertório (`/gestao/repertorio`) |
 
@@ -41,9 +41,9 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-12** Em "Criar", cada criação fica no aparelho e, desde a v7, na conta (abre em qualquer aparelho), com 40–240 BPM, 1–64 compassos de 4 tempos, até 12 faixas e 4.000 notas por faixa; clicar numa célula da grade põe ou tira a nota. _(v6, alterada na v7)_
 - **RN-13** Gravar começa do início com um compasso de contagem e o metrônomo; as notas tocadas entram na faixa escolhida ao parar, encaixadas na grade (se ligado), sem duplicar. _(v6)_
 - **RN-14** Com alguma faixa em solo, só as em solo soam; faixas mudas nunca soam (nem no WAV nem ao mandar para Músicas). _(v6)_
-- **RN-15** Músicas e criações ficam na conta de quem as subiu/criou e abrem em qualquer aparelho com a mesma conta; ninguém mais as vê. _(v7)_
-- **RN-16** Áudio na conta até 15 MB por música e 300 MB por pessoa (configurável), até 300 músicas e 200 criações; acima disso fica só no aparelho. Músicas do estúdio guardam a criação, não o áudio. _(v7)_
-- **RN-17** Mudou em dois aparelhos: vale a mexida por último. Excluir apaga do aparelho e da conta; os outros aparelhos apagam a cópia ao abrir a lista. _(v7)_
+- **RN-15** Músicas e criações ficam no NordTool e abrem em qualquer aparelho. Desde a v16 são de todos: qualquer pessoa vê, toca e edita; fica registrado quem criou e quem editou por último, e só quem criou exclui (RN-39). _(v7, alterada na v16)_
+- **RN-16** Áudio na conta até 15 MB por música e 300 MB por pessoa (configurável), até 300 músicas e 200 criações (contam para quem criou, RN-39); acima disso fica só no aparelho. Músicas do estúdio guardam a criação, não o áudio. _(v7)_
+- **RN-17** Mudou em dois aparelhos: vale a mexida por último. Excluir (só quem criou, desde a v16) apaga do aparelho e da conta; os outros aparelhos, de qualquer pessoa, apagam a cópia ao abrir a lista. _(v7, alterada na v16)_
 - **RN-18** Cada instrumento tem timbres para escolher; a faixa do estúdio guarda o seu (e o WAV sai com ele); no instrumento online e no sintetizador do player a escolha é do aparelho. _(v8)_
 - **RN-19** No instrumento online: sustentar (botão ou Shift), transpor (−12 a +12), escala destacada (as de fora ficam apagadas, mas tocam), acorde com uma tecla (ou do campo harmônico da escala), força e, no baixo e no violão, tocar no braço. Preferências do aparelho. _(v8)_
 - **RN-20** Na grade do estúdio, "Pôr notas" põe (ou tira) uma nota de um quadradinho por clique e estica arrastando; "Selecionar" seleciona por clique ou retângulo para copiar, recortar, colar no ponto escolhido (em qualquer faixa), duplicar, apagar e mover. _(v9)_
@@ -100,6 +100,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **RN-33** Clicar numa nota do braço, do mapa do braço ou do teclado toca o som dela, com o timbre do instrumento, e a acende por um instante. Não muda o ponto da música. _(v14)_
 - **RN-34** O que demora (análise, separar faixas, identificar letra, cifra da linha) aparece num aviso no canto, com progresso, sem impedir o uso da tela. "Cancelar" interrompe a tarefa sem mensagem de erro; cancelar a análise ao abrir deixa a música abrir sem análise. _(v14)_
 - **RN-35** O player tem o botão "Instrumento online", que abre o instrumento para tocar junto com a música. _(v14)_
+- **RN-40** Na "Linha do tempo", cada acorde da cifra tem a hora em que entra. Arrastar um acorde leva junto os seguintes (ou só ele, entre os vizinhos); "Pôr aqui" leva o escolhido para o ponto da música. As horas ficam na música e valem enquanto a quantidade de acordes bater com a cifra; o instrumento e o começo das linhas seguem elas. "Tempos automáticos" e "Marcar linhas" as descartam. _(v17)_
 - **RN-39** A aba é aberta a todos que entram no NordTool: qualquer pessoa vê, toca e edita as músicas e as criações de todos. Cada uma mostra quem criou e, se outra pessoa mexeu por último, quem editou. Só quem criou exclui (a tela esconde o botão e o servidor recusa). A cota de espaço e os limites de quantidade contam para quem criou. As cifras compartilhadas (RN da v12) continuam pessoais. _(v16)_
 - **RN-37** Os nomes das notas e dos acordes podem aparecer em letras (C, D, E) ou em português (Dó, Ré, Mi), com sustenido ou bemol. A escolha é do aparelho, vale para todas as telas do Repertório e só muda o que se vê: a cifra guardada, o som e a transposição continuam com as letras. _(v15)_
 - **RN-38** As opções secundárias do player (notação, o que mostrar, letra, tom da cifra, rolar, marcar linhas, segue cifra/áudio, todas as notas, queda, sintetizador, separar faixas e refazer análise) ficam no ícone de ajustes, no canto. _(v15)_
@@ -118,6 +119,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 - **SQL (v12):** `DDL/74.repertorio_cifra_enviada_ddl.sql` (`repertorio_cifra_enviada`).
 - **SQL (v16):** `DDL/75.repertorio_aberto_ddl.sql` (`id_usuario_alteracao` e chave única no sistema).
 - **Backend (v16):** queries de `repertorio.properties` sem filtro por dono (exceto excluir, contar e somar espaço), `nmCriador`/`nmAlterador`/`inMinha` nos DTOs e a regra de excluir em `RepertorioServiceImpl`.
+- **Frontend (v17):** `components/repertorio/LinhaDoTempoAcordes.tsx`, `utils/musica/linhaDoTempo.ts` (ordem dos acordes, horas padrão, empurrar/mover, tempo das linhas e forma de onda), `temposAcordes` em `repertorioDb.ts`/`repertorioConta.ts` e o parâmetro novo de `segmentosDaCifra`.
 - **Frontend (v16):** `autoriaDe`/`textoAutoria`/`renomear` em `utils/musica/repertorioConta.ts`, `sincronizacao.ts` e as listas em `pages/Repertorio.tsx` e `EstudioRepertorio.tsx`.
 - **Backend (v7):** `RepertorioReadController`/`RepertorioWriteController` (`/api/v1/nord-tool/repertorio`), `RepertorioServiceImpl`, `RepertorioRepositoryImpl`, `query/repertorio.properties`; cota em `nord-tool.repertorio.cota-mb`. Na v12: `/pessoas`, `/cifras-enviadas`, `/cifras-recebidas`, `RepertorioCifraDto`, `RepertorioEnvioDto` e `RepertorioCifraEnvioForm`.
 - **Frontend (v7):** `services/RepertorioService.ts`, `utils/musica/repertorioConta.ts`, `components/repertorio/sincronizacao.ts`.
@@ -166,6 +168,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v14](v14.md) | 2026-11-14 | Cifra com pads e arrasto livre, notas do braço que tocam, instrumento online no player e volume da música e carregando sem modal | `feature-repertorio-v14` | [frontend#196](https://github.com/nord-center-org/nord-tool-frontend/pull/196), [infra#67](https://github.com/nord-center-org/nord-center-infra-agent/pull/67) |
 | [v15](v15.md) | 2026-11-14 | Sustenido como padrão, notação Dó/Ré/Mi e ícone de ajustes com as opções secundárias | `feature-repertorio-v15` | [frontend#197](https://github.com/nord-center-org/nord-tool-frontend/pull/197), [infra#68](https://github.com/nord-center-org/nord-center-infra-agent/pull/68) |
 | [v16](v16.md) | 2026-11-14 | Aba aberta para todos (ver, tocar e editar), com quem criou e quem editou; só quem criou exclui | `feature-repertorio-v16` | [scripts-sql#78](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/78), [backend#129](https://github.com/nord-center-org/nord-tool-backend/pull/129), [frontend#198](https://github.com/nord-center-org/nord-tool-frontend/pull/198), [infra#69](https://github.com/nord-center-org/nord-center-infra-agent/pull/69) |
+| [v17](v17.md) | 2026-11-14 | Linha do tempo dos acordes: arrastar empurra os seguintes, "Pôr aqui" com a música tocando, forma de onda | `feature-repertorio-v17` | [frontend#199](https://github.com/nord-center-org/nord-tool-frontend/pull/199), [infra#70](https://github.com/nord-center-org/nord-center-infra-agent/pull/70) |
 
 ## Correções
 
