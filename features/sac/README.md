@@ -44,6 +44,7 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. U
 
 | Data | Branch | O que foi corrigido | PRs |
 |---|---|---|---|
+| 2026-11-16 | `fix-sac-print-menu-lateral` | "Tirar print de uma tela" desenhava só a área de conteúdo: o menu lateral saía em branco. Agora desenha o app inteiro; áreas roladas (menu e conteúdo) saem como estão na tela (a rolagem vira deslocamento dos filhos durante o desenho, sem a transição das telas); sem barras de rolagem e campo vazio sai vazio (o texto de exemplo saía escuro). Código: `CapturaLugiaProvider.tsx` (`congelarRolagens`), `utils/captura.ts` (`transformacaoDeslocada`), `data-print-raiz` no `Layout.tsx`. | [frontend#200](https://github.com/nord-center-org/nord-tool-frontend/pull/200) |
 
 ## Dependências e impactos
 
