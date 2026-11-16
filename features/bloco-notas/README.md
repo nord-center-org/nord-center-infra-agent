@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `bloco-notas` |
 | Status | ativa |
-| Versão atual | [v6](v6.md) |
+| Versão atual | [v7](v7.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Mapeamentos > Bloco de notas (`/mapeamentos/bloco-notas`) |
 
@@ -39,8 +39,13 @@ Tudo fica numa lista só, com filtro e busca.
 - **RN-18** Na planilha, as funções têm o nome do Google Sheets em português, na célula e na ajuda. Dá para digitar com `;` e vírgula decimal; a célula guarda a fórmula com vírgula entre os argumentos. Critérios (CONT.SE, SOMASE…) não diferenciam maiúsculas nem acentos. Data digitada é dd/mm/aaaa. _(v5)_
 - **RN-19** No caderno, o zoom vai de 10% a 1600% em qualquer folha e fica no ponto do cursor (ou entre os dedos), mesmo com a folha mais estreita que a tela. A rodinha do mouse sempre dá zoom (Shift + rodinha vai para os lados) e arrastar com a rodinha apertada move a folha. No tablet, como no Xodo: pinça dá zoom, dois dedos arrastam, um dedo arrasta com a Mão, com "Só caneta" ou fora da folha (um dedo desenha com as ferramentas de desenho; o segundo dedo descarta o traço começado). O modo Texto tem zoom próprio (botões, Ctrl + rodinha e pinça). O PDF entra pela barra de ferramentas. _(v6, alterada na correção de 2026-11-16)_
 - **RN-20** Enquanto a pessoa digita (caixa de texto, documento ou campo), Ctrl+Z, Ctrl+Y, Delete e Esc agem no texto, nunca no desenho. _(v6)_
+- **RN-21** "Editar página" abre a página (papel ou PDF, com o desenho) no editor de imagens; ao salvar, a imagem editada entra no lugar dela (o desenho vai dentro da imagem e a original sai). _(v7)_
+- **RN-22** A barra de ferramentas do desenho fica em cima, numa das laterais ou flutuante (arrastável, sem sair da área do caderno); a escolha é do aparelho. _(v7)_
+- **RN-23** No painel de páginas dá para marcar páginas e baixar só elas em PDF, JPEG ou PNG; várias imagens vêm num .zip. O PDF das páginas marcadas não leva o texto do caderno. _(v7)_
 
 ## Onde está no código
+
+- **v7:** `imagemDaPagina`/`desenharImagemDaPagina` em `components/bloco/pdfBloco.ts`, `editarPagina`/`salvarPaginaEditada`, `barraFerramentas`/`classesDaBarra` e `baixarMarcadas` em `EditorCaderno.tsx`, `nomeArquivoPaginas` em `utils/blocoNotas.ts`.
 
 - **SQL:** `DDL/66.bloco_notas_ddl.sql` (`bloco_caderno`, `bloco_pagina`, `bloco_imagem`) e `DDL/68.bloco_notas_v2_ddl.sql` (rotação, documento, `bloco_pdf`) e `DDL/71.bloco_arquivo_ddl.sql` (planilhas e documentos avulsos).
 - **Backend:** `BlocoNotasReadController` e `BlocoNotasWriteController` (`/api/v1/nord-tool/blocos-notas`), `BlocoNotasServiceImpl`, `BlocoNotasRepositoryImpl`, `query/bloco-notas.properties`; v3: `BlocoArquivoReadController`/`WriteController` (`/blocos-notas/arquivos`), `BlocoArquivoServiceImpl`, `query/bloco-arquivo.properties`; v4: `BlocoAssistenteServiceImpl`, `BlocoAssistenteRepositoryImpl`, `query/bloco-assistente.properties` e o contexto em `LugiaServiceImpl`.
@@ -56,6 +61,7 @@ Tudo fica numa lista só, com filtro e busca.
 | [v4](v4.md) | 2026-11-10 | Chat dos cadernos: a Lugia pesquisa no Bloco de notas, lê fotos e cria ou anota com confirmação | `feature-bloco-notas-v4` | [backend#121](https://github.com/nord-center-org/nord-tool-backend/pull/121), [frontend#169](https://github.com/nord-center-org/nord-tool-frontend/pull/169), [infra#40](https://github.com/nord-center-org/nord-center-infra-agent/pull/40) |
 | [v5](v5.md) | 2026-11-11 | Planilha em português: funções do Sheets em português, PROCX, UNIRTEXTO, MÁXIMOSES, datas e números no jeito brasileiro | `feature-bloco-notas-v5` | [frontend#171](https://github.com/nord-center-org/nord-tool-frontend/pull/171), [infra#42](https://github.com/nord-center-org/nord-center-infra-agent/pull/42) |
 | [v6](v6.md) | 2026-11-13 | Caderno: zoom com a rodinha no cursor até 1600%, arrastar com a rodinha, PDF na barra e atalhos que respeitam o texto | `feature-bloco-notas-v6` | [frontend#183](https://github.com/nord-center-org/nord-tool-frontend/pull/183), [infra#54](https://github.com/nord-center-org/nord-center-infra-agent/pull/54) |
+| [v7](v7.md) | 2026-11-16 | Editar a página no editor de imagens (PDF também), barra de ferramentas em cima/laterais/flutuante e baixar páginas marcadas em PDF, JPEG ou PNG | `feature-bloco-notas-v7` | [frontend#204](https://github.com/nord-center-org/nord-tool-frontend/pull/204), [infra#75](https://github.com/nord-center-org/nord-center-infra-agent/pull/75) |
 
 ## Correções
 

@@ -8,7 +8,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 |---|---|---|---|---|
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Avatar | [`avatar`](avatar/README.md) | [v3](avatar/v3.md) | backend, frontend | ativa |
-| Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v6](bloco-notas/v6.md) | scripts-sql, backend, frontend | ativa |
+| Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v7](bloco-notas/v7.md) | scripts-sql, backend, frontend | ativa |
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Conversor de arquivos | [`conversor-arquivos`](conversor-arquivos/README.md) | [v1](conversor-arquivos/v1.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v4](cronograma-semanal/v4.md) | scripts-sql, backend, frontend | ativa |
