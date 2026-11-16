@@ -40,7 +40,7 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. U
 | [v2](v2.md) | 2026-11-04 | Aviso de novidade com o avatar do ADM no Início, selo no menu e exportação dos chamados com prints | `feature-sac-v2` | [sql#65](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/65), [backend#108](https://github.com/nord-center-org/nord-tool-backend/pull/108), [frontend#155](https://github.com/nord-center-org/nord-tool-frontend/pull/155), [infra#26](https://github.com/nord-center-org/nord-center-infra-agent/pull/26) |
 | [v3](v3.md) | 2026-11-13 | Botão pequeno no canto de todas as telas com janelinha e avatar para abrir o chamado | `feature-sac-v3` | [frontend#182](https://github.com/nord-center-org/nord-tool-frontend/pull/182), [infra#53](https://github.com/nord-center-org/nord-center-infra-agent/pull/53) |
 | [v4](v4.md) | 2026-11-13 | Exportação em PDF (texto e prints ao lado) e vários prints na janelinha | `feature-sac-v4` | [frontend#191](https://github.com/nord-center-org/nord-tool-frontend/pull/191), [infra#62](https://github.com/nord-center-org/nord-center-infra-agent/pull/62) |
-| [v5](v5.md) | 2026-11-16 | Aba "Concluídos": resolvidos e recusados saem da esteira | `feature-sac-v5` | [frontend#202](https://github.com/nord-center-org/nord-tool-frontend/pull/202), infra (este PR) |
+| [v5](v5.md) | 2026-11-16 | Aba "Concluídos": resolvidos e recusados saem da esteira | `feature-sac-v5` | [frontend#202](https://github.com/nord-center-org/nord-tool-frontend/pull/202), [infra#73](https://github.com/nord-center-org/nord-center-infra-agent/pull/73) |
 
 ## Correções
 
