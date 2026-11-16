@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `sac` |
 | Status | ativa |
-| Versão atual | [v4](v4.md) |
+| Versão atual | [v5](v5.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Visão Geral > SAC (`/sac`) |
 
@@ -21,8 +21,9 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. U
 - **RN-05** O rascunho (texto e prints) fica guardado enquanto a pessoa vai a outra tela tirar o print. _(v1)_
 - **RN-06** Quando um administrador responde ou muda o status do chamado de outra pessoa, o chamado fica com novidade até quem abriu ver "Meus chamados": o avatar de quem respondeu aparece no Início avisando, o item SAC do menu ganha um selo vermelho e, nas outras telas, um aviso flutuante (uma vez por novidade). Responder o próprio chamado não gera novidade. _(v2)_
 - **RN-07** Para o ADMIN do SAC, o selo do menu mostra quantos chamados estão abertos (azul) quando ele não tem novidade. _(v2)_
-- **RN-08** Em "Meus chamados" e "Todos os chamados" dá para marcar chamados e exportar um PDF com, para cada um, título, status, quem abriu, data, tela, o que precisa mudar, a resposta e os prints ao lado. _(v2, alterada na v4)_
+- **RN-08** Em "Meus chamados", "Todos os chamados" e "Concluídos" dá para marcar chamados e exportar um PDF com, para cada um, título, status, quem abriu, data, tela, o que precisa mudar, a resposta e os prints ao lado. _(v2, alterada na v4 e na v5)_
 - **RN-09** Em todas as telas, menos no próprio SAC e durante a captura de print, há um botão pequeno no canto inferior direito que abre uma janelinha com o avatar do dono do NordTool para abrir um chamado ali mesmo; a tela em que a pessoa está vai junto. _(v3)_
+- **RN-11** Chamados resolvidos ou recusados saem da esteira ("Meus chamados" e "Todos os chamados") e ficam na aba "Concluídos": os da pessoa ou, para o ADMIN do SAC, os de todos. Mudar o status de volta para aberto ou em andamento devolve o chamado à esteira. O aviso de um chamado concluído abre essa aba, e ver as novidades nela também conta. _(v5)_
 - **RN-10** Pela janelinha do botão do SAC, o chamado pode levar até 6 prints, desta tela ou de outra; o texto fica guardado enquanto se tira o print. _(v4)_
 
 ## Onde está no código
@@ -39,6 +40,7 @@ Canal para quem usa o NordTool pedir mudanças no sistema aos administradores. U
 | [v2](v2.md) | 2026-11-04 | Aviso de novidade com o avatar do ADM no Início, selo no menu e exportação dos chamados com prints | `feature-sac-v2` | [sql#65](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/65), [backend#108](https://github.com/nord-center-org/nord-tool-backend/pull/108), [frontend#155](https://github.com/nord-center-org/nord-tool-frontend/pull/155), [infra#26](https://github.com/nord-center-org/nord-center-infra-agent/pull/26) |
 | [v3](v3.md) | 2026-11-13 | Botão pequeno no canto de todas as telas com janelinha e avatar para abrir o chamado | `feature-sac-v3` | [frontend#182](https://github.com/nord-center-org/nord-tool-frontend/pull/182), [infra#53](https://github.com/nord-center-org/nord-center-infra-agent/pull/53) |
 | [v4](v4.md) | 2026-11-13 | Exportação em PDF (texto e prints ao lado) e vários prints na janelinha | `feature-sac-v4` | [frontend#191](https://github.com/nord-center-org/nord-tool-frontend/pull/191), [infra#62](https://github.com/nord-center-org/nord-center-infra-agent/pull/62) |
+| [v5](v5.md) | 2026-11-16 | Aba "Concluídos": resolvidos e recusados saem da esteira | `feature-sac-v5` | [frontend#202](https://github.com/nord-center-org/nord-tool-frontend/pull/202), infra (este PR) |
 
 ## Correções
 
