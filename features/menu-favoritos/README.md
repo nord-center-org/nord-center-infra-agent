@@ -17,6 +17,7 @@ Cada tela do menu lateral tem um tijolo; marcado, a tela entra no grupo "Favorit
 - **RN-01** Qualquer pessoa logada marca os próprios favoritos; até 40, na ordem em que foram marcados. _(v1)_
 - **RN-02** O grupo "Favoritos" só mostra as telas que a pessoa pode abrir; a tela também continua no grupo dela. _(v1)_
 - **RN-03** Os favoritos ficam no servidor (valem em todos os aparelhos), com uma cópia no aparelho para o menu abrir na hora; se o servidor recusar, a marcação volta como estava. _(v1)_
+- **RN-04** Entrar numa tela favorita não abre o grupo dela no menu (ela já aparece nos Favoritos); as outras telas abrem o próprio grupo. _(correção 2026-11-16)_
 
 ## Onde está no código
 
@@ -34,6 +35,7 @@ Cada tela do menu lateral tem um tijolo; marcado, a tela entra no grupo "Favorit
 
 | Data | Branch | O que foi corrigido | PRs |
 |---|---|---|---|
+| 2026-11-16 | `fix-menu-favoritos-nao-expandir` | Entrar numa tela favorita abria o grupo dela no menu (ex.: Mapeamentos), embora ela já apareça nos Favoritos. Agora tela favorita (ou subtela) não abre o grupo; as demais continuam abrindo. Lê a cópia local dos favoritos na hora, para não abrir antes de a lista chegar. Código: `rotaFavorita` em `utils/menuLateral.ts` e o efeito de abrir o grupo no `Layout.tsx`. | [frontend#201](https://github.com/nord-center-org/nord-tool-frontend/pull/201) |
 
 ## Dependências e impactos
 
