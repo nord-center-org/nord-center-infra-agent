@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `notificacoes` |
 | Status | ativa |
-| Versão atual | [v1](v1.md) |
+| Versão atual | [v2](v2.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Configurações > Notificações no celular (`/configuracoes#notificacoes`) |
 
@@ -22,11 +22,15 @@ Manda avisos do NordTool direto para o celular (ou computador), mesmo com o app 
 - **RN-06** SAC: avisa quem abriu o chamado quando outra pessoa responde ou muda o status. _(v1)_
 - **RN-07** Um aparelho é de quem ativou por último; sair da conta desliga o aviso naquele aparelho; o servidor apaga aparelhos cuja inscrição expirou. _(v1)_
 - **RN-08** Um aviso que falha nunca impede a ação na tela (gravar, mover, responder). _(v1)_
+- **RN-09** Todo aviso também vai para a caixa de notificações da pessoa, que o app Android lê em segundo plano; no app não se usa Web Push. A caixa guarda 30 dias. _(v2)_
+- **RN-10** Administradores (Administração com nível ADMIN) recebem cada alteração feita por outra pessoa no NordTool: "Nome completo · Área" e se criou, alterou ou excluiu, sem o conteúdo. Ficam de fora login, avisos, Lugia, favoritos e o "visto" do SAC. _(v2)_
+- **RN-11** Alterações seguidas da mesma pessoa na mesma área, em até 10 minutos, viram um aviso só ("N alterações seguidas"). _(v2)_
+- **RN-12** "Alterações das outras pessoas" vem ligado e só aparece para administradores. As alterações ficam registradas por 90 dias. _(v2)_
 
 ## Onde está no código
 
-- **SQL:** `DDL/64.notificacao_push_ddl.sql` (`push_inscricao`, `notificacao_preferencia`, `notificacao_enviada`, `push_chave`).
-- **Backend:** `NotificacaoReadController` e `NotificacaoWriteController` (`/api/v1/nord-tool/notificacoes`), `NotificacaoServiceImpl`, `NotificacaoRepositoryImpl`, `query/notificacao.properties`, `service/push/` (`WebPushCripto`, `PushEnviador`, `LembretesAgendador`), ganchos em `CronogramaSemanalServiceImpl` e `SacServiceImpl`.
+- **SQL:** `DDL/64.notificacao_push_ddl.sql` (`push_inscricao`, `notificacao_preferencia`, `notificacao_enviada`, `push_chave`) e `DDL/76.app_android_atividade_ddl.sql` (`notificacao_caixa`, `atividade`, `in_atividade`).
+- **Backend:** `NotificacaoReadController` e `NotificacaoWriteController` (`/api/v1/nord-tool/notificacoes`), `NotificacaoServiceImpl`, `NotificacaoRepositoryImpl`, `query/notificacao.properties`, `service/push/` (`WebPushCripto`, `PushEnviador`, `LembretesAgendador`), ganchos em `CronogramaSemanalServiceImpl` e `SacServiceImpl`, `config/AtividadeConfig` (alterações) e `GET /notificacoes/caixa`.
 - **Frontend:** `public/sw.js`, `public/manifest.webmanifest`, `public/icones/`, `components/notificacoes/NotificacoesConfig.tsx`, `services/NotificacaoService.ts`, `utils/notificacoes.ts`.
 
 ## Versões
@@ -34,6 +38,7 @@ Manda avisos do NordTool direto para o celular (ou computador), mesmo com o app 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-05 | Web Push por aparelho com avisos do cronograma, lembretes de horário e prazo e respostas do SAC | `feature-notificacoes` | [sql#67](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/67), [backend#110](https://github.com/nord-center-org/nord-tool-backend/pull/110), [frontend#157](https://github.com/nord-center-org/nord-tool-frontend/pull/157), [infra#28](https://github.com/nord-center-org/nord-center-infra-agent/pull/28) |
+| [v2](v2.md) | 2026-11-18 | Caixa de notificações para o app Android e aviso de alterações (com quem fez) para administradores | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), [infra#78](https://github.com/nord-center-org/nord-center-infra-agent/pull/78) |
 
 ## Correções
 
