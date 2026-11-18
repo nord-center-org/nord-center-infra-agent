@@ -51,6 +51,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 
 | Data | Branch | O que foi corrigido | PRs |
 |---|---|---|---|
+| 2026-11-18 | `fix-app-android-barra-status` | No Android 15 a barra de horário ficava por cima da página (o app ocupa a tela toda com targetSdk 35). A página agora fica entre as barras: faixa azul em cima e o espaço da navegação e do teclado embaixo. APK 4.0, entregue pela atualização automática da v3. | [frontend#209](https://github.com/nord-center-org/nord-tool-frontend/pull/209), [infra#80](https://github.com/nord-center-org/nord-center-infra-agent/pull/80) |
 
 ## Dependências e impactos
 
