@@ -5,6 +5,7 @@ O NordTool tem um app Android (feature [`app-android`](../features/app-android/R
 ## Como isso é garantido
 
 - O app é uma WebView do NordTool publicado. **Toda mudança do site** (frontend, backend, SQL, `lugia-center`) chega ao app sozinha, depois do deploy, sem novo APK. Quem já instalou também recebe tudo na hora.
+- Desde a v3 o app instalado também se atualiza: ao abrir, confere `public/app/versao.json` e, havendo versão nova, baixa e pede a confirmação da instalação.
 - O APK só precisa ser gerado de novo quando muda **o próprio app**: qualquer arquivo em `nord-tool-frontend/android/`, o endereço publicado do NordTool ou o ícone em `public/icones/`.
 
 ## Regras para toda entrega
@@ -13,6 +14,7 @@ O NordTool tem um app Android (feature [`app-android`](../features/app-android/R
    - aumente `versionCode` (+1) e `versionName` em `android/app/build.gradle`;
    - gere o APK assinado com `./gradlew assembleRelease`;
    - copie o resultado para `public/app/nordtool.apk`;
+   - atualize `public/app/versao.json` com o mesmo `versionCode` e `versionName` (o app instalado lê esse arquivo para se atualizar sozinho; o teste `appAndroidVersao.test.ts` falha se não bater);
    - confira com `apksigner verify` que a assinatura é a mesma da versão anterior.
 2. **Assine sempre com a chave original**, que está com o Nick (`nordtool.jks` + `assinatura.properties`). Ela nunca vai para o repositório. Sem a chave, peça ao Nick; nunca gere uma chave nova, porque o Android recusa instalar a atualização por cima.
 3. **Nova função do site que o app não suporta:** adapte o app na mesma entrega e gere o APK novo. Exemplos: câmera, microfone, notificação, abrir arquivo, compartilhar.
