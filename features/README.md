@@ -6,7 +6,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 
 | Feature | Slug | Versão atual | Repositórios | Status |
 |---|---|---|---|---|
-| App Android | [`app-android`](app-android/README.md) | [v1](app-android/v1.md) | frontend | ativa |
+| App Android | [`app-android`](app-android/README.md) | [v2](app-android/v2.md) | scripts-sql, backend, frontend | ativa |
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Avatar | [`avatar`](avatar/README.md) | [v3](avatar/v3.md) | backend, frontend | ativa |
 | Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v7](bloco-notas/v7.md) | scripts-sql, backend, frontend | ativa |
@@ -18,7 +18,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
 | Lugia | [`lugia`](lugia/README.md) | [v2](lugia/v2.md) | backend, frontend | ativa |
 | Meus dados | [`meus-dados`](meus-dados/README.md) | [v1](meus-dados/v1.md) | backend, frontend | ativa |
-| Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v1](notificacoes/v1.md) | scripts-sql, backend, frontend | ativa |
+| Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v2](notificacoes/v2.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
 | Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v4](relatorio-fotografico/v4.md) | scripts-sql, backend, frontend | ativa |
 | Repertório | [`repertorio`](repertorio/README.md) | [v17](repertorio/v17.md) | scripts-sql, backend, frontend | ativa |
