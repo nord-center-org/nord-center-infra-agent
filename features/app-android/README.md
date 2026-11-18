@@ -20,6 +20,8 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 - **RN-04** Os downloads feitos no app, inclusive os gerados no navegador (PDF, planilhas, imagens), vão para a pasta Downloads do celular. _(v1)_
 - **RN-05** A chave de assinatura nunca vai para o repositório. Toda atualização do APK é assinada com a mesma chave, senão o Android não instala por cima. _(v1)_
 
+- **RN-06** Quem baixa o app recebe sempre todas as funções atuais: as mudanças do site chegam sozinhas pela WebView, e toda mudança no próprio app gera um APK novo no mesmo PR, assinado com a mesma chave ([policies/app-android.md](../../policies/app-android.md)). _(v1)_
+
 ## Onde está no código
 
 - **Frontend:**
