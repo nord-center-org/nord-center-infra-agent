@@ -35,6 +35,10 @@ Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrad
 
 Toda entrega visível para quem usa o NordTool atualiza as novidades da tela inicial (contadas pelo avatar do dono; sem ele, pelo mascote Lugia Nexus); veja `policies/novidades.md`.
 
+## App Android
+
+Quem baixa o app Android tem que receber sempre todas as funções atuais. Toda mudança no próprio app gera um APK novo no mesmo PR; veja `policies/app-android.md`.
+
 ## Objetivo
 
 Começar com um MCP local TypeScript/Node.js via `stdio`; avaliar hospedagem e transporte remoto em fase posterior. Consulte `mcp/README.md` e `roadmap.md` para estado e próximos passos.
