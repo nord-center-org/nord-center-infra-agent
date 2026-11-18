@@ -40,7 +40,7 @@ Define o que cada pessoa pode ver e fazer no NordTool, por módulo e nível (Sem
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | (retroativo) | Acessos por módulo e nível, perfil, cargo, exceções e subacessos do Cronograma | — | — |
-| [v2](v2.md) | 2026-11-18 | Telas sem controle ganham acesso; "Manter conectado no app" | `feature-acessos-v2` | [sql#80](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/80), [backend#131](https://github.com/nord-center-org/nord-tool-backend/pull/131), [frontend#210](https://github.com/nord-center-org/nord-tool-frontend/pull/210), infra#PRINFRA |
+| [v2](v2.md) | 2026-11-18 | Telas sem controle ganham acesso; "Manter conectado no app" | `feature-acessos-v2` | [sql#80](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/80), [backend#131](https://github.com/nord-center-org/nord-tool-backend/pull/131), [frontend#210](https://github.com/nord-center-org/nord-tool-frontend/pull/210), [infra#81](https://github.com/nord-center-org/nord-center-infra-agent/pull/81) |
 
 ## Correções
 
