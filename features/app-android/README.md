@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `app-android` |
 | Status | ativa |
-| Versão atual | [v2](v2.md) |
+| Versão atual | [v3](v3.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Menu lateral > Baixar app Android |
 
@@ -25,13 +25,15 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 - **RN-08** O aparelho é desconectado (e pede a senha de novo) quando a pessoa sai da conta, troca a senha, o administrador encerra as sessões ou reseta a senha, a conta é desativada ou o app fica 60 dias sem uso. Cada pessoa tem no máximo 10 aparelhos. _(v2)_
 - **RN-09** O app fica ativo em segundo plano, com uma notificação fixa "NordTool ativo", e volta sozinho quando o celular reinicia. A cada 30 segundos mostra os avisos novos da caixa de notificações. _(v2)_
 - **RN-10** O token do aparelho fica só no armazenamento privado do app; no servidor fica só o hash. A ponte com a página só responde com o NordTool aberto. _(v2)_
+- **RN-11** Ao abrir o app, ele confere `/app/versao.json`. Havendo versão nova, baixa o APK sozinho e mostra a confirmação de instalação do Android; a pessoa só autoriza. A primeira vez pede a permissão "Instalar apps desconhecidos". _(v3)_
+- **RN-12** `public/app/versao.json` acompanha sempre o `versionCode`/`versionName` do APK publicado; um teste do frontend falha se não acompanhar. _(v3)_
 
 ## Onde está no código
 
 - **Frontend:**
-  - `android/`: projeto Gradle, `MainActivity.java` (WebView e ponte), `ServicoSegundoPlano.java`, `Inicializacao.java`, `Api.java` e `Armazenamento.java`;
+  - `android/`: projeto Gradle, `MainActivity.java` (WebView e ponte), `ServicoSegundoPlano.java`, `Inicializacao.java`, `Atualizador.java`, `Api.java` e `Armazenamento.java`;
   - `services/sessaoApp.ts` e `components/AuthProvider.tsx`: a sessão pelo aparelho;
-  - `public/app/nordtool.apk`: APK publicado;
+  - `public/app/nordtool.apk` e `public/app/versao.json`: APK publicado e a versão dele;
   - `utils/appAndroid.ts`: regra do botão;
   - o botão no rodapé de `components/Layout.tsx`.
 - **Backend:** `/auth/aparelho*` em `AuthWriteController` e `AuthServiceImpl`, `AppAparelhoRepositoryImpl`, `query/app-aparelho.properties`.
@@ -43,6 +45,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-18 | APK em WebView e botão de download no menu lateral | `feature-app-android` | [frontend#206](https://github.com/nord-center-org/nord-tool-frontend/pull/206), [infra#77](https://github.com/nord-center-org/nord-center-infra-agent/pull/77) |
 | [v2](v2.md) | 2026-11-18 | Sessão que não cai, app em segundo plano com avisos e alterações com quem fez | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), [infra#78](https://github.com/nord-center-org/nord-center-infra-agent/pull/78) |
+| [v3](v3.md) | 2026-11-18 | O app se atualiza sozinho (baixa e só pede para confirmar) | `feature-app-android-v3` | [frontend#208](https://github.com/nord-center-org/nord-tool-frontend/pull/208), infra#PRINFRA |
 
 ## Correções
 
