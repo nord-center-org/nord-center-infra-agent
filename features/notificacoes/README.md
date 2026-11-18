@@ -38,7 +38,7 @@ Manda avisos do NordTool direto para o celular (ou computador), mesmo com o app 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-05 | Web Push por aparelho com avisos do cronograma, lembretes de horário e prazo e respostas do SAC | `feature-notificacoes` | [sql#67](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/67), [backend#110](https://github.com/nord-center-org/nord-tool-backend/pull/110), [frontend#157](https://github.com/nord-center-org/nord-tool-frontend/pull/157), [infra#28](https://github.com/nord-center-org/nord-center-infra-agent/pull/28) |
-| [v2](v2.md) | 2026-11-18 | Caixa de notificações para o app Android e aviso de alterações (com quem fez) para administradores | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), infra#PRINFRA |
+| [v2](v2.md) | 2026-11-18 | Caixa de notificações para o app Android e aviso de alterações (com quem fez) para administradores | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), [infra#78](https://github.com/nord-center-org/nord-center-infra-agent/pull/78) |
 
 ## Correções
 
