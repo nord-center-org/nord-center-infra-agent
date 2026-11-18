@@ -32,7 +32,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-11-18 | APK em WebView e botão de download no menu lateral | `feature-app-android` | [frontend#206](https://github.com/nord-center-org/nord-tool-frontend/pull/206), infra#PRINFRA |
+| [v1](v1.md) | 2026-11-18 | APK em WebView e botão de download no menu lateral | `feature-app-android` | [frontend#206](https://github.com/nord-center-org/nord-tool-frontend/pull/206), [infra#77](https://github.com/nord-center-org/nord-center-infra-agent/pull/77) |
 
 ## Correções
 
