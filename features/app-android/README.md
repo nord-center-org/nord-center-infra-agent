@@ -45,7 +45,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-18 | APK em WebView e botão de download no menu lateral | `feature-app-android` | [frontend#206](https://github.com/nord-center-org/nord-tool-frontend/pull/206), [infra#77](https://github.com/nord-center-org/nord-center-infra-agent/pull/77) |
 | [v2](v2.md) | 2026-11-18 | Sessão que não cai, app em segundo plano com avisos e alterações com quem fez | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), [infra#78](https://github.com/nord-center-org/nord-center-infra-agent/pull/78) |
-| [v3](v3.md) | 2026-11-18 | O app se atualiza sozinho (baixa e só pede para confirmar) | `feature-app-android-v3` | [frontend#208](https://github.com/nord-center-org/nord-tool-frontend/pull/208), infra#PRINFRA |
+| [v3](v3.md) | 2026-11-18 | O app se atualiza sozinho (baixa e só pede para confirmar) | `feature-app-android-v3` | [frontend#208](https://github.com/nord-center-org/nord-tool-frontend/pull/208), [infra#79](https://github.com/nord-center-org/nord-center-infra-agent/pull/79) |
 
 ## Correções
 
