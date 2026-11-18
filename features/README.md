@@ -6,6 +6,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 
 | Feature | Slug | Versão atual | Repositórios | Status |
 |---|---|---|---|---|
+| Acessos | [`acessos`](acessos/README.md) | [v2](acessos/v2.md) | scripts-sql, backend, frontend | ativa |
 | App Android | [`app-android`](app-android/README.md) | [v3](app-android/v3.md) | scripts-sql, backend, frontend | ativa |
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Avatar | [`avatar`](avatar/README.md) | [v3](avatar/v3.md) | backend, frontend | ativa |
@@ -30,7 +31,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 
 Estas telas já existiam no app quando o registro começou (rotas do frontend em 2026-10-30) e ainda não têm pasta. Um pedido que mexa em uma delas é tratado como legado: registre o estado atual em `v1.md` retroativo e entregue o pedido como v2, conforme a policy.
 
-- Autenticação e conta: `/login`, `/cadastro`, `/esqueci-senha`, `/redefinir-senha`, `/configuracoes`
+- Autenticação e conta: `/login`, `/cadastro`, `/esqueci-senha`, `/redefinir-senha`, `/configuracoes` (exceto Acessos, registrado em `acessos`)
 - Início e painel: `/`, `/dashboard`
 - `/apartamentos`, `/entregas`, `/treinamentos`
 - Gestão: `/gestao/academico`, `/gestao/caixinha`, `/gestao/casamento`, `/gestao/financeiro`, `/gestao/treinos`

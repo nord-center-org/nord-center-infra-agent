@@ -27,6 +27,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 - **RN-10** O token do aparelho fica só no armazenamento privado do app; no servidor fica só o hash. A ponte com a página só responde com o NordTool aberto. _(v2)_
 - **RN-11** Ao abrir o app, ele confere `/app/versao.json`. Havendo versão nova, baixa o APK sozinho e mostra a confirmação de instalação do Android; a pessoa só autoriza. A primeira vez pede a permissão "Instalar apps desconhecidos". _(v3)_
 - **RN-12** `public/app/versao.json` acompanha sempre o `versionCode`/`versionName` do APK publicado; um teste do frontend falha se não acompanhar. _(v3)_
+- **RN-13** A sessão que não cai depende do acesso "Manter conectado no app" (feature [acessos](../acessos/README.md)). Sem ele, o app pede a senha como o navegador. _(acessos v2)_
 
 ## Onde está no código
 
