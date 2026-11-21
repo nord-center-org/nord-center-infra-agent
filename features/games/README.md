@@ -43,7 +43,7 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-11-21 | Fase 1: Central de Jogos, motor 2D, sintetizador e Bombas Táticas contra bots | `feature-games` | [sql#81](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/81), [backend#132](https://github.com/nord-center-org/nord-tool-backend/pull/132), [frontend#212](https://github.com/nord-center-org/nord-tool-frontend/pull/212), infra#PRINFRA |
+| [v1](v1.md) | 2026-11-21 | Fase 1: Central de Jogos, motor 2D, sintetizador e Bombas Táticas contra bots | `feature-games` | [sql#81](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/81), [backend#132](https://github.com/nord-center-org/nord-tool-backend/pull/132), [frontend#212](https://github.com/nord-center-org/nord-tool-frontend/pull/212), [infra#82](https://github.com/nord-center-org/nord-center-infra-agent/pull/82) |
 
 ## Correções
 
