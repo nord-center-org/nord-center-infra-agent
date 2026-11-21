@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v1](v1.md) |
+| Versão atual | [v2](v2.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -29,6 +29,12 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - modos Sobrevivência, Times (vagas ímpares contra pares) e Caça às Moedas (2 min; morrer derruba até 3 moedas);
   - biomas Fábrica, Gelo e Vulcão;
   - 2 a 8 jogadores. _(v1)_
+- **RN-08** Cada partida jogada por quem está logado vai para a própria conta: jogo, modo, pontos, vitória, colocação, jogadores, bots, dificuldade e duração. Nunca se registra partida em nome de outra pessoa. _(v2)_
+- **RN-09** Pontos do Bombas Táticas: 100 por rodada vencida + 300 por vencer a partida + 25 por adversário, vezes o peso dos bots (Fácil 1, Médio 2, Difícil 3; sem bots, 2). O recorde é a maior pontuação numa partida. _(v2)_
+- **RN-10** Ranking de cada jogo: top 10 das pessoas ativas, por vitórias, depois recorde, depois menos partidas. _(v2)_
+- **RN-11** Nove conquistas, ganhas uma vez só: Primeiro controle, Primeira vitória, Dez na conta, Veterano (50 vitórias), Maratonista (100 partidas), Explorador (5 jogos), Sem moleza (vencer no Difícil), Casa cheia (vencer com 8) e Campeão da Copa. _(v2)_
+- **RN-12** Modo Copa: 3, 5 ou 7 partidas com as mesmas vagas. Pontos por colocação 10, 7, 5, 3, 2, 1, 1, 1; o vencedor da partida é o 1º e os demais vão pelas vitórias de rodada (empate divide a colocação). Desempate da Copa: mais 1º lugares, depois mais 2º, depois a ordem das vagas. O fim mostra o pódio e salva a Copa no histórico. _(v2)_
+- **RN-13** Os favoritos da Central ficam na conta (até 21), com cópia no navegador. Se a conta ainda não tem favoritos, os do navegador sobem para ela. _(v2)_
 
 ## Onde está no código
 
@@ -36,14 +42,15 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - `pages/Games.tsx`;
   - `components/games/`: `motor2d`, `audio`, `entrada`, `central` e `jogos/<jogo>`;
   - `utils/games/`: regras puras, com teste.
-- **Backend:** `Modulo.GAMES`.
-- **SQL:** `DML/10.acesso_games_dml.sql`.
+- **Backend:** `Modulo.GAMES`; `GameServiceImpl`, `GameRepositoryImpl`, `query/game.properties` e os controllers em `/api/v1/nord-tool/games` (`partidas`, `resumo`, `conquistas`, `favoritos`, `copas`).
+- **SQL:** `DML/10.acesso_games_dml.sql`; `DDL/77.games_ddl.sql` (`game_partida`, `game_conquista`, `game_favorito`, `game_copa`).
 
 ## Versões
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-21 | Fase 1: Central de Jogos, motor 2D, sintetizador e Bombas Táticas contra bots | `feature-games` | [sql#81](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/81), [backend#132](https://github.com/nord-center-org/nord-tool-backend/pull/132), [frontend#212](https://github.com/nord-center-org/nord-tool-frontend/pull/212), [infra#82](https://github.com/nord-center-org/nord-center-infra-agent/pull/82) |
+| [v2](v2.md) | 2026-11-21 | Fase 2: recordes, ranking, conquistas, histórico, favoritos na conta e Modo Copa | `feature-games-v2` | [sql#82](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/82), [backend#133](https://github.com/nord-center-org/nord-tool-backend/pull/133), [frontend#213](https://github.com/nord-center-org/nord-tool-frontend/pull/213), infra (este PR) |
 
 ## Correções
 
