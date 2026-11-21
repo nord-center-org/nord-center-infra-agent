@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v5](v5.md) |
+| Versão atual | [v6](v6.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -45,6 +45,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 - **RN-21** Os personagens dos jogos são os avatares de corpo inteiro, no estilo pixel do NordTool: a cabeça do avatar da pessoa, a roupa da função e o corpo desenhados por código, com animações de parado, andando nas 4 direções (de costas quando sobe), caindo e comemorando. _(v4)_
 - **RN-22** Sumô dos Hexágonos (3D), com as regras do gênero: na Queda, o piso pisado brilha, racha e cai cerca de 0,7 s depois; são 3 camadas, quem cai vai para a de baixo e quem cai da última está fora. No Sumô, uma camada só, cuja borda desmorona a cada 7 s, e o dash (com recarga) empurra os rivais para fora. Pulo atravessa buracos. Vence o último em pé; no fim do tempo, quem estiver mais alto. Sozinho: sobreviver 60 s. _(v5)_
 - **RN-23** Todo jogo novo usa a mesma moldura de partida (rodadas, contagem, pausa, placar, fim, Copa, recorde e controles de teclado, toque e celular) e entra no registro de jogos jogáveis com modos, modo solo, cenários e os rótulos dos botões A/B. Um teste falha se o catálogo e o registro divergirem ou se faltar modo solo. _(v5)_
+- **RN-24** Encaixe Versus, com as regras do gênero:
+  - tabuleiro 10 × 20; as 7 peças vêm em sacos de 7, na mesma sequência para todos;
+  - rotação com chutes de parede, segurar peça (uma vez por peça), fantasma, queda rápida e suave, repetição ao segurar a seta e atraso de trava;
+  - Versus: 2 linhas mandam 1 de lixo, 3 mandam 2 e 4 mandam 4, mais bônus de combo, de 4 linhas seguidas e de tabuleiro limpo. O lixo vai para os rivais em rodízio, limpar linhas cancela o lixo pendente, e quem chega ao topo está fora;
+  - Sprint: 40 linhas. Sozinho: Maratona (50 linhas, a velocidade sobe a cada 10) ou Sprint;
+  - placar do próprio jogo vai para o recorde. _(v6)_
+- **RN-25** Nos controles, um toque rápido numa seta conta como um movimento, mesmo se soltar antes do próximo passo, como já acontecia com os botões. _(v6)_
 
 ## Onde está no código
 
@@ -66,7 +73,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v2](v2.md) | 2026-11-21 | Fase 2: recordes, ranking, conquistas, histórico, favoritos na conta e Modo Copa | `feature-games-v2` | [sql#82](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/82), [backend#133](https://github.com/nord-center-org/nord-tool-backend/pull/133), [frontend#213](https://github.com/nord-center-org/nord-tool-frontend/pull/213), [infra#83](https://github.com/nord-center-org/nord-center-infra-agent/pull/83) |
 | [v3](v3.md) | 2026-11-21 | Fase 3: multiplayer com o celular como controle (WebSocket, QR Code, reconexão, até 8) | `feature-games-v3` | [backend#134](https://github.com/nord-center-org/nord-tool-backend/pull/134), [frontend#214](https://github.com/nord-center-org/nord-tool-frontend/pull/214), [infra#84](https://github.com/nord-center-org/nord-center-infra-agent/pull/84) |
 | [v4](v4.md) | 2026-11-21 | Modo Tela (servidor), avatares de corpo inteiro animados, 1 a 8 em todos os jogos (Bombas sozinho) e visual gamer | `feature-games-v4` | [frontend#216](https://github.com/nord-center-org/nord-tool-frontend/pull/216), [infra#86](https://github.com/nord-center-org/nord-center-infra-agent/pull/86) |
-| [v5](v5.md) | 2026-11-21 | Motor 3D e Sumô dos Hexágonos; base genérica dos jogos (moldura, registro) | `feature-games-v5` | frontend (link no PR), infra (este PR) |
+| [v5](v5.md) | 2026-11-21 | Motor 3D e Sumô dos Hexágonos; base genérica dos jogos (moldura, registro) | `feature-games-v5` | [frontend#217](https://github.com/nord-center-org/nord-tool-frontend/pull/217), [infra#87](https://github.com/nord-center-org/nord-center-infra-agent/pull/87) |
+| [v6](v6.md) | 2026-11-21 | Encaixe Versus (puzzle de peças que caem, até 8) | `feature-games-v6` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
