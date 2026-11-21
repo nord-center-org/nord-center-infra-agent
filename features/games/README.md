@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v4](v4.md) |
+| Versão atual | [v5](v5.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -43,6 +43,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 - **RN-19** Bombas Táticas sozinho (0 bots): Sobrevivência vira o Desafio (explodir todas as caixas antes do tempo, sem cair) e Caça às Moedas vira a meta de 10 moedas em 2 minutos. Cada tentativa fecha a partida e vai para a conta. A quantidade de bots é escolhida de 0 a 7, até completar 8 na arena. _(v4)_
 - **RN-20** Modo Tela: o tablet, a TV ou o computador vira o servidor da jogatina, com a sala aberta, o QR Code e o código em tamanho grande. Por padrão a tela não joga (dá para marcar "Eu também jogo nesta tela"); ao sair do Modo Tela, a sala fecha. _(v4)_
 - **RN-21** Os personagens dos jogos são os avatares de corpo inteiro, no estilo pixel do NordTool: a cabeça do avatar da pessoa, a roupa da função e o corpo desenhados por código, com animações de parado, andando nas 4 direções (de costas quando sobe), caindo e comemorando. _(v4)_
+- **RN-22** Sumô dos Hexágonos (3D), com as regras do gênero: na Queda, o piso pisado brilha, racha e cai cerca de 0,7 s depois; são 3 camadas, quem cai vai para a de baixo e quem cai da última está fora. No Sumô, uma camada só, cuja borda desmorona a cada 7 s, e o dash (com recarga) empurra os rivais para fora. Pulo atravessa buracos. Vence o último em pé; no fim do tempo, quem estiver mais alto. Sozinho: sobreviver 60 s. _(v5)_
+- **RN-23** Todo jogo novo usa a mesma moldura de partida (rodadas, contagem, pausa, placar, fim, Copa, recorde e controles de teclado, toque e celular) e entra no registro de jogos jogáveis com modos, modo solo, cenários e os rótulos dos botões A/B. Um teste falha se o catálogo e o registro divergirem ou se faltar modo solo. _(v5)_
 
 ## Onde está no código
 
@@ -53,6 +55,7 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 - **Backend:** `Modulo.GAMES`; `GameServiceImpl`, `GameRepositoryImpl`, `query/game.properties` e os controllers em `/api/v1/nord-tool/games` (`partidas`, `resumo`, `conquistas`, `favoritos`, `copas`).
 - **SQL:** `DML/10.acesso_games_dml.sql`; `DDL/77.games_ddl.sql` (`game_partida`, `game_conquista`, `game_favorito`, `game_copa`).
 - **Multiplayer (v3):** `GameSalaServiceImpl`, `websocket/GameSalaWebSocketHandler`, `config/WebSocketConfig` e `POST /games/salas`; no frontend, `pages/GamesControle.tsx`, `components/games/rede/ClienteSala.ts`, `components/games/central/SalaPainel.tsx`, `utils/games/sala.ts` e `utils/games/qrcode.ts`.
+- **Base dos jogos e 3D (v5):** `components/games/comum/MolduraPartida.tsx` (moldura + contrato `MotorJogo`), `utils/games/registroJogos.ts`, `utils/games/hexagonos.ts` (regras) e `components/games/jogos/hexagonos/` (motor 3D e tela).
 - **Visual e corpo (v4):** `utils/games/corpo.ts` (avatar de corpo inteiro), `components/games/central/sprites.ts` (`folhaDoCorpo`, `desenharCorpo`), `AvatarCorpo.tsx`, `FundoGamer.tsx`, `ConfigPartida.tsx`, `ModoTela.tsx` e `utils/games/configBombas.ts`.
 
 ## Versões
@@ -62,7 +65,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v1](v1.md) | 2026-11-21 | Fase 1: Central de Jogos, motor 2D, sintetizador e Bombas Táticas contra bots | `feature-games` | [sql#81](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/81), [backend#132](https://github.com/nord-center-org/nord-tool-backend/pull/132), [frontend#212](https://github.com/nord-center-org/nord-tool-frontend/pull/212), [infra#82](https://github.com/nord-center-org/nord-center-infra-agent/pull/82) |
 | [v2](v2.md) | 2026-11-21 | Fase 2: recordes, ranking, conquistas, histórico, favoritos na conta e Modo Copa | `feature-games-v2` | [sql#82](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/82), [backend#133](https://github.com/nord-center-org/nord-tool-backend/pull/133), [frontend#213](https://github.com/nord-center-org/nord-tool-frontend/pull/213), [infra#83](https://github.com/nord-center-org/nord-center-infra-agent/pull/83) |
 | [v3](v3.md) | 2026-11-21 | Fase 3: multiplayer com o celular como controle (WebSocket, QR Code, reconexão, até 8) | `feature-games-v3` | [backend#134](https://github.com/nord-center-org/nord-tool-backend/pull/134), [frontend#214](https://github.com/nord-center-org/nord-tool-frontend/pull/214), [infra#84](https://github.com/nord-center-org/nord-center-infra-agent/pull/84) |
-| [v4](v4.md) | 2026-11-21 | Modo Tela (servidor), avatares de corpo inteiro animados, 1 a 8 em todos os jogos (Bombas sozinho) e visual gamer | `feature-games-v4` | frontend (link no PR), infra (este PR) |
+| [v4](v4.md) | 2026-11-21 | Modo Tela (servidor), avatares de corpo inteiro animados, 1 a 8 em todos os jogos (Bombas sozinho) e visual gamer | `feature-games-v4` | [frontend#216](https://github.com/nord-center-org/nord-tool-frontend/pull/216), [infra#86](https://github.com/nord-center-org/nord-center-infra-agent/pull/86) |
+| [v5](v5.md) | 2026-11-21 | Motor 3D e Sumô dos Hexágonos; base genérica dos jogos (moldura, registro) | `feature-games-v5` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
