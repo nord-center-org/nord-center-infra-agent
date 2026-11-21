@@ -7,7 +7,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Feature | Slug | Versão atual | Repositórios | Status |
 |---|---|---|---|---|
 | Acessos | [`acessos`](acessos/README.md) | [v2](acessos/v2.md) | scripts-sql, backend, frontend | ativa |
-| App Android | [`app-android`](app-android/README.md) | [v3](app-android/v3.md) | scripts-sql, backend, frontend | ativa |
+| App Android | [`app-android`](app-android/README.md) | [v4](app-android/v4.md) | scripts-sql, backend, frontend | ativa |
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Avatar | [`avatar`](avatar/README.md) | [v3](avatar/v3.md) | backend, frontend | ativa |
 | Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v7](bloco-notas/v7.md) | scripts-sql, backend, frontend | ativa |
