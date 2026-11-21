@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `app-android` |
 | Status | ativa |
-| Versão atual | [v3](v3.md) |
+| Versão atual | [v4](v4.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Menu lateral > Baixar app Android |
 
@@ -28,6 +28,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 - **RN-11** Ao abrir o app, ele confere `/app/versao.json`. Havendo versão nova, baixa o APK sozinho e mostra a confirmação de instalação do Android; a pessoa só autoriza. A primeira vez pede a permissão "Instalar apps desconhecidos". _(v3)_
 - **RN-12** `public/app/versao.json` acompanha sempre o `versionCode`/`versionName` do APK publicado; um teste do frontend falha se não acompanhar. _(v3)_
 - **RN-13** A sessão que não cai depende do acesso "Manter conectado no app" (feature [acessos](../acessos/README.md)). Sem ele, o app pede a senha como o navegador. _(acessos v2)_
+- **RN-14** Dentro do app, Configurações → App Android mostra a versão instalada e a publicada e o botão "Verificar atualizações", que confere na hora e sempre responde: baixa a versão nova e pede a autorização, avisa que já está na mais nova ou que está sem conexão. App anterior ao 5.0 (sem a ponte nova) vê "Baixar atualização", que baixa o APK para instalar por cima. Fora do app a seção não aparece. _(v4)_
 
 ## Onde está no código
 
@@ -47,6 +48,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 | [v1](v1.md) | 2026-11-18 | APK em WebView e botão de download no menu lateral | `feature-app-android` | [frontend#206](https://github.com/nord-center-org/nord-tool-frontend/pull/206), [infra#77](https://github.com/nord-center-org/nord-center-infra-agent/pull/77) |
 | [v2](v2.md) | 2026-11-18 | Sessão que não cai, app em segundo plano com avisos e alterações com quem fez | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), [infra#78](https://github.com/nord-center-org/nord-center-infra-agent/pull/78) |
 | [v3](v3.md) | 2026-11-18 | O app se atualiza sozinho (baixa e só pede para confirmar) | `feature-app-android-v3` | [frontend#208](https://github.com/nord-center-org/nord-tool-frontend/pull/208), [infra#79](https://github.com/nord-center-org/nord-center-infra-agent/pull/79) |
+| [v4](v4.md) | 2026-11-21 | Botão "Verificar atualizações" nas Configurações (app 5.0) | `feature-app-android-v4` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
