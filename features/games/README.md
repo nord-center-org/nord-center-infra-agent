@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v8](v8.md) |
+| Versão atual | [v9](v9.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -68,6 +68,17 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - quem perde a frota inteira está fora e vence a última frota; com 6 minutos de batalha, vence a frota com mais partes intactas (no empate, quem acertou mais);
   - sozinho: Caçada, que é afundar a frota escondida em até 60 tiros. _(v8)_
 
+- **RN-28** Cartas da Virada, com as regras do gênero de descarte por cor ou número:
+  - baralho de 108 cartas, 7 por jogador (5 no Rápido); a mesa começa sempre com um número;
+  - descarta-se uma carta da mesma cor, número ou símbolo; o Coringa troca a cor; o +4 também, e só vale sem carta da cor da mesa;
+  - sem jogada, compra-se uma, e a comprada pode ser jogada na hora se servir;
+  - Pular: o próximo perde a vez. Inverter: muda o sentido (com 2 jogadores, vale como Pular). +2/+4: o próximo compra e perde a vez;
+  - quem fica com uma carta avisa VIRADA! (seta para cima) até 2 s depois de jogar; sem aviso, compra 2;
+  - Empilhamento Caótico: +2/+4 acumulam (+2 sobre +2; +4 sobre qualquer compra), e quem não empilha compra tudo; o 7 troca a mão com quem tem menos cartas e o 0 passa todas as mãos no sentido do jogo. Rápido: 5 cartas e 8 s por vez (20 s nos outros modos; quando o tempo acaba, compra e passa);
+  - vence a rodada quem zera a mão e leva os pontos das cartas dos rivais: o número vale o próprio valor, a ação 20 e o coringa 50;
+  - sozinho, joga contra 3 bots;
+  - quem joga pelo celular vê a própria mão só no celular, e a tela mostra apenas o verso das cartas. _(v9)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -91,7 +102,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v5](v5.md) | 2026-11-21 | Motor 3D e Sumô dos Hexágonos; base genérica dos jogos (moldura, registro) | `feature-games-v5` | [frontend#217](https://github.com/nord-center-org/nord-tool-frontend/pull/217), [infra#87](https://github.com/nord-center-org/nord-center-infra-agent/pull/87) |
 | [v6](v6.md) | 2026-11-21 | Encaixe Versus (puzzle de peças que caem, até 8) | `feature-games-v6` | [frontend#218](https://github.com/nord-center-org/nord-tool-frontend/pull/218), [infra#88](https://github.com/nord-center-org/nord-center-infra-agent/pull/88) |
 | [v7](v7.md) | 2026-11-22 | Duelo ao Meio-Dia (reflexo de faroeste, duelo, torneio e treino) | `feature-games-v7` | [frontend#219](https://github.com/nord-center-org/nord-tool-frontend/pull/219), [infra#89](https://github.com/nord-center-org/nord-center-infra-agent/pull/89) |
-| [v8](v8.md) | 2026-11-22 | Guerra Naval (batalha naval por turnos, até 8 frotas) | `feature-games-v8` | [frontend#220](https://github.com/nord-center-org/nord-tool-frontend/pull/220), infra (este PR) |
+| [v8](v8.md) | 2026-11-22 | Guerra Naval (batalha naval por turnos, até 8 frotas) | `feature-games-v8` | [frontend#220](https://github.com/nord-center-org/nord-tool-frontend/pull/220), [infra#90](https://github.com/nord-center-org/nord-center-infra-agent/pull/90) |
+| [v9](v9.md) | 2026-11-22 | Cartas da Virada (descarte por cor ou número, mão no celular) | `feature-games-v9` | [frontend#221](https://github.com/nord-center-org/nord-tool-frontend/pull/221), infra (este PR) |
 
 ## Correções
 
