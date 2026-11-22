@@ -74,7 +74,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v14 | Coroa Maldita | pronto |
 | v15 | Corrida Espacial | pronto |
 | v16 | Torres em Colapso | pronto |
-| v17+ | os 10 restantes | a fazer, na ordem da tabela seguinte (a partir de `defesa`) |
+| v17 | Defesa de Base | pronto |
+| v18+ | os 9 restantes | a fazer, na ordem da tabela seguinte (a partir de `pescaria`) |
 
 ## Próximos jogos e regras do gênero
 
