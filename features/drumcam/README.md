@@ -45,7 +45,7 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
-| [v1](v1.md) | 2026-11-22 | App câmera + controle no mesmo Wi-Fi, com publicação no YouTube | `feature-drumcam` | frontend e infra (links no v1.md) |
+| [v1](v1.md) | 2026-11-22 | App câmera + controle no mesmo Wi-Fi, com publicação no YouTube | `feature-drumcam` | [frontend#232](https://github.com/nord-center-org/nord-tool-frontend/pull/232), [infra#103](https://github.com/nord-center-org/nord-center-infra-agent/pull/103) |
 
 ## Correções
 
