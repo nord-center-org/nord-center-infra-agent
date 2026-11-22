@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v10](v10.md) |
+| Versão atual | [v11](v11.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -90,6 +90,19 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - na tela, o 1º controle livre joga junto com quem está nela, e os outros podem entrar como jogadores próprios;
   - no celular usado como controle, o gamepad conectado nele também comanda. _(v10)_
 
+- **RN-32** Jogando com celulares, cada celular mostra o jogo inteiro rodando, com o controle embaixo, e dá para jogar sem TV:
+  - a tela de quem hospeda roda a partida e manda os quadros;
+  - o celular desenha o mesmo jogo, com sons, efeitos, placar, contagem e as telas de fim;
+  - um botão no celular alterna para ver só o controle. _(v11)_
+- **RN-33** A transmissão para os celulares não pode gerar custo nem passar por servidores de fora:
+  - no mesmo Wi-Fi, a conexão é direta entre os aparelhos (WebRTC só pela rede local, sem STUN/TURN);
+  - sem ela, os quadros passam pela sala do NordTool em ritmo menor;
+  - o celular mostra o caminho em uso. _(v11)_
+- **RN-34** Cada celular recebe só o que o jogador dele pode ver:
+  - nas Cartas, só a própria mão;
+  - na Guerra Naval, só a própria frota, que aparece somente no celular do dono;
+  - nas Bombas, nada do que está escondido nas caixas. _(v11)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -115,7 +128,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v7](v7.md) | 2026-11-22 | Duelo ao Meio-Dia (reflexo de faroeste, duelo, torneio e treino) | `feature-games-v7` | [frontend#219](https://github.com/nord-center-org/nord-tool-frontend/pull/219), [infra#89](https://github.com/nord-center-org/nord-center-infra-agent/pull/89) |
 | [v8](v8.md) | 2026-11-22 | Guerra Naval (batalha naval por turnos, até 8 frotas) | `feature-games-v8` | [frontend#220](https://github.com/nord-center-org/nord-tool-frontend/pull/220), [infra#90](https://github.com/nord-center-org/nord-center-infra-agent/pull/90) |
 | [v9](v9.md) | 2026-11-22 | Cartas da Virada (descarte por cor ou número, mão no celular) | `feature-games-v9` | [frontend#221](https://github.com/nord-center-org/nord-tool-frontend/pull/221), [infra#91](https://github.com/nord-center-org/nord-center-infra-agent/pull/91) |
-| [v10](v10.md) | 2026-11-22 | Controles configuráveis, controle de videogame e direcional do celular mais firme | `feature-games-v10` | [frontend#222](https://github.com/nord-center-org/nord-tool-frontend/pull/222), infra (este PR) |
+| [v10](v10.md) | 2026-11-22 | Controles configuráveis, controle de videogame e direcional do celular mais firme | `feature-games-v10` | [frontend#222](https://github.com/nord-center-org/nord-tool-frontend/pull/222), [infra#92](https://github.com/nord-center-org/nord-center-infra-agent/pull/92) |
+| [v11](v11.md) | 2026-11-22 | O jogo inteiro em cada celular (espelho por conexão direta no Wi-Fi) | `feature-games-v11` | [backend#136](https://github.com/nord-center-org/nord-tool-backend/pull/136), [frontend#223](https://github.com/nord-center-org/nord-tool-frontend/pull/223), infra (este PR) |
 
 ## Correções
 
