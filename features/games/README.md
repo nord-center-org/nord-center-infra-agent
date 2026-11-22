@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v7](v7.md) |
+| Versão atual | [v8](v8.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -60,6 +60,14 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - Duelo: até 8 de uma vez, cada um com a sua garrafa. Torneio: chave eliminatória em pares até o campeão. Sozinho: Treino de reflexo com 5 tiros, e média abaixo de 450 ms vence;
   - pontos por reação (1000 − ms, mínimo 50) vão para o recorde. _(v7)_
 
+- **RN-27** Guerra Naval, com as regras do gênero de batalha naval:
+  - cada frota tem 5 navios (5, 4, 3, 3 e 2) sorteados numa grade 10 × 10, sem se encostarem; com 5 ou mais frotas, 4 navios (4, 3, 3 e 2);
+  - na sua vez, mira-se numa frota rival e atira-se: água, acerto ou "afundou", sempre anunciado;
+  - Clássico: um tiro por vez. Salva: um tiro por navio de pé. Especiais: mais um sonar (conta partes intactas num 3 × 3) e um bombardeio em cruz (5 casas), uma vez cada; usar um especial gasta a vez;
+  - a vez tem 20 s (na Salva, 40 s); se acabar, sai um tiro automático;
+  - quem perde a frota inteira está fora e vence a última frota; com 6 minutos de batalha, vence a frota com mais partes intactas;
+  - sozinho: Caçada, que é afundar a frota escondida em até 60 tiros. _(v8)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -82,7 +90,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v4](v4.md) | 2026-11-21 | Modo Tela (servidor), avatares de corpo inteiro animados, 1 a 8 em todos os jogos (Bombas sozinho) e visual gamer | `feature-games-v4` | [frontend#216](https://github.com/nord-center-org/nord-tool-frontend/pull/216), [infra#86](https://github.com/nord-center-org/nord-center-infra-agent/pull/86) |
 | [v5](v5.md) | 2026-11-21 | Motor 3D e Sumô dos Hexágonos; base genérica dos jogos (moldura, registro) | `feature-games-v5` | [frontend#217](https://github.com/nord-center-org/nord-tool-frontend/pull/217), [infra#87](https://github.com/nord-center-org/nord-center-infra-agent/pull/87) |
 | [v6](v6.md) | 2026-11-21 | Encaixe Versus (puzzle de peças que caem, até 8) | `feature-games-v6` | [frontend#218](https://github.com/nord-center-org/nord-tool-frontend/pull/218), [infra#88](https://github.com/nord-center-org/nord-center-infra-agent/pull/88) |
-| [v7](v7.md) | 2026-11-22 | Duelo ao Meio-Dia (reflexo de faroeste, duelo, torneio e treino) | `feature-games-v7` | [frontend#219](https://github.com/nord-center-org/nord-tool-frontend/pull/219), infra (este PR) |
+| [v7](v7.md) | 2026-11-22 | Duelo ao Meio-Dia (reflexo de faroeste, duelo, torneio e treino) | `feature-games-v7` | [frontend#219](https://github.com/nord-center-org/nord-tool-frontend/pull/219), [infra#89](https://github.com/nord-center-org/nord-center-infra-agent/pull/89) |
+| [v8](v8.md) | 2026-11-22 | Guerra Naval (batalha naval por turnos, até 8 frotas) | `feature-games-v8` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
