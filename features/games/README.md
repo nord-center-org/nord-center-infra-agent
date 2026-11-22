@@ -5,6 +5,7 @@
 | Slug | `games` |
 | Status | ativa |
 | Versão atual | [v12](v12.md) |
+| Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
