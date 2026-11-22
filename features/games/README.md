@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v12](v12.md) |
+| Versão atual | [v13](v13.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -112,6 +112,15 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - modos: Ondas (até a 10ª; sozinho, até a 5ª), Resgate (levar 3 sobreviventes ao centro da casa) e Chefão (3 ondas e um gigante que investe e chama reforços);
   - a noite é escura e cada jogador ilumina com a lanterna; a mira ajuda a achar o zumbi à frente. _(v12)_
 
+- **RN-36** Fuga da Masmorra, com as regras do gênero roguelite de salas:
+  - masmorra sorteada a cada partida, com salas ligadas por portas, do início até o guardião;
+  - ao entrar numa sala com monstros (slime, morcego, esqueleto), as portas trancam até todos caírem;
+  - a sala do guardião só abre com a chave, que aparece numa sala fora do caminho principal depois de limpa;
+  - há baús com melhorias (coração, vida máxima, dano, velocidade), moedas e espinhos que sobem e descem;
+  - o jogador ataca com a espada (A) em arco à frente e se esquiva (B), ficando invulnerável por um instante; começa com 3 corações;
+  - quem zera vira fantasma e volta com 1 coração quando a sala for limpa; todos fantasmas encerram a fuga;
+  - derrotar o guardião vence; no Desafio Diário, a masmorra é a mesma para todos no dia. _(v13)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -139,7 +148,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v9](v9.md) | 2026-11-22 | Cartas da Virada (descarte por cor ou número, mão no celular) | `feature-games-v9` | [frontend#221](https://github.com/nord-center-org/nord-tool-frontend/pull/221), [infra#91](https://github.com/nord-center-org/nord-center-infra-agent/pull/91) |
 | [v10](v10.md) | 2026-11-22 | Controles configuráveis, controle de videogame e direcional do celular mais firme | `feature-games-v10` | [frontend#222](https://github.com/nord-center-org/nord-tool-frontend/pull/222), [infra#92](https://github.com/nord-center-org/nord-center-infra-agent/pull/92) |
 | [v11](v11.md) | 2026-11-22 | O jogo inteiro em cada celular (espelho por conexão direta no Wi-Fi) | `feature-games-v11` | [backend#136](https://github.com/nord-center-org/nord-tool-backend/pull/136), [frontend#223](https://github.com/nord-center-org/nord-tool-frontend/pull/223), [infra#93](https://github.com/nord-center-org/nord-center-infra-agent/pull/93) |
-| [v12](v12.md) | 2026-11-22 | Horda Zumbi (sobrevivência cooperativa, 1 a 8) | `feature-games-v12` | frontend (link no PR), infra (este PR) |
+| [v12](v12.md) | 2026-11-22 | Horda Zumbi (sobrevivência cooperativa, 1 a 8) | `feature-games-v12` | [frontend#224](https://github.com/nord-center-org/nord-tool-frontend/pull/224), [infra#95](https://github.com/nord-center-org/nord-center-infra-agent/pull/95) |
+| [v13](v13.md) | 2026-11-22 | Fuga da Masmorra (roguelite de salas em equipe, 1 a 8) | `feature-games-v13` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
