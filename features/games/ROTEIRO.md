@@ -72,7 +72,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v12 | Horda Zumbi | pronto |
 | v13 | Fuga da Masmorra | pronto |
 | v14 | Coroa Maldita | pronto |
-| v15+ | os 12 restantes | a fazer, na ordem da tabela seguinte (a partir de `espacial`) |
+| v15 | Corrida Espacial | pronto |
+| v16+ | os 11 restantes | a fazer, na ordem da tabela seguinte (a partir de `torres`) |
 
 ## Próximos jogos e regras do gênero
 
@@ -97,6 +98,11 @@ As regras estão resumidas para cada agente seguir; os modos vêm do catálogo (
 | 15 | `chefao` | Chefão Colossal | Cooperativo contra um chefe gigante com fases e padrões de ataque. |
 
 Depois dos jogos vem uma fase de acabamento: revisar os jogos um por um com o Nick.
+
+## Itens para o acabamento
+
+- **Corrida Espacial:** os bots ainda explodem cerca de 8 vezes em 90 s nos Asteroides; calibrar o desvio.
+- **Jogos cooperativos (Horda, Masmorra):** o cartão de fim da moldura diz "Empate!" quando o time perde; trocar por um texto de equipe.
 
 ## Pendências com o Nick (perguntar quando ele aparecer)
 
