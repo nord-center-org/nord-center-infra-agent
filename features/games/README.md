@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v13](v13.md) |
+| Versão atual | [v14](v14.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -121,6 +121,12 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - quem zera vira fantasma e volta com 1 coração quando a sala for limpa; todos fantasmas encerram a fuga;
   - derrotar o guardião vence; no Desafio Diário, a masmorra é a mesma para todos no dia. _(v13)_
 
+- **RN-37** Coroa Maldita, com as regras do gênero de pique-pega de plataforma:
+  - visão lateral, com pulo, pulo duplo no ar, descer da plataforma e investida; quem cai em cima de outro jogador o atordoa por meio segundo;
+  - modo Coroa: quem encosta em quem está com a coroa rouba (quem acabou de pegar fica protegido por 1 s), quem está com a coroa anda um pouco mais devagar e vence quem somar mais tempo com ela em 90 s;
+  - modo Pega-Pega: a bomba passa por toque, explode a cada 20 s e tira do jogo quem está com ela; o último que sobra vence;
+  - sozinho: pegar 20 moedas em 60 s. _(v14)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -149,7 +155,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v10](v10.md) | 2026-11-22 | Controles configuráveis, controle de videogame e direcional do celular mais firme | `feature-games-v10` | [frontend#222](https://github.com/nord-center-org/nord-tool-frontend/pull/222), [infra#92](https://github.com/nord-center-org/nord-center-infra-agent/pull/92) |
 | [v11](v11.md) | 2026-11-22 | O jogo inteiro em cada celular (espelho por conexão direta no Wi-Fi) | `feature-games-v11` | [backend#136](https://github.com/nord-center-org/nord-tool-backend/pull/136), [frontend#223](https://github.com/nord-center-org/nord-tool-frontend/pull/223), [infra#93](https://github.com/nord-center-org/nord-center-infra-agent/pull/93) |
 | [v12](v12.md) | 2026-11-22 | Horda Zumbi (sobrevivência cooperativa, 1 a 8) | `feature-games-v12` | [frontend#224](https://github.com/nord-center-org/nord-tool-frontend/pull/224), [infra#95](https://github.com/nord-center-org/nord-center-infra-agent/pull/95) |
-| [v13](v13.md) | 2026-11-22 | Fuga da Masmorra (roguelite de salas em equipe, 1 a 8) | `feature-games-v13` | frontend (link no PR), infra (este PR) |
+| [v13](v13.md) | 2026-11-22 | Fuga da Masmorra (roguelite de salas em equipe, 1 a 8) | `feature-games-v13` | [frontend#225](https://github.com/nord-center-org/nord-tool-frontend/pull/225), [infra#96](https://github.com/nord-center-org/nord-center-infra-agent/pull/96) |
+| [v14](v14.md) | 2026-11-22 | Coroa Maldita (pique-pega de plataforma, coroa e bomba) | `feature-games-v14` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 

@@ -71,7 +71,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v11 | Jogo inteiro em cada celular (espelho) | pronto |
 | v12 | Horda Zumbi | pronto |
 | v13 | Fuga da Masmorra | pronto |
-| v14+ | os 13 restantes | a fazer, na ordem da tabela seguinte (a partir de `coroa`) |
+| v14 | Coroa Maldita | pronto |
+| v15+ | os 12 restantes | a fazer, na ordem da tabela seguinte (a partir de `espacial`) |
 
 ## Próximos jogos e regras do gênero
 
