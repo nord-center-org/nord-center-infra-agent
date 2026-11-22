@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v11](v11.md) |
+| Versão atual | [v12](v12.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -104,6 +104,14 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - na Guerra Naval, só a própria frota, que aparece somente no celular do dono;
   - nas Bombas, nada do que está escondido nas caixas. _(v11)_
 
+- **RN-35** Horda Zumbi, com as regras do gênero de sobrevivência cooperativa vista de cima:
+  - todos juntos contra ondas crescentes de zumbis (normal, corredor e brutamontes);
+  - a casa tem 4 portas com 5 tábuas cada; os zumbis quebram as tábuas e quem segura B na porta repõe uma por vez, ganhando dinheiro;
+  - os abates dão dinheiro e pontos, gastos nas bancadas: arma (espingarda e depois rifle), vida e dano;
+  - quem cai é levantado por um aliado que segure B perto por 2 s; sem ajuda em 30 s, volta na próxima onda; todos no chão encerram a partida;
+  - modos: Ondas (até a 10ª; sozinho, até a 5ª), Resgate (levar 3 sobreviventes ao centro da casa) e Chefão (3 ondas e um gigante que investe e chama reforços);
+  - a noite é escura e cada jogador ilumina com a lanterna; a mira ajuda a achar o zumbi à frente. _(v12)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -130,7 +138,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v8](v8.md) | 2026-11-22 | Guerra Naval (batalha naval por turnos, até 8 frotas) | `feature-games-v8` | [frontend#220](https://github.com/nord-center-org/nord-tool-frontend/pull/220), [infra#90](https://github.com/nord-center-org/nord-center-infra-agent/pull/90) |
 | [v9](v9.md) | 2026-11-22 | Cartas da Virada (descarte por cor ou número, mão no celular) | `feature-games-v9` | [frontend#221](https://github.com/nord-center-org/nord-tool-frontend/pull/221), [infra#91](https://github.com/nord-center-org/nord-center-infra-agent/pull/91) |
 | [v10](v10.md) | 2026-11-22 | Controles configuráveis, controle de videogame e direcional do celular mais firme | `feature-games-v10` | [frontend#222](https://github.com/nord-center-org/nord-tool-frontend/pull/222), [infra#92](https://github.com/nord-center-org/nord-center-infra-agent/pull/92) |
-| [v11](v11.md) | 2026-11-22 | O jogo inteiro em cada celular (espelho por conexão direta no Wi-Fi) | `feature-games-v11` | [backend#136](https://github.com/nord-center-org/nord-tool-backend/pull/136), [frontend#223](https://github.com/nord-center-org/nord-tool-frontend/pull/223), infra (este PR) |
+| [v11](v11.md) | 2026-11-22 | O jogo inteiro em cada celular (espelho por conexão direta no Wi-Fi) | `feature-games-v11` | [backend#136](https://github.com/nord-center-org/nord-tool-backend/pull/136), [frontend#223](https://github.com/nord-center-org/nord-tool-frontend/pull/223), [infra#93](https://github.com/nord-center-org/nord-center-infra-agent/pull/93) |
+| [v12](v12.md) | 2026-11-22 | Horda Zumbi (sobrevivência cooperativa, 1 a 8) | `feature-games-v12` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 

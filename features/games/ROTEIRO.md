@@ -69,8 +69,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v9 | Cartas da Virada | pronto |
 | v10 | Controles (teclas, toque, gamepad) | pronto |
 | v11 | Jogo inteiro em cada celular (espelho) | pronto |
-| v12 | Horda Zumbi | em andamento (ver a seção abaixo) |
-| — | os 14 restantes | a fazer, na ordem da tabela seguinte |
+| v12 | Horda Zumbi | pronto |
+| v13+ | os 14 restantes | a fazer, na ordem da tabela seguinte (a partir de `masmorra`) |
 
 ## Próximos jogos e regras do gênero
 
