@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v6](v6.md) |
+| Versão atual | [v7](v7.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
 
@@ -53,6 +53,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - placar do próprio jogo vai para o recorde. _(v6)_
 - **RN-25** Nos controles, um toque rápido numa seta conta como um movimento, mesmo se soltar antes do próximo passo, como já acontecia com os botões. _(v6)_
 
+- **RN-26** Duelo ao Meio-Dia, com as regras do gênero de reflexo:
+  - todos esperam o sinal "FOGO!", que sai num momento aleatório; quem atira antes queima a largada e perde a vez na rodada;
+  - fintas (pássaro, foguete, sino) aparecem antes do sinal para enganar;
+  - o tiro só vale segurando a direção contra o vento mostrado na bandeira; vence quem acerta primeiro;
+  - Duelo: até 8 de uma vez, cada um com a sua garrafa. Torneio: chave eliminatória em pares até o campeão. Sozinho: Treino de reflexo com 5 tiros, e média abaixo de 450 ms vence;
+  - pontos por reação (1000 − ms, mínimo 50) vão para o recorde. _(v7)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -74,7 +81,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v3](v3.md) | 2026-11-21 | Fase 3: multiplayer com o celular como controle (WebSocket, QR Code, reconexão, até 8) | `feature-games-v3` | [backend#134](https://github.com/nord-center-org/nord-tool-backend/pull/134), [frontend#214](https://github.com/nord-center-org/nord-tool-frontend/pull/214), [infra#84](https://github.com/nord-center-org/nord-center-infra-agent/pull/84) |
 | [v4](v4.md) | 2026-11-21 | Modo Tela (servidor), avatares de corpo inteiro animados, 1 a 8 em todos os jogos (Bombas sozinho) e visual gamer | `feature-games-v4` | [frontend#216](https://github.com/nord-center-org/nord-tool-frontend/pull/216), [infra#86](https://github.com/nord-center-org/nord-center-infra-agent/pull/86) |
 | [v5](v5.md) | 2026-11-21 | Motor 3D e Sumô dos Hexágonos; base genérica dos jogos (moldura, registro) | `feature-games-v5` | [frontend#217](https://github.com/nord-center-org/nord-tool-frontend/pull/217), [infra#87](https://github.com/nord-center-org/nord-center-infra-agent/pull/87) |
-| [v6](v6.md) | 2026-11-21 | Encaixe Versus (puzzle de peças que caem, até 8) | `feature-games-v6` | frontend (link no PR), infra (este PR) |
+| [v6](v6.md) | 2026-11-21 | Encaixe Versus (puzzle de peças que caem, até 8) | `feature-games-v6` | [frontend#218](https://github.com/nord-center-org/nord-tool-frontend/pull/218), [infra#88](https://github.com/nord-center-org/nord-center-infra-agent/pull/88) |
+| [v7](v7.md) | 2026-11-22 | Duelo ao Meio-Dia (reflexo de faroeste, duelo, torneio e treino) | `feature-games-v7` | [frontend#219](https://github.com/nord-center-org/nord-tool-frontend/pull/219), infra (este PR) |
 
 ## Correções
 
