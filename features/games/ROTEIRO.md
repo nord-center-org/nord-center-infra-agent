@@ -73,7 +73,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v13 | Fuga da Masmorra | pronto |
 | v14 | Coroa Maldita | pronto |
 | v15 | Corrida Espacial | pronto |
-| v16+ | os 11 restantes | a fazer, na ordem da tabela seguinte (a partir de `torres`) |
+| v16 | Torres em Colapso | pronto |
+| v17+ | os 10 restantes | a fazer, na ordem da tabela seguinte (a partir de `defesa`) |
 
 ## Próximos jogos e regras do gênero
 

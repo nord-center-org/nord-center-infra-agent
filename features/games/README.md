@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v15](v15.md) |
+| Versão atual | [v16](v16.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -133,6 +133,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - Corrida: passar pelos anéis na ordem durante 2 voltas, vence quem chegar primeiro; Asteroides: mais pontos em 90 s; Coleta: mais cristais em 90 s (explodir ou levar laser faz largar cristais);
   - sozinho, há uma meta: as 2 voltas em 75 s, 1500 pontos ou 25 cristais. _(v15)_
 
+- **RN-39** Torres em Colapso, com as regras do gênero de artilharia por turnos:
+  - cada jogador tem uma torre de blocos (madeira 1, pedra 2 e aço 3 de resistência) com o rei no topo;
+  - na sua vez (25 s), ajusta o ângulo (←/→) e a força (↑/↓) e atira; o vento muda a cada vez;
+  - a explosão enfraquece os blocos em volta, blocos sem apoio caem e a torre desaba;
+  - rei atingido pela explosão ou esmagado por um bloco está fora; o último rei de pé vence;
+  - a bomba pesada (B) tem raio maior e é uma por partida; sozinho, o objetivo é derrubar 5 alvos em 12 tiros. _(v16)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -163,7 +170,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v12](v12.md) | 2026-11-22 | Horda Zumbi (sobrevivência cooperativa, 1 a 8) | `feature-games-v12` | [frontend#224](https://github.com/nord-center-org/nord-tool-frontend/pull/224), [infra#95](https://github.com/nord-center-org/nord-center-infra-agent/pull/95) |
 | [v13](v13.md) | 2026-11-22 | Fuga da Masmorra (roguelite de salas em equipe, 1 a 8) | `feature-games-v13` | [frontend#225](https://github.com/nord-center-org/nord-tool-frontend/pull/225), [infra#96](https://github.com/nord-center-org/nord-center-infra-agent/pull/96) |
 | [v14](v14.md) | 2026-11-22 | Coroa Maldita (pique-pega de plataforma, coroa e bomba) | `feature-games-v14` | [frontend#226](https://github.com/nord-center-org/nord-tool-frontend/pull/226), [infra#97](https://github.com/nord-center-org/nord-center-infra-agent/pull/97) |
-| [v15](v15.md) | 2026-11-22 | Corrida Espacial (inércia, gravidade, anéis, asteroides e cristais) | `feature-games-v15` | frontend (link no PR), infra (este PR) |
+| [v15](v15.md) | 2026-11-22 | Corrida Espacial (inércia, gravidade, anéis, asteroides e cristais) | `feature-games-v15` | [frontend#227](https://github.com/nord-center-org/nord-tool-frontend/pull/227), [infra#98](https://github.com/nord-center-org/nord-center-infra-agent/pull/98) |
+| [v16](v16.md) | 2026-11-22 | Torres em Colapso (artilharia por turnos com vento e torres que desabam) | `feature-games-v16` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
