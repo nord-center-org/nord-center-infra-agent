@@ -65,7 +65,7 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - na sua vez, mira-se numa frota rival e atira-se: água, acerto ou "afundou", sempre anunciado;
   - Clássico: um tiro por vez. Salva: um tiro por navio de pé. Especiais: mais um sonar (conta partes intactas num 3 × 3) e um bombardeio em cruz (5 casas), uma vez cada; usar um especial gasta a vez;
   - a vez tem 20 s (na Salva, 40 s); se acabar, sai um tiro automático;
-  - quem perde a frota inteira está fora e vence a última frota; com 6 minutos de batalha, vence a frota com mais partes intactas;
+  - quem perde a frota inteira está fora e vence a última frota; com 6 minutos de batalha, vence a frota com mais partes intactas (no empate, quem acertou mais);
   - sozinho: Caçada, que é afundar a frota escondida em até 60 tiros. _(v8)_
 
 ## Onde está no código
