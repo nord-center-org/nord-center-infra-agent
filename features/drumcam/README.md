@@ -4,9 +4,9 @@
 |---|---|
 | Slug | `drumcam` |
 | Status | ativa |
-| Versão atual | [v3](v3.md) |
+| Versão atual | [v4](v4.md) |
 | Repositórios | nord-tool-backend, nord-tool-frontend |
-| Onde no app | Repertório → Drumcam, e o modo câmera dentro do app NordTool (6.0+) |
+| Onde no app | Estúdio (antigo Repertório) → Gravação, e o modo câmera dentro do app NordTool (6.0+) |
 
 ## O que faz
 
@@ -33,7 +33,7 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 - **RN-15** Pela internet, de qualquer lugar: a câmera fica conectada ao relé do NordTool com a conta do app (aparelho registrado), e Repertório → Drumcam lista as câmeras da mesma conta e abre o painel ali mesmo. Só a mesma pessoa alcança as próprias câmeras; o PIN não é pedido porque a conta já autoriza. _(v2)_
 - **RN-16** Pela internet passam comandos, estado, prévia e thumbs (até 1 MB por resposta; thumbs enviadas pela internet até 900 KB). O vídeo não desce pela internet: baixar só no mesmo Wi-Fi; publicar no YouTube continua indo direto da câmera. _(v2)_
 - **RN-17** No computador, no mesmo Wi-Fi, Repertório → Drumcam abre o endereço da câmera (`IP:porta`) no navegador, com o PIN. _(v2)_
-- **RN-18** A sub-aba Drumcam do Repertório passa a se chamar **Estúdio** (`?aba=estudio`; o link antigo `?aba=drumcam` continua abrindo), com visual de mesa de transmissão e quatro partes: Estúdio, Monitoramento, Galeria e Câmeras. _(v3)_
+- **RN-18** A sub-aba Drumcam do Repertório passa a se chamar Estúdio na v3 e **Gravação** na v4 (`?aba=gravacao`; os links antigos `?aba=estudio` e `?aba=drumcam` continuam abrindo), com visual de mesa de transmissão e quatro partes: Mesa (o antigo Estúdio), Monitoramento, Galeria e Câmeras. _(v3, alterada na v4)_
 - **RN-19** Câmera ao vivo: qualquer aparelho da conta (celular no app NordTool 8.0+ ou no navegador, ou um notebook com webcam) vira câmera em "Ser câmera". A imagem e o som vão por WebRTC direto para cada painel; o relé só passa o sinal (oferta, resposta e candidatos), sempre entre aparelhos da mesma conta. Até 9 câmeras por conta. A câmera mostra quantos estão vendo, mantém a tela ligada e pode escurecer a tela sem parar. _(v3)_
 - **RN-20** A qualidade da transmissão segue o uso: baixa na grade do monitoramento (fluida, com pouca banda), média no estúdio e alta na tela cheia; quando duas telas usam a mesma câmera, vale a maior. _(v3)_
 - **RN-21** Estúdio: escolher quais câmeras entram no vídeo (Fontes), a cena (lado a lado, janelinha, destaque, grade, empilhado, uma câmera) e o formato (16:9, 9:16, 1:1); arrastar e redimensionar cada câmera no programa (com ou sem manter a proporção), mudar a ordem, esconder, espelhar, preencher ou caber, cantos arredondados e posição numérica. _(v3)_
@@ -44,6 +44,9 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 - **RN-26** Monitoramento: todas as câmeras ao vivo em grade (automática, 2×2 ou 3×3) com nome, situação, bateria, gravando e data e hora; tocar numa abre a tela cheia, com zoom por pinça, rodinha ou botões (0,5×, 1×, 2×…; 0,5× e o tele trocam de lente, e sem zoom próprio o zoom é digital), duplo toque volta a 1×, foto na resolução cheia, clipe de 30 s, ouvir, lanterna, microfone, lente, resolução (até 4K) e renomear a câmera. _(v3)_
 - **RN-27** Detecção de movimento (neste aparelho, com a tela aberta): compara quadros pequenos de cada câmera; com movimento em quadros seguidos, a câmera pisca em vermelho e entra na lista de Eventos, com bipe, notificação do aparelho (opcional) e clipe de 15 s na Galeria (opcional); sensibilidade de 1 a 10 e no máximo um aviso a cada 10 s por câmera. _(v3)_
 - **RN-28** A câmera do app da v1/v2 (grava no celular, publica no YouTube, Wi-Fi com PIN) continua em Estúdio → Câmeras. _(v3)_
+- **RN-29** Repertório passa a se chamar **Estúdio** no menu, no título, no tutorial e em Acessos (a rota `/gestao/repertorio` e o módulo `REPERTORIO` continuam). A área da tela fica escura, num ambiente de estúdio musical, com o tema claro ou escuro, como os Games; Músicas, Criar, Recebidas, o player e as cifras seguem o mesmo estilo. _(v4)_
+- **RN-30** No app NordTool 9.0+, a câmera ao vivo continua no ar com a tela apagada ou com o app em segundo plano, com a notificação "Câmera ao vivo no ar" enquanto transmite. Ela liga ao tocar em "Ser câmera" e desliga ao parar ou ao fechar o app. _(v4)_
+- **RN-31** No navegador (ou em app anterior ao 9.0), a câmera ao vivo só segue com a tela ligada; a tela da câmera avisa disso. _(v4)_
 
 ## Onde está no código
 
@@ -65,6 +68,7 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 | [v1](v1.md) | 2026-11-22 | App câmera + controle no mesmo Wi-Fi, com publicação no YouTube | `feature-drumcam` | [frontend#232](https://github.com/nord-center-org/nord-tool-frontend/pull/232), [infra#103](https://github.com/nord-center-org/nord-center-infra-agent/pull/103) |
 | [v2](v2.md) | 2026-11-23 | No Repertório e dentro do app NordTool 6.0, no Wi-Fi e pela internet (relé do NordTool) | `feature-drumcam-v2` | backend, frontend (links nos PRs), infra (este PR) |
 | [v3](v3.md) | 2026-11-23 | Estúdio: várias câmeras ao vivo (WebRTC), cenas, filtros, mixer, gravação rápida e em alta qualidade, galeria e monitoramento | `feature-drumcam-v3` | backend, frontend (links nos PRs), infra (este PR) |
+| [v4](v4.md) | 2026-11-23 | Repertório vira Estúdio (ambiente próprio, cifras no estilo musical); câmera ao vivo com a tela apagada no app 9.0 | `feature-drumcam-v4` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
