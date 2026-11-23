@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v20](v20.md) |
+| Versão atual | [v21](v21.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -166,6 +166,12 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - Arena de Balões: 3 balões cada; míssil, óleo ou batida de quem está no turbo estoura um; fica quem tiver balão (3 min; no fim vence quem tem mais); sozinho, estoure 10 balões-alvo em 90 s;
   - a câmera segue o próprio kart no celular e quando há só uma pessoa na tela; com várias, mostra a pista inteira. _(v20)_
 
+- **RN-44** Tanques de Aço (3D), com as regras do gênero de tanques em arena:
+  - ↑/↓ anda, ←/→ gira o chassi; a torre gira separada e mira sozinha no inimigo à vista mais perto (sem ninguém à vista, acompanha o chassi); A atira, B solta mina;
+  - os tiros ricocheteiam nos muros de pedra até 2 vezes e, depois do ricochete, acertam até quem atirou; tiros que se cruzam se anulam; até 3 tiros e 2 minas por tanque;
+  - caixotes quebram com 2 tiros (ou com a mina); pedra não quebra; minas armam em 1 s e explodem quando um inimigo passa perto (ou em 25 s), com dano 2 e abrindo os caixotes em volta;
+  - 3 de blindagem; Mata-Mata: fica o último; Times (vermelho × azul, número par): fica o time; 3 minutos, no tempo vence quem tiver mais blindagem; sozinho, destrua 10 alvos em 90 s. _(v21)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -201,7 +207,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v17](v17.md) | 2026-11-22 | Defesa de Base (tower defense cooperativo com torres, cristais e chefão) | `feature-games-v17` | [frontend#229](https://github.com/nord-center-org/nord-tool-frontend/pull/229), [infra#100](https://github.com/nord-center-org/nord-center-infra-agent/pull/100) |
 | [v18](v18.md) | 2026-11-22 | Pescaria & Submarino (linha com tensão; mergulho com oxigênio, arpão e tesouros) | `feature-games-v18` | [frontend#230](https://github.com/nord-center-org/nord-tool-frontend/pull/230), [infra#101](https://github.com/nord-center-org/nord-center-infra-agent/pull/101) |
 | [v19](v19.md) | 2026-11-22 | Corrida do Ouro (picareta, dinamite, carga, cascalho e lava) | `feature-games-v19` | [frontend#231](https://github.com/nord-center-org/nord-tool-frontend/pull/231), [infra#102](https://github.com/nord-center-org/nord-center-infra-agent/pull/102) |
-| [v20](v20.md) | 2026-11-23 | Kart Turbo & Balões em 3D (drift com turbo, itens, Grande Prêmio e arena) | `feature-games-v20` | frontend (link no PR), infra (este PR) |
+| [v20](v20.md) | 2026-11-23 | Kart Turbo & Balões em 3D (drift com turbo, itens, Grande Prêmio e arena) | `feature-games-v20` | [frontend#234](https://github.com/nord-center-org/nord-tool-frontend/pull/234), [infra#105](https://github.com/nord-center-org/nord-center-infra-agent/pull/105) |
+| [v21](v21.md) | 2026-11-23 | Tanques de Aço em 3D (ricochete, caixotes, minas, Mata-Mata e Times) | `feature-games-v21` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
