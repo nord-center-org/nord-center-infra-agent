@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v22](v22.md) |
+| Versão atual | [v24](v24.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -185,6 +185,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - Mata-Mata: 10 abates ou 3 min (desempate por menos mortes); Captura de Bandeira (vermelho × azul, número par): levar a bandeira inimiga até a própria base com a sua no lugar, 3 capturas; tocar a própria bandeira caída a devolve; Rei da Colina: só pontua quem está sozinho (ou só o seu time) no topo, 60 pontos; Contra Bots: todos contra 2 + n drones;
   - sozinho, qualquer modo vira Contra Bots: 10 abates em 3 min;
   - a tela de uma pessoa só (o celular dela ou um humano só na tela) mostra a primeira pessoa; com várias pessoas na mesma tela, a arena vista do alto. _(v23)_
+- **RN-47** Cozinha Caótica (3D), numa cozinha em grade com caixas de ingredientes, tábuas, fogões, pia, pilha de pratos, retorno, lixeira, entrega e um extintor:
+  - setas andam; A pega, solta e junta no prato o que está à frente; B (segurado) corta na tábua, lava na pia ou, com o extintor na mão, apaga o fogo à frente e ao lado;
+  - receitas: Salada (alface + tomate picados), Hambúrguer (pão + carne picada e frita), Hambúrguer com salada (+ alface) e Sopa (3 tomates picados cozidos na panela); o prato só aceita o que leva a uma receita;
+  - no fogão, a frigideira fica pronta em 5 s e a panela cheia em 7 s; esquecidas, queimam (vira lixo) e depois pegam fogo, que se espalha pelos balcões a cada 4 s até ser apagado;
+  - pedidos chegam com prazo (as quatro receitas a cada quatro pedidos); entregar dá a base da receita + gorjeta pelo tempo que sobrou × combo (até 4); vencido tira 10 e zera o combo; o prato volta sujo ao retorno 5 s depois;
+  - Cooperativo: 3 min; a 1ª estrela pede 250 pontos com uma pessoa (+40% por pessoa a mais, até 6); 2 e 3 estrelas pedem 1,5× e 2×; com a 1ª estrela, vence quem mais pontuou; Duelo de Cozinhas (número par): vermelho × azul, uma cozinha cada, os mesmos pedidos; mais pontos vence;
+  - sozinho: Desafio Solo, 250 pontos em 3 min. _(v24)_
 
 ## Onde está no código
 
@@ -224,7 +231,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v20](v20.md) | 2026-11-23 | Kart Turbo & Balões em 3D (drift com turbo, itens, Grande Prêmio e arena) | `feature-games-v20` | [frontend#234](https://github.com/nord-center-org/nord-tool-frontend/pull/234), [infra#105](https://github.com/nord-center-org/nord-center-infra-agent/pull/105) |
 | [v21](v21.md) | 2026-11-23 | Tanques de Aço em 3D (ricochete, caixotes, minas, Mata-Mata e Times) | `feature-games-v21` | [frontend#235](https://github.com/nord-center-org/nord-tool-frontend/pull/235), [infra#106](https://github.com/nord-center-org/nord-center-infra-agent/pull/106) |
 | [v22](v22.md) | 2026-11-23 | Caos Urbano em 3D (fuga, entregas, derby e corrida numa cidade) | `feature-games-v22` | [frontend#236](https://github.com/nord-center-org/nord-tool-frontend/pull/236), [infra#107](https://github.com/nord-center-org/nord-center-infra-agent/pull/107) |
-| [v23](v23.md) | 2026-11-23 | Arena Voxel em 3D (tiro em primeira pessoa: pulo encadeado, deslize, quatro armas e quatro modos) | `feature-games-v23` | frontend (link no PR), infra (este PR) |
+| [v23](v23.md) | 2026-11-23 | Arena Voxel em 3D (tiro em primeira pessoa: pulo encadeado, deslize, quatro armas e quatro modos) | `feature-games-v23` | [frontend#237](https://github.com/nord-center-org/nord-tool-frontend/pull/237), [infra#108](https://github.com/nord-center-org/nord-center-infra-agent/pull/108) |
+| [v24](v24.md) | 2026-11-23 | Cozinha Caótica em 3D (pedidos, corte, fogão, fogo, pia; Cooperativo e Duelo) | `feature-games-v24` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 

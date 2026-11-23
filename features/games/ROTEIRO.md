@@ -81,7 +81,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v21 | Tanques de Aço (3D) | pronto |
 | v22 | Caos Urbano (3D) | pronto |
 | v23 | Arena Voxel (3D FPS) | pronto |
-| v24+ | os 3 restantes | a fazer, na ordem da tabela seguinte (a partir de `cozinha`) |
+| v24 | Cozinha Caótica (3D) | pronto |
+| v25+ | os 2 restantes | a fazer, na ordem da tabela seguinte (a partir de `ritmo`) |
 
 > Desde a v18, um modo pode ter os próprios nomes de botões no celular (`botoes` dentro do modo, em `registroJogos.ts`); o aviso `lugar` leva o modo até o celular.
 
