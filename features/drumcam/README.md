@@ -14,11 +14,13 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 
 ## Regras de negócio vigentes
 
+> **Dois modos de câmera.** As regras RN-01 a RN-17 valem para a **câmera do app** (modo nativo da v1/v2: grava no celular e publica no YouTube, controlada no Wi-Fi com PIN ou pelo relé com a conta). A **câmera ao vivo** do Estúdio (RN-18 a RN-28, desde a v3) segue só as próprias regras: não exige o mesmo Wi-Fi nem PIN (a conta autoriza) e tem prévia ao vivo também durante a gravação.
+
 - **RN-01** Um único APK com dois modos, escolhidos na primeira abertura e lembrados: câmera ou controle. _(v1)_
-- **RN-02** Os dois celulares precisam estar no mesmo Wi-Fi. A câmera se anuncia na rede (NSD `_drumcam._tcp`) e o controle a acha sozinho; também dá para digitar o endereço `IP:porta` mostrado na câmera. _(v1)_
-- **RN-03** Todo comando exige o PIN de 6 dígitos mostrado na tela e na notificação da câmera. Depois de 10 PINs errados, o IP fica bloqueado por 5 minutos. O PIN pode ser trocado pelo painel. _(v1)_
+- **RN-02** (Câmera do app, controle local.) Os dois celulares precisam estar no mesmo Wi-Fi. A câmera se anuncia na rede (NSD `_drumcam._tcp`) e o controle a acha sozinho; também dá para digitar o endereço `IP:porta` mostrado na câmera. _(v1)_
+- **RN-03** (Câmera do app, controle local.) Todo comando exige o PIN de 6 dígitos mostrado na tela e na notificação da câmera. Depois de 10 PINs errados, o IP fica bloqueado por 5 minutos. O PIN pode ser trocado pelo painel. _(v1)_
 - **RN-04** A câmera fica ativa em segundo plano (serviço com notificação fixa), segurando CPU e Wi-Fi, e tenta voltar sozinha quando o celular reinicia. _(v1)_
-- **RN-05** A prévia só existe fora da gravação. A câmera se fecha sozinha 20 s depois do último pedido de prévia, para economizar bateria e evitar calor. _(v1)_
+- **RN-05** (Câmera do app.) A prévia só existe fora da gravação. A câmera se fecha sozinha 20 s depois do último pedido de prévia, para economizar bateria e evitar calor. _(v1)_
 - **RN-06** A gravação é em 1080p, ou 720p quando o aparelho não tem 1080p ou a pessoa escolhe, com vídeo até 12 Mbit/s e áudio AAC de 192 kbit/s. O celular pode ficar em pé ou deitado. O áudio vem do microfone ativo (o iRig, quando ligado), e há a opção "sem processamento" para não comprimir a bateria. _(v1)_
 - **RN-07** Perto de 3,8 GB, abaixo do limite de 4 GB do MP4 de muitos aparelhos, a gravação continua num arquivo novo (`-p2`, `-p3`…). _(v1)_
 - **RN-08** O título vem do modelo `{evento} - {musica} - Drumcam {data}`, editável. A data é a da gravação; o último evento usado vem preenchido. Descrição e tags também têm modelo. _(v1)_
