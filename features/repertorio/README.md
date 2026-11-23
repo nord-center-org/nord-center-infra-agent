@@ -169,6 +169,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v15](v15.md) | 2026-11-14 | Sustenido como padrão, notação Dó/Ré/Mi e ícone de ajustes com as opções secundárias | `feature-repertorio-v15` | [frontend#197](https://github.com/nord-center-org/nord-tool-frontend/pull/197), [infra#68](https://github.com/nord-center-org/nord-center-infra-agent/pull/68) |
 | [v16](v16.md) | 2026-11-14 | Aba aberta para todos (ver, tocar e editar), com quem criou e quem editou; só quem criou exclui | `feature-repertorio-v16` | [scripts-sql#78](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/78), [backend#129](https://github.com/nord-center-org/nord-tool-backend/pull/129), [frontend#198](https://github.com/nord-center-org/nord-tool-frontend/pull/198), [infra#69](https://github.com/nord-center-org/nord-center-infra-agent/pull/69) |
 | [v17](v17.md) | 2026-11-14 | Linha do tempo dos acordes: arrastar empurra os seguintes, "Pôr aqui" com a música tocando, forma de onda | `feature-repertorio-v17` | [frontend#199](https://github.com/nord-center-org/nord-tool-frontend/pull/199), [infra#70](https://github.com/nord-center-org/nord-center-infra-agent/pull/70) |
+| v18 | 2026-11-23 | Sub-aba Drumcam (celular-câmera da bateria, no Wi-Fi e pela internet); detalhes em [drumcam v2](../drumcam/v2.md) | `feature-drumcam-v2` | ver drumcam v2 |
 
 ## Correções
 
