@@ -83,7 +83,7 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v23 | Arena Voxel (3D FPS) | pronto |
 | v24 | Cozinha Caótica (3D) | pronto |
 | v25 | Batalha de Banda | pronto |
-| v26 | Chefão Colossal | a fazer (último da tabela seguinte: `chefao`) |
+| v26 | Chefão Colossal | pronto — todos os jogos do catálogo estão jogáveis |
 
 > Desde a v18, um modo pode ter os próprios nomes de botões no celular (`botoes` dentro do modo, em `registroJogos.ts`); o aviso `lugar` leva o modo até o celular.
 
