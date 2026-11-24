@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `drumcam` |
 | Status | ativa |
-| Versão atual | [v4](v4.md) |
+| Versão atual | [v5](v5.md) |
 | Repositórios | nord-tool-backend, nord-tool-frontend |
 | Onde no app | Estúdio (antigo Repertório) → Gravação, e o modo câmera dentro do app NordTool (6.0+) |
 
@@ -44,9 +44,23 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 - **RN-26** Monitoramento: todas as câmeras ao vivo em grade (automática, 2×2 ou 3×3) com nome, situação, bateria, gravando e data e hora; tocar numa abre a tela cheia, com zoom por pinça, rodinha ou botões (0,5×, 1×, 2×…; 0,5× e o tele trocam de lente, e sem zoom próprio o zoom é digital), duplo toque volta a 1×, foto na resolução cheia, clipe de 30 s, ouvir, lanterna, microfone, lente, resolução (até 4K) e renomear a câmera. _(v3)_
 - **RN-27** Detecção de movimento (neste aparelho, com a tela aberta): compara quadros pequenos de cada câmera; com movimento em quadros seguidos, a câmera pisca em vermelho e entra na lista de Eventos, com bipe, notificação do aparelho (opcional) e clipe de 15 s na Galeria (opcional); sensibilidade de 1 a 10 e no máximo um aviso a cada 10 s por câmera. _(v3)_
 - **RN-28** A câmera do app da v1/v2 (grava no celular, publica no YouTube, Wi-Fi com PIN) continua em Estúdio → Câmeras. _(v3)_
-- **RN-29** Repertório passa a se chamar **Estúdio** no menu, no título, no tutorial e em Acessos (a rota `/gestao/repertorio` e o módulo `REPERTORIO` continuam). A área da tela fica escura, num ambiente de estúdio musical, com o tema claro ou escuro, como os Games; Músicas, Criar, Recebidas, o player e as cifras seguem o mesmo estilo. _(v4)_
+- **RN-29** Repertório passa a se chamar **Estúdio** no menu, no título, no tutorial e em Acessos (a rota `/gestao/repertorio` e o módulo `REPERTORIO` continuam). A área da tela fica escura, num ambiente de estúdio musical, com o tema claro ou escuro, como os Games; Músicas, Criar, o player e as cifras seguem o mesmo estilo (a aba Recebidas saiu na v5, RN-37). _(v4, alterada na v5)_
 - **RN-30** No app NordTool 9.0+, a câmera ao vivo continua no ar com a tela apagada ou com o app em segundo plano, com a notificação "Câmera ao vivo no ar" enquanto transmite. Ela liga ao tocar em "Ser câmera" e desliga ao parar ou ao fechar o app. _(v4)_
 - **RN-31** No navegador (ou em app anterior ao 9.0), a câmera ao vivo só segue com a tela ligada; a tela da câmera avisa disso. _(v4)_
+- **RN-32** Na Galeria, clicar num vídeo abre o editor; o olho assiste, renomeia, baixa e apaga. O editor:
+  - divide, apaga, apara e muda a ordem dos trechos;
+  - põe transições (escurecer ou clarear) e legendas, títulos e textos (importa e baixa SRT);
+  - muda a cor por câmera e o formato (16:9, 9:16, 1:1);
+  - desfaz e refaz;
+  - salva o projeto sozinho no aparelho;
+  - exporta, em tempo real, um vídeo novo na Galeria ("(editado)"), sem mexer no original.
+
+  _(v5)_
+- **RN-33** A gravação Rápido da Mesa guarda também cada câmera ao vivo separada (opção ligada por padrão, que dá para desligar), e a Alta qualidade guarda o arquivo de cada câmera alinhado; as trocas de layout feitas ao vivo vão junto. Só esses vídeos permitem refazer a posição das câmeras no editor. _(v5)_
+- **RN-34** Layout por trecho: cada intervalo da gravação (marcado com I/O ou o trecho atual) pode ter um layout próprio, com as câmeras arrastadas, redimensionadas, escondidas, em janela num canto ou num layout pronto. Fora dos intervalos vale o layout geral. Cenas, destaques e textos ficam presos ao tempo da gravação: cortar não os desloca. _(v5)_
+- **RN-35** Destaque de áudio por trecho: no intervalo, a câmera escolhida sobe de 0 a 18 dB e as outras descem de 0 a 40 dB, com rampa de 0 a 2 s (0,3 s por padrão) na entrada e na saída; fora dele, volta à mixagem normal (volume, mudo e pan por câmera). _(v5)_
+- **RN-36** Tratamento do áudio no mestre: corte de ronco (80 Hz), corte de chiado (12 kHz), EQ de graves, médios e agudos (±12 dB), compressor, ganho final (−12 a +18 dB) e limitador em −1 dB. Áudio externo (mesa ou live, inclusive dentro de um vídeo): ao importar, sincroniza sozinho pela correlação dos ataques com a câmera de referência e mostra a qualidade do encaixe. O ajuste fino é em ms; tem volume próprio e a opção de usar só ele (as câmeras ficam mudas). Fica no aparelho junto do projeto. _(v5)_
+- **RN-37** O Estúdio não tem mais a aba "Recebidas": as cifras compartilhadas com a pessoa aparecem em Músicas, na seção "Compartilhadas com você" (só quando há alguma), e o número de novas fica na aba Músicas. `?aba=recebidas` abre Músicas. _(v5)_
 
 ## Onde está no código
 
@@ -60,6 +74,7 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
     - `ControleActivity.java`: descoberta e WebView;
     - `assets/painel.html`: painel servido pela câmera.
   - `public/app/drumcam.apk`: o APK publicado.
+  - Editor de vídeo (v5): `src/react-app/components/drumcam/editor/` (`EditorVideo.tsx`, `motor.ts`) e as regras em `src/react-app/utils/editorVideo.ts` (com teste); as câmeras separadas e os projetos ficam nas lojas `faixas` e `edicoes` de `components/drumcam/armazenamento.ts`.
 
 ## Versões
 
@@ -69,6 +84,7 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 | [v2](v2.md) | 2026-11-23 | No Repertório e dentro do app NordTool 6.0, no Wi-Fi e pela internet (relé do NordTool) | `feature-drumcam-v2` | backend, frontend (links nos PRs), infra (este PR) |
 | [v3](v3.md) | 2026-11-23 | Estúdio: várias câmeras ao vivo (WebRTC), cenas, filtros, mixer, gravação rápida e em alta qualidade, galeria e monitoramento | `feature-drumcam-v3` | backend, frontend (links nos PRs), infra (este PR) |
 | [v4](v4.md) | 2026-11-23 | Repertório vira Estúdio (ambiente próprio, cifras no estilo musical); câmera ao vivo com a tela apagada no app 9.0 | `feature-drumcam-v4` | frontend (link no PR), infra (este PR) |
+| [v5](v5.md) | 2026-11-24 | Editor de vídeo na Galeria: layout das câmeras e destaque de áudio por trecho, tratamento do áudio, áudio da mesa sincronizado sozinho; sem a aba Recebidas | `feature-drumcam-v5` | [frontend#250](https://github.com/nord-center-org/nord-tool-frontend/pull/250), infra (este PR) |
 
 ## Correções
 
