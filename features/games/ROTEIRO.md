@@ -84,6 +84,7 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v24 | Cozinha Caótica (3D) | pronto |
 | v25 | Batalha de Banda | pronto |
 | v26 | Chefão Colossal | pronto — todos os jogos do catálogo estão jogáveis |
+| v27 | Bombas Táticas (acabamento) | pronto no código; aguarda integração e validação de uso do Nick |
 
 > Desde a v18, um modo pode ter os próprios nomes de botões no celular (`botoes` dentro do modo, em `registroJogos.ts`); o aviso `lugar` leva o modo até o celular.
 
