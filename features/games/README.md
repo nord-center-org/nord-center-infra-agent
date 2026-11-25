@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v26](v26.md) |
+| Versão atual | [v27](v27.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -204,6 +204,12 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - três fases (100%, 66% e 33% da vida): cada uma ergue de novo o escudo de 3 pilares (com pilar de pé, o tiro no chefe não tira vida), ataca mais rápido e com mais área; na 3ª, o chefe chama lacaios;
   - 4 corações por pessoa; caído, um aliado parado perto por 2 s o levanta com 2 corações; sozinho, 3 vidas;
   - Cooperativo: derrubar o chefe antes de todos caírem ao mesmo tempo (6 min); Competitivo (2 ou mais): todos contra o chefe, caído volta sozinho em 5 s perdendo 25 pontos, e vence quem mais pontuou (dano, pilares e lacaios) se o chefe cair; Boss Rush: três chefes seguidos, cada um com mais vida e ataques mais rápidos. _(v26)_
+- **RN-50** Bombas Táticas, acabamento da experiência original de arena por grade:
+  - menu próprio dentro do jogo para campanha, continuar checkpoint, batalha, arena, bots, dificuldade, vitórias, Copa e controles; a Central de Jogos continua como ponto de entrada;
+  - campanha cooperativa original *A Última Centelha*: 9 fases em 3 regiões, 3 chefes, portal após limpar inimigos e checkpoint local; vidas extras são compartilhadas e nova fase ou 3.000 pontos concede reserva;
+  - Start permite entrada durante a fase com uma vida extra; celulares conectados recebem o estado atual e ocupam vaga reservada; gamepads adicionais podem entrar sem cobrar nova vida de quem reconecta;
+  - inimigos têm comportamentos distintos; montarias originais Brasa, Vento e Pedra alteram o uso da bomba e absorvem um golpe; no competitivo, quem cai pode voltar à borda em carrinho e retornar após eliminar rival;
+  - cooperação local e espelhamento mantêm os controles, com diagonais normalizadas e câmera/arena 3D com avatar articulado. _(v27)_
 
 ## Onde está no código
 
@@ -247,6 +253,7 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v24](v24.md) | 2026-11-23 | Cozinha Caótica em 3D (pedidos, corte, fogão, fogo, pia; Cooperativo e Duelo) | `feature-games-v24` | [frontend#238](https://github.com/nord-center-org/nord-tool-frontend/pull/238), [infra#109](https://github.com/nord-center-org/nord-center-infra-agent/pull/109) |
 | [v25](v25.md) | 2026-11-23 | Batalha de Banda (ritmo em 4 trilhas com música gerada, Show, Duelo com obstáculos e Banda) | `feature-games-v25` | [frontend#239](https://github.com/nord-center-org/nord-tool-frontend/pull/239), [infra#110](https://github.com/nord-center-org/nord-center-infra-agent/pull/110) |
 | [v26](v26.md) | 2026-11-23 | Chefão Colossal (chefe em três fases, ataques avisados, escudo de pilares, esquiva; Cooperativo, Competitivo e Boss Rush) — fecha o catálogo | `feature-games-v26` | frontend (link no PR), infra (este PR) |
+| [v27](v27.md) | 2026-11-25 | Bombas Táticas: campanha cooperativa original, montarias, revanche e controles refinados | `feature-games-v27` | [frontend#251](https://github.com/nord-center-org/nord-tool-frontend/pull/251), infra (este PR) |
 
 ## Correções
 
