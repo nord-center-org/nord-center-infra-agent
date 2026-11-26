@@ -42,7 +42,7 @@ E05, E08 e E10: independentes
 
 **O que fazer:**
 
-1. **Identidade própria do agente** na organização, com papel `write` (nunca admin) e token fine-grained por repositório. Conta de máquina ou GitHub App: decisão pendente P1 em [decisoes.md](decisoes.md). O MCP local, a Lugia e o `vigia-issue` passam a usar essa credencial.
+1. **Identidade própria do agente** na organização, com papel `write` (nunca admin) e token fine-grained por repositório. É uma **conta de máquina** (resposta P1): um usuário próprio do GitHub, sem admin, com token fine-grained por repositório. O GitHub App fica para a SPEC-02 E04. O MCP local, a Lugia e o `vigia-issue` passam a usar essa credencial.
 2. **Arquivo de níveis** `config/autonomia.json`, lido pelo MCP: nível por projeto e por tipo de mudança, com o histórico de mudanças de nível (data, motivo e PRs que justificam). Começa tudo em 0.
 3. **MCP consulta o nível** num módulo novo, `mcp/server/autonomia.ts`, com a função pura `podeMesclar(projeto, base, head)`:
    - nível 0: nunca mescla; devolve o PR com `aguardando: "confirmação humana"`;
@@ -75,7 +75,7 @@ E05, E08 e E10: independentes
    - `develop.json`: exigir PR com 1 aprovação, descartar aprovação antiga a cada push, exigir aprovação do último push, status checks obrigatórios, bloquear force push e exclusão;
    - `master.json`: o mesmo, sem bypass;
    - `checks.json`: os checks obrigatórios por repositório.
-3. **Sem bypass para ninguém** (resposta P3): nem admin, nem a identidade do agente, nem a Lugia, nem o `vigia-issue`. A aprovação só acontece depois de todas as validações passarem: os checks obrigatórios, mais "exigir aprovação do último push", impedem aprovar antes do CI verde ou mudar o código depois da aprovação. Como o autor não aprova o próprio PR, os PRs desses repositórios passam a ser abertos pela identidade do agente (pergunta P7).
+3. **Sem bypass para ninguém** (resposta P3): nem admin, nem a identidade do agente, nem a Lugia, nem o `vigia-issue`. A aprovação só acontece depois de todas as validações passarem: os checks obrigatórios, mais "exigir aprovação do último push", impedem aprovar antes do CI verde ou mudar o código depois da aprovação. Como o autor não aprova o próprio PR, os PRs desses repositórios são abertos pela identidade do agente, e o dono aprova (resposta P7).
 4. **Checks obrigatórios** (nomes dos jobs de hoje; confirmar ao aplicar):
    - backend: `Build & Testes`, `Qualidade de Código`, `Secret Scanning`, `Resumo de Alertas`;
    - frontend: `Lint, Build & Testes`, `Secret Scanning`, `Resumo de Alertas`;
