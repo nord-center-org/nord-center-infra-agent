@@ -1,0 +1,33 @@
+{
+  "info": {
+    "name": "exemplo",
+    "description": "Modelo de collection para features/<slug>/collections/. URL sempre com {{baseUrl}} e autenticação Bearer {{token}}; o token vem do ambiente (scripts/api/newman-run.ps1), nunca daqui.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "auth": {
+    "type": "bearer",
+    "bearer": [{ "key": "token", "value": "{{token}}", "type": "string" }]
+  },
+  "item": [
+    {
+      "name": "Listar acessos (exemplo de leitura)",
+      "request": {
+        "method": "GET",
+        "header": [{ "key": "Accept", "value": "application/json" }],
+        "url": "{{baseUrl}}/api/v1/nord-tool/administracao/acessos"
+      },
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test('responde 200', () => pm.response.to.have.status(200));",
+              "pm.test('devolve JSON', () => pm.response.to.be.json);"
+            ]
+          }
+        }
+      ]
+    }
+  ]
+}
