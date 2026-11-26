@@ -153,6 +153,10 @@ export function validarPlanejamento(ficha, pasta, arquivos) {
   if (!arquivos.decisoes) erros.push(`${onde}/decisoes.md: obrigatório, com a seção "${SECAO_PERGUNTAS.slice(3)}".`);
   else if (perguntas === null) erros.push(`${onde}/decisoes.md: falta a seção "${SECAO_PERGUNTAS.slice(3)}".`);
   else if (perguntas.length === 0) erros.push(`${onde}/decisoes.md: o plano precisa levantar ao menos uma pergunta ao responsável sobre as decisões e dúvidas.`);
+  for (const [nome, texto] of [["plano.md", arquivos.plano], ["decisoes.md", arquivos.decisoes]]) {
+    const sobras = marcasRestantes(texto);
+    if (sobras.length) erros.push(`${onde}/${nome}: ainda tem trechos do modelo para preencher: ${sobras.join(", ")}.`);
+  }
   if (ficha.plano.aprovado && ficha.etapas.length === 0) erros.push(`${onde}/README.md: plano aprovado sem nenhuma etapa na ficha.`);
   const etapas = new Set(ficha.etapas.map(e => e.id));
   for (const p of perguntas ?? []) {
@@ -401,7 +405,7 @@ export function conflitosComOutrosPrs(minhas, outros) {
 export function motivoParaNaoPegar({ fichaDevelop, fichaLocal, idEtapa, desbloquear = false, perguntas = null }) {
   if (!fichaDevelop) return "a spec ainda não tem pasta em develop; o plano precisa ser integrado e aprovado antes.";
   if (!fichaDevelop.plano.aprovado) {
-    const semPlano = fichaDevelop.etapas.length === 0 ? " Ela ainda não tem plano de implementação: monte o plano.md, as etapas e as perguntas ao responsável em decisoes.md, e peça a aprovação." : "";
+    const semPlano = fichaDevelop.etapas.length === 0 ? ` Ela ainda não tem plano de implementação: monte o plano.md, as etapas e as perguntas ao responsável em decisoes.md, e peça a aprovação. Comece com: node scripts/specs/specs.mjs planejar ${fichaDevelop.id}` : "";
     return `o plano da ${fichaDevelop.id} ainda não foi aprovado (campo Plano: ${fichaDevelop.plano.bruto || "vazio"}).${semPlano}`;
   }
   for (const [onde, ficha] of [["develop", fichaDevelop], ["cópia local", fichaLocal]]) {
@@ -462,4 +466,43 @@ export function catalogoAtualizado(texto, catalogo, calculados, resumo) {
     novo = novo.replace(new RegExp(`${RESUMO_INICIO}\\r?\\n[\\s\\S]*?\\r?\\n${RESUMO_FIM}`), `${RESUMO_INICIO}${eol}${resumo}${eol}${RESUMO_FIM}`);
   }
   return novo;
+}
+
+// ---------- Planejamento de uma spec em aberto (comando `planejar`) ----------
+
+/** Branch do PR do plano: "docs-spec-03-plano". */
+export const branchDoPlano = idSpec => `docs-${idSpec.toLowerCase()}-plano`;
+
+/** Trechos dos modelos de templates/spec/ que não podem sobrar num plano entregue. */
+export const MARCAS_DE_MODELO = ["<pergunta>", "<opção e porquê>", "<título curto>", "<o que foi escolhido>", "<o motivo>", "<risco e como reduzir>", "<título>", "<itens>", "<horas>", "<repositórios>"];
+export const marcasRestantes = texto => MARCAS_DE_MODELO.filter(m => String(texto ?? "").includes(m));
+
+/**
+ * Por que não dá para começar o plano da spec agora (null = pode).
+ * `spec` é a linha do painel em develop; `temPlano` diz se develop já tem plano.md da spec.
+ */
+export function motivoParaNaoPlanejar({ idSpec, spec, fichaDevelop, temPlano }) {
+  if (!spec) return `${idSpec} não está no painel specs/todas-as-specs.md.`;
+  if (spec.situacao.startsWith("⚪")) return `${idSpec} está "${spec.situacao}"; não há o que planejar.`;
+  if (!fichaDevelop) return `${idSpec} ainda não tem pasta em develop.`;
+  const status = statusDaSpec(fichaDevelop.tipo, fichaDevelop.etapas);
+  if (status === "implementada" || status === "corrigida") return `${idSpec} já está concluída (${status}). Comportamento novo vira etapa nova; fale com o responsável.`;
+  if (temPlano || fichaDevelop.etapas.length) {
+    return fichaDevelop.plano.aprovado
+      ? `${idSpec} já tem plano aprovado. Veja as etapas livres com "node scripts/specs/specs.mjs status ${idSpec}" e reserve uma com "pegar".`
+      : `${idSpec} já tem plano esperando a aprovação do responsável (Plano: ${fichaDevelop.plano.bruto}).`;
+  }
+  return null;
+}
+
+/** O roteiro que o agente (ou a pessoa) segue depois do `planejar`. */
+export function roteiroDoPlano({ idSpec, pasta, branch }) {
+  return `Plano de implementação da ${idSpec} (policies/specs.md, seção 3). Branch: ${branch}. Pasta: specs/${pasta}/.
+1. Leia specs/${pasta}/README.md e spec.md. Confira no código de cada repositório citado cada ponto de "Situação atual" e registre no spec.md, numa tabela "Ponto do plano | Conferido | Observação", o que foi confirmado, o que é diferente e o que não foi encontrado.
+2. Preencha specs/${pasta}/plano.md (já copiado do modelo): etapas E01, E02…, ordem, arquivos por repositório, divisão em partes de até 500 linhas de código, riscos e como provar cada critério de aceite.
+3. Crie specs/${pasta}/contexto/<repositório>.md para cada repositório tocado, pelo modelo templates/spec/contexto/repositorio.md.
+4. Preencha a tabela de etapas de specs/${pasta}/README.md, todas como planejada (ou bloqueada, com o motivo no plano).
+5. Em specs/${pasta}/decisoes.md, seção "Perguntas ao responsável", levante toda decisão e dúvida que não cabe a quem planeja: cada pergunta com contexto, recomendação, "Decidir em" (antes da aprovação ou a etapa) e "Resposta: pendente". Pelo menos uma pergunta.
+6. Rode "node scripts/specs/specs.mjs catalogo" e "node scripts/specs/specs.mjs validar --base origin/develop". Deixe "Plano: pendente".
+7. Faça commit só da pasta da spec e do painel, abra um PR para develop com o título "docs(specs): plano da ${idSpec}" e pare. Não escreva código: a implementação começa só depois de o responsável responder as perguntas e aprovar o plano.`;
 }

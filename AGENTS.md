@@ -33,7 +33,15 @@ Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrad
 
 ## Specs do plano
 
-Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo painel [todas-as-specs.md](specs/todas-as-specs.md) (🟢 concluída, 🟡 em aberto, 🔴 bloqueada) e pela ficha da spec. Antes de escrever código, rode `node scripts/specs/specs.mjs status SPEC-NN`: uma etapa concluída já está implementada (ou corrigida) e não é refeita; uma etapa em andamento pertence a quem a reservou. Reserve a etapa livre com `node scripts/specs/specs.mjs pegar` e integre a reserva antes do código. Se a spec ainda não tem plano de implementação, monte o plano antes de qualquer código, mesmo sem pedido: `plano.md` com as etapas, e as perguntas ao responsável em `decisoes.md` sobre as decisões e dúvidas, cada uma com recomendação e prazo; depois peça a aprovação. Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.
+Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo painel [todas-as-specs.md](specs/todas-as-specs.md) (🟢 concluída, 🟡 em aberto, 🔴 bloqueada) e pela ficha da spec. Antes de escrever código, rode `node scripts/specs/specs.mjs status SPEC-NN`: uma etapa concluída já está implementada (ou corrigida) e não é refeita; uma etapa em andamento pertence a quem a reservou. Reserve a etapa livre com `node scripts/specs/specs.mjs pegar` e integre a reserva antes do código. 
+
+**Quando alguém escolhe uma spec** ("quero pegar a SPEC-03", "vou fazer a spec 12"), siga este fluxo automaticamente, sem esperar instrução a mais; no Claude Code, ele é a skill `planejar-spec` (`/planejar-spec 03`):
+
+1. Rode `node scripts/specs/specs.mjs status SPEC-NN` e diga a situação do painel. Se estiver 🟢 concluída ou ⚪ incorporada, pare: não refaça.
+2. Se a spec não tem plano, rode `node scripts/specs/specs.mjs planejar SPEC-NN` e siga o roteiro que ele imprime. Confira a situação atual no código, escreva o plano com as etapas e levante as perguntas ao responsável em `decisoes.md` sobre toda decisão e dúvida, cada uma com recomendação e prazo. Abra o PR do plano e pare, sem escrever código.
+3. Se o plano espera aprovação, diga isso e pare. Se está aprovado, reserve uma etapa livre com `pegar` e integre a reserva antes do código.
+
+Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.
 
 ## Novidades
 

@@ -53,7 +53,7 @@ specs/
 
 ## 3. Fluxo de uma spec
 
-1. **Plano de implementação, sempre.** Quem pegar uma spec que ainda não tem plano (pessoa ou agente) monta o plano antes de qualquer código, mesmo que ninguém peça:
+1. **Plano de implementação, sempre.** Quem pegar uma spec que ainda não tem plano (pessoa ou agente) monta o plano antes de qualquer código, mesmo que ninguém peça. O jeito automático é `node scripts/specs/specs.mjs planejar SPEC-NN`, que confere se a spec está em aberto e se ninguém está planejando, cria a branch `docs-spec-NN-plano`, copia os modelos e imprime o roteiro para o agente; no Claude Code, a skill `planejar-spec` faz isso quando alguém diz que vai pegar uma spec. O plano tem de:
    - confere no código cada ponto de "Situação atual" do `spec.md` e registra o resultado;
    - escreve `plano.md` (etapas, ordem, arquivos, riscos e validação), `decisoes.md` e `contexto/`, pelos modelos de [`templates/spec/`](../templates/spec/);
    - preenche a tabela de etapas da ficha;

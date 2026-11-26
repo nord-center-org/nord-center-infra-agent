@@ -17,6 +17,7 @@ const DEVELOP = "origin/develop";
 const AJUDA = `Registro de specs (policies/specs.md)
 
   status [SPEC-NN]                  status das specs e etapas em ${DEVELOP}; com GITHUB_TOKEN, também branches e PRs abertos
+  planejar SPEC-NN [--sem-branch]    começa o plano de uma spec em aberto: cria a branch docs-spec-NN-plano, copia os modelos e imprime o roteiro
   pegar SPEC-NN ENN --responsavel <login> --branch <branch> [--desbloquear]
                                     reserva uma etapa livre na cópia local (recusa se já implementada, corrigida ou em andamento)
   concluir SPEC-NN ENN --pr <url> [--pr <url>…]
@@ -126,8 +127,11 @@ async function reservasDeOutrosPrs(base, { excluirPr = 0, repo = process.env.GIT
 // ---------- Comandos ----------
 
 function normalizarIds(spec, etapa) {
-  const idSpec = String(spec ?? "").toUpperCase();
-  const idEtapa = String(etapa ?? "").toUpperCase();
+  // Aceita "SPEC-03", "spec-3", "spec03", "03" ou "3"; e "E03", "e3" ou "3".
+  const numSpec = /^(?:spec-?)?(\d{1,2})$/i.exec(String(spec ?? "").trim())?.[1];
+  const numEtapa = /^e?(\d{1,2})$/i.exec(String(etapa ?? "").trim())?.[1];
+  const idSpec = numSpec ? `SPEC-${numSpec.padStart(2, "0")}` : String(spec ?? "").toUpperCase();
+  const idEtapa = numEtapa ? `E${numEtapa.padStart(2, "0")}` : String(etapa ?? "").toUpperCase();
   if (!/^SPEC-\d{2}$/.test(idSpec)) throw new ErroDeUso(`ID de spec inválido: "${spec ?? ""}" (ex.: SPEC-01).`);
   if (etapa !== undefined && !/^E\d{2}$/.test(idEtapa)) throw new ErroDeUso(`ID de etapa inválido: "${etapa}" (ex.: E03).`);
   return { idSpec, idEtapa };
@@ -258,6 +262,55 @@ Próximos passos:
   for (const aviso of avisos) console.warn(`Aviso: ${aviso}`);
 }
 
+async function planejar([spec], opcoes) {
+  const { idSpec } = normalizarIds(spec);
+  const branch = lib.branchDoPlano(idSpec);
+  const avisos = [];
+  if (git(["status", "--porcelain"]).trim()) throw new ErroDeUso("Há mudanças não commitadas na infra. Faça commit ou stash antes de começar o plano.");
+  atualizarDevelop(avisos);
+  const develop = lerEstadoRef(DEVELOP);
+  const linha = develop.catalogo.specs.find(s => s.id === idSpec);
+  const pasta = linha?.pasta ?? null;
+  const motivo = lib.motivoParaNaoPlanejar({
+    idSpec, spec: linha,
+    fichaDevelop: pasta ? develop.fichas.get(pasta) : null,
+    temPlano: Boolean(pasta && develop.textos.get(pasta)?.plano),
+  });
+  if (motivo) return falhar(`Não dá para planejar: ${motivo}`, avisos);
+  if (linha.situacao.startsWith("🔴")) avisos.push(`${idSpec} está ${linha.situacao}: o plano pode ser feito agora, mas nenhuma etapa começa antes de as dependências terminarem.`);
+
+  if (process.env.GITHUB_TOKEN) {
+    const repo = process.env.GITHUB_REPOSITORY || `${DONO}/${INFRA}`;
+    const atual = git(["branch", "--show-current"]).trim();
+    const outras = (await githubTodas(`/repos/${repo}/branches?per_page=100`)).map(b => b.name)
+      .filter(nome => nome !== atual && new RegExp(`(^|-)${idSpec.toLowerCase()}-plano(-|$)`).test(nome));
+    if (outras.length) return falhar(`Não dá para planejar: alguém já está montando o plano da ${idSpec} na branch ${outras.join(", ")}.`, avisos);
+    for (const pr of await githubTodas(`/repos/${repo}/pulls?state=open&per_page=100`)) {
+      const arquivos = await githubTodas(`/repos/${repo}/pulls/${pr.number}/files?per_page=100`);
+      if (arquivos.some(a => a.filename === `specs/${pasta}/plano.md`)) return falhar(`Não dá para planejar: o PR #${pr.number} (${pr.user?.login ?? "?"}) já traz um plano da ${idSpec}: ${pr.html_url}`, avisos);
+    }
+  } else {
+    avisos.push("Sem GITHUB_TOKEN: não conferi se outra pessoa já está montando este plano.");
+  }
+
+  if (!opcoes["sem-branch"]) {
+    const atual = git(["branch", "--show-current"]).trim();
+    if (atual !== branch) {
+      try { git(["switch", "-c", branch, DEVELOP]); } catch (erro) { throw new ErroDeUso(`Não consegui criar a branch ${branch} (${String(erro.stderr || erro.message).trim()}). Se ela já existe, continue nela ou use --sem-branch.`); }
+    }
+  }
+  const destino = path.join(RAIZ, "specs", pasta);
+  for (const nome of ["plano.md", "decisoes.md"]) {
+    const arquivo = path.join(destino, nome);
+    if (existsSync(arquivo)) continue;
+    const modelo = readFileSync(path.join(RAIZ, "templates", "spec", nome), "utf8");
+    writeFileSync(arquivo, modelo.replace(/SPEC-NN/g, idSpec));
+  }
+  console.log(`Branch ${opcoes["sem-branch"] ? "atual" : branch} pronta; plano.md e decisoes.md copiados dos modelos para specs/${pasta}/.\n`);
+  console.log(lib.roteiroDoPlano({ idSpec, pasta, branch }));
+  for (const aviso of avisos) console.warn(`\nAviso: ${aviso}`);
+}
+
 function concluir([spec, etapaArg], opcoes) {
   const { idSpec, idEtapa } = normalizarIds(spec, etapaArg);
   const novos = [opcoes.pr ?? []].flat().flatMap(lib.prsDaCelula);
@@ -312,7 +365,7 @@ function lerArgumentos(argv) {
     const arg = argv[i];
     if (!arg.startsWith("--")) { posicionais.push(arg); continue; }
     const nome = arg.slice(2);
-    if (nome === "desbloquear" || nome === "ajuda") { opcoes[nome] = true; continue; }
+    if (nome === "desbloquear" || nome === "ajuda" || nome === "sem-branch") { opcoes[nome] = true; continue; }
     const valor = argv[++i];
     if (valor === undefined) throw new ErroDeUso(`--${nome} precisa de um valor.`);
     opcoes[nome] = nome === "pr" ? [...(opcoes.pr ?? []), valor] : valor;
@@ -324,6 +377,7 @@ async function main() {
   const { comando, posicionais, opcoes } = lerArgumentos(process.argv.slice(2));
   if (!comando || opcoes.ajuda) return console.log(AJUDA);
   if (comando === "status") return status(posicionais[0]);
+  if (comando === "planejar") return planejar(posicionais, opcoes);
   if (comando === "pegar") return pegar(posicionais, opcoes);
   if (comando === "concluir") return concluir(posicionais, opcoes);
   if (comando === "catalogo") return catalogo();

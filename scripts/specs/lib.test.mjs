@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  catalogoAtualizado, celulas, progressoDaSpec, situacaoDaSpec, lerPerguntas, validarPlanejamento, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
+  catalogoAtualizado, celulas, progressoDaSpec, motivoParaNaoPlanejar, roteiroDoPlano, branchDoPlano, situacaoDaSpec, lerPerguntas, validarPlanejamento, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
   linhaDeTabela, motivoParaNaoPegar, reservasDoPr, rotuloPr, statusDaSpec, trocarLinha, validarCatalogo, validarFicha, validarTransicoes,
 } from "./lib.mjs";
 
@@ -267,5 +267,30 @@ test("pegar: recusa etapa com pergunta sem resposta e sugere montar o plano", ()
   const perguntas = lerPerguntas(decisoes([["P1", "E01", "pendente"]]));
   assert.match(motivoParaNaoPegar({ fichaDevelop: f, fichaLocal: f, idEtapa: "E01", perguntas }), /precisa responder P1/);
   const semPlano = lerFicha(ficha({ plano: "pendente", etapas: [] }));
-  assert.match(motivoParaNaoPegar({ fichaDevelop: semPlano, idEtapa: "E01" }), /monte o plano\.md, as etapas e as perguntas/);
+  assert.match(motivoParaNaoPegar({ fichaDevelop: semPlano, idEtapa: "E01" }), /monte o plano\.md, as etapas e as perguntas.*planejar SPEC-01$/);
+});
+test("planejar: recusa concluída, incorporada e spec que já tem plano; libera a em aberto", () => {
+  const linha = situacao => ({ situacao });
+  const semPlano = lerFicha(ficha({ plano: "pendente", etapas: [] }));
+  assert.equal(motivoParaNaoPlanejar({ idSpec: "SPEC-01", spec: linha("🟡 Em aberto"), fichaDevelop: semPlano, temPlano: false }), null);
+  assert.equal(motivoParaNaoPlanejar({ idSpec: "SPEC-01", spec: linha("🔴 Bloqueada (SPEC-03)"), fichaDevelop: semPlano, temPlano: false }), null, "bloqueada pode ser planejada");
+  assert.match(motivoParaNaoPlanejar({ idSpec: "SPEC-01", spec: linha("🟢 Concluída (implementada)"), fichaDevelop: lerFicha(ficha({ etapas: [pronta()] })), temPlano: true }), /já está concluída/);
+  assert.match(motivoParaNaoPlanejar({ idSpec: "SPEC-16", spec: linha("⚪ Incorporada"), fichaDevelop: null }), /não há o que planejar/);
+  assert.match(motivoParaNaoPlanejar({ idSpec: "SPEC-01", spec: linha("🟡 Em aberto"), fichaDevelop: lerFicha(ficha({ plano: "pendente", etapas: [livre()] })), temPlano: true }), /esperando a aprovação/);
+  assert.match(motivoParaNaoPlanejar({ idSpec: "SPEC-01", spec: linha("🟡 Em aberto"), fichaDevelop: lerFicha(ficha({ etapas: [livre()] })), temPlano: true }), /já tem plano aprovado/);
+  assert.match(motivoParaNaoPlanejar({ idSpec: "SPEC-99", spec: undefined }), /não está no painel/);
+});
+
+test("planejar: roteiro com branch, perguntas e parada antes do código", () => {
+  assert.equal(branchDoPlano("SPEC-03"), "docs-spec-03-plano");
+  const roteiro = roteiroDoPlano({ idSpec: "SPEC-03", pasta: "SPEC-03-plataforma", branch: "docs-spec-03-plano" });
+  assert.match(roteiro, /Perguntas ao responsável/);
+  assert.match(roteiro, /Não escreva código/);
+  assert.match(roteiro, /specs\/SPEC-03-plataforma\/plano\.md/);
+});
+
+test("planejamento: trecho do modelo esquecido no plano é erro", () => {
+  const f = lerFicha(ficha({ plano: "pendente", etapas: [livre()] }));
+  const erros = validarPlanejamento(f, "SPEC-01-regras", { plano: "## E01 — <título>\n- <risco e como reduzir>", decisoes: decisoes([["P1", "E01", "pendente"]]) }).join("\n");
+  assert.match(erros, /plano\.md: ainda tem trechos do modelo para preencher: <risco e como reduzir>, <título>/);
 });
