@@ -7,6 +7,7 @@
 | Prioridade | P0 |
 | Plano | pendente |
 | Responsável pela spec | zzNICK |
+| Bloqueada por | — |
 | Depende de | SPEC-11 (backup) pronta antes, de preferência |
 | Origem | NordTool — Plano de specs (26/11/2026), seção SPEC-01 |
 

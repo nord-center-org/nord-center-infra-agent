@@ -2,23 +2,24 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  catalogoAtualizado, celulas, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
+  catalogoAtualizado, celulas, progressoDaSpec, situacaoDaSpec, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
   linhaDeTabela, motivoParaNaoPegar, reservasDoPr, rotuloPr, statusDaSpec, trocarLinha, validarCatalogo, validarFicha, validarTransicoes,
 } from "./lib.mjs";
 
 const PR = "https://github.com/nord-center-org/nord-tool-backend/pull/12";
 
-function ficha({ plano = "aprovado 2026-11-27 por zzNICK", tipo = "implementacao", etapas }) {
+function ficha({ plano = "aprovado 2026-11-27 por zzNICK", tipo = "implementacao", bloqueada = "—", id = "SPEC-01", etapas }) {
   const linhas = etapas.map(e => `| ${e.join(" | ")} |`).join("\n");
-  return `# SPEC-01 — Regras
+  return `# ${id} — Regras
 
 | Campo | Valor |
 |---|---|
-| ID | SPEC-01 |
+| ID | ${id} |
 | Tipo | ${tipo} |
 | Prioridade | P0 |
 | Plano | ${plano} |
 | Responsável pela spec | zzNICK |
+| Bloqueada por | ${bloqueada} |
 | Depende de | — |
 | Origem | plano |
 
@@ -34,14 +35,17 @@ const livre = (id = "E01") => [id, "Título", "infra", "planejada", "—", "—"
 const andando = (id = "E01", quem = "ana", branch = `ci-spec-01-${id.toLowerCase()}-x`) => [id, "Título", "infra", "em-andamento", quem, `\`${branch}\``, "—", "2026-11-27"];
 const pronta = (id = "E01") => [id, "Título", "infra", "concluida", "ana", `\`ci-spec-01-${id.toLowerCase()}-x\``, `[b#12](${PR})`, "2026-11-28"];
 
-const catalogo = (status = "planejada", pasta = "[SPEC-01-regras](SPEC-01-regras/README.md)") => `# Catálogo
+const catalogo = (situacao = "🟡 Em aberto", pasta = "[SPEC-01-regras](SPEC-01-regras/README.md)", progresso = "▱▱▱▱▱▱▱▱▱▱ 0/1", resumo = "—") => `# Todas as specs
 
-| ID | Spec | Tipo | Prioridade | No MVP | Status | Pasta |
-|---|---|---|---|---|---|---|
-| SPEC-01 | Regras | implementacao | P0 | item 2 | ${status} | ${pasta} |
-| SPEC-16 | Doc | implementacao | — | não | incorporada | — |
+<!-- resumo:inicio -->
+${resumo}
+<!-- resumo:fim -->
+
+| ID | Spec | Tipo | Prioridade | No MVP | Situação | Progresso | Pasta |
+|---|---|---|---|---|---|---|---|
+| SPEC-01 | Regras | implementacao | P0 | item 2 | ${situacao} | ${progresso} | ${pasta} |
+| SPEC-16 | Doc | implementacao | — | não | ⚪ Incorporada | — | — |
 `;
-
 const estado = (textoCatalogo, textoFicha) => ({
   catalogo: lerCatalogo(textoCatalogo),
   fichas: textoFicha ? new Map([["SPEC-01-regras", lerFicha(textoFicha)]]) : new Map(),
@@ -97,22 +101,49 @@ test("status da spec calculado pelas etapas", () => {
   assert.equal(statusDaSpec("correcao", [e("descartada")]), "descartada");
 });
 
-test("catálogo: status diferente do calculado e pasta inexistente são erros", () => {
-  const atual = estado(catalogo("implementada"), ficha({ etapas: [andando()] }));
-  assert.match(validarCatalogo(atual.catalogo, atual.fichas).erros.join("\n"), /Status implementada, mas as etapas dizem em-andamento/);
-  const semPasta = estado(catalogo(), null);
-  assert.match(validarCatalogo(semPasta.catalogo, semPasta.fichas).erros.join("\n"), /não existe ou não tem README/);
-  const certo = estado(catalogo("em-andamento"), ficha({ etapas: [andando()] }));
-  assert.deepEqual(validarCatalogo(certo.catalogo, certo.fichas).erros, []);
+test("situação: concluída, em aberto, bloqueada por spec e por etapas", () => {
+  const f = (etapas, extra = {}) => lerFicha(ficha({ etapas, ...extra }));
+  const bloqueada = [...livre("E02")]; bloqueada[3] = "bloqueada";
+  assert.equal(situacaoDaSpec(f([pronta()]), new Set()), "🟢 Concluída (implementada)");
+  assert.equal(situacaoDaSpec(f([pronta()], { tipo: "correcao" }), new Set()), "🟢 Concluída (corrigida)");
+  assert.equal(situacaoDaSpec(f([livre()]), new Set()), "🟡 Em aberto");
+  assert.equal(situacaoDaSpec(f([]), new Set()), "🟡 Em aberto", "sem plano ainda é em aberto");
+  assert.equal(situacaoDaSpec(f([livre()], { bloqueada: "SPEC-03, SPEC-11" }), new Set(["SPEC-11"])), "🔴 Bloqueada (SPEC-03)");
+  assert.equal(situacaoDaSpec(f([livre()], { bloqueada: "SPEC-03" }), new Set(["SPEC-03"])), "🟡 Em aberto", "o bloqueio cai quando a spec termina");
+  assert.equal(situacaoDaSpec(f([pronta(), bloqueada]), new Set()), "🔴 Bloqueada (etapas)");
+  assert.equal(situacaoDaSpec(null, new Set(), { incorporada: true }), "⚪ Incorporada");
 });
 
-test("catálogo: spec sem pasta só planejada ou incorporada; pasta órfã é erro", () => {
-  const texto = catalogo("em-andamento", "—");
-  const { erros } = validarCatalogo(lerCatalogo(texto), new Map([["SPEC-02-outra", lerFicha(ficha({ etapas: [livre()] }))]]));
-  assert.match(erros.join("\n"), /spec sem pasta só pode estar planejada ou incorporada/);
+test("progresso: barra, contagem e em andamento", () => {
+  const f = etapas => lerFicha(ficha({ etapas }));
+  const descartada = [...livre("E04")]; descartada[3] = "descartada";
+  assert.equal(progressoDaSpec(f([])), "sem plano");
+  assert.equal(progressoDaSpec(f([pronta("E01"), andando("E02"), livre("E03"), descartada])), "▰▰▰▱▱▱▱▱▱▱ 1/3 · 1 em andamento");
+  assert.equal(progressoDaSpec(f([pronta("E01"), pronta("E02")])), "▰▰▰▰▰▰▰▰▰▰ 2/2");
+});
+
+test("painel: situação, progresso e resumo desatualizados são erro e o catalogo corrige", () => {
+  const fichas = new Map([["SPEC-01-regras", lerFicha(ficha({ etapas: [pronta()] }))]]);
+  const texto = catalogo();
+  const lido = lerCatalogo(texto);
+  const { erros, calculados, resumo } = validarCatalogo(lido, fichas);
+  assert.match(erros.join("\n"), /SPEC-01: o catálogo diz "🟡 Em aberto".*"🟢 Concluída \(implementada\)"/);
+  assert.match(erros.join("\n"), /resumo de progresso está desatualizado/);
+  assert.equal(resumo, "**Progresso geral:** 🟢 1 concluídas · 🟡 0 em aberto · 🔴 0 bloqueadas · ⚪ 1 fora do plano. Etapas: 1 de 1 concluídas, 0 em andamento.");
+  const corrigido = catalogoAtualizado(texto, lido, calculados, resumo);
+  assert.deepEqual(validarCatalogo(lerCatalogo(corrigido), fichas).erros, []);
+  assert.equal(lerCatalogo(corrigido).specs[0].situacao, "🟢 Concluída (implementada)");
+  assert.equal(lerCatalogo(corrigido).specs[0].progresso, "▰▰▰▰▰▰▰▰▰▰ 1/1");
+});
+
+test("painel: spec sem pasta, pasta órfã e bloqueio para spec inexistente são erros", () => {
+  const { erros } = validarCatalogo(lerCatalogo(catalogo("🟡 Em aberto", "—", "sem pasta")), new Map([["SPEC-02-outra", lerFicha(ficha({ id: "SPEC-02", etapas: [livre()] }))]]));
+  assert.match(erros.join("\n"), /toda spec tem pasta própria/);
   assert.match(erros.join("\n"), /SPEC-02-outra\/: pasta sem linha no catálogo/);
+  const comBloqueio = new Map([["SPEC-01-regras", lerFicha(ficha({ bloqueada: "SPEC-99", etapas: [livre()] }))]]);
+  assert.match(validarCatalogo(lerCatalogo(catalogo()), comBloqueio).erros.join("\n"), /cita SPEC-99, que não está no catálogo/);
+  assert.match(validarFicha(lerFicha(ficha({ bloqueada: "a SPEC-03", etapas: [] })), "SPEC-01-regras").join("\n"), /"Bloqueada por" deve ser/);
 });
-
 test("transição: etapa concluída não pode mudar, e a mensagem diz implementada ou corrigida", () => {
   const base = estado(catalogo("implementada"), ficha({ etapas: [pronta()] }));
   const reaberta = estado(catalogo("em-andamento"), ficha({ etapas: [andando("E01", "bia")] }));
@@ -180,10 +211,12 @@ test("reescreve a linha da etapa e o catálogo mantendo CRLF", () => {
   const lido = lerFicha(novo).etapas[0];
   assert.equal(lido.branch, "ci-spec-01-e01-x");
 
-  const cat = catalogo();
-  const atualizado = catalogoAtualizado(cat, lerCatalogo(cat), new Map([["SPEC-01", "em-andamento"]]));
-  assert.equal(lerCatalogo(atualizado).specs[0].status, "em-andamento");
-  assert.equal(lerCatalogo(atualizado).specs[1].status, "incorporada");
+  const cat = catalogo().replace(/\n/g, "\r\n");
+  const atualizado = catalogoAtualizado(cat, lerCatalogo(cat), new Map([["SPEC-01", { situacao: "🔴 Bloqueada (SPEC-03)", progresso: "sem plano" }]]), "novo resumo");
+  assert.equal(lerCatalogo(atualizado).specs[0].situacao, "🔴 Bloqueada (SPEC-03)");
+  assert.equal(lerCatalogo(atualizado).specs[1].situacao, "⚪ Incorporada");
+  assert.equal(lerCatalogo(atualizado).resumo, "novo resumo");
+  assert.ok(!/[^\r]\n/.test(atualizado), "mantém CRLF");
 });
 
 test("rótulo de PR e data local", () => {

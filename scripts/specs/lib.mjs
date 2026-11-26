@@ -2,13 +2,16 @@
 // Regras em policies/specs.md.
 
 export const STATUS_ETAPA = ["planejada", "bloqueada", "em-andamento", "concluida", "descartada"];
-export const STATUS_SPEC = ["planejada", "em-andamento", "implementada", "corrigida", "descartada", "incorporada"];
 export const TIPOS = ["implementacao", "correcao"];
 export const ROTULO_CORRIGE_REGISTRO = "corrige-registro";
 
-export const COLUNAS_CATALOGO = ["ID", "Spec", "Tipo", "Prioridade", "No MVP", "Status", "Pasta"];
+export const ARQUIVO_CATALOGO = "specs/todas-as-specs.md";
+export const COLUNAS_CATALOGO = ["ID", "Spec", "Tipo", "Prioridade", "No MVP", "Situação", "Progresso", "Pasta"];
 export const COLUNAS_ETAPAS = ["Etapa", "Título", "Repositórios", "Status", "Responsável", "Branch", "PRs", "Desde"];
-const CAMPOS_FICHA = ["ID", "Tipo", "Prioridade", "Plano", "Responsável pela spec", "Depende de", "Origem"];
+const CAMPOS_FICHA = ["ID", "Tipo", "Prioridade", "Plano", "Responsável pela spec", "Bloqueada por", "Depende de", "Origem"];
+const RESUMO_INICIO = "<!-- resumo:inicio -->";
+const RESUMO_FIM = "<!-- resumo:fim -->";
+const TAMANHO_BARRA = 10;
 
 const VAZIOS = new Set(["", "—", "–", "-"]);
 const RE_ID_SPEC = /^SPEC-\d{2}$/;
@@ -66,17 +69,19 @@ const mesmoCabecalho = (a, b) => a.length === b.length && a.every((c, i) => c ==
 const pastaDoLink = celula => /\(([^)/]+)\/README\.md\)/.exec(celula)?.[1] ?? null;
 export const prsDaCelula = celula => [...String(celula ?? "").matchAll(RE_PR)].map(m => m[0]);
 
-/** Catálogo `specs/README.md` → linhas da tabela de specs. */
+/** Catálogo `specs/todas-as-specs.md` → linhas da tabela de specs e o bloco de resumo. */
 export function lerCatalogo(texto) {
   const erros = [];
   const tabela = tabelas(texto).find(t => t.cabecalho[0] === "ID");
-  if (!tabela) return { specs: [], erros: ["specs/README.md: tabela de specs não encontrada (cabeçalho começando por \"ID\")."] };
-  if (!mesmoCabecalho(tabela.cabecalho, COLUNAS_CATALOGO)) erros.push(`specs/README.md: colunas esperadas: ${COLUNAS_CATALOGO.join(" | ")}.`);
+  if (!tabela) return { specs: [], resumo: null, erros: [`${ARQUIVO_CATALOGO}: tabela de specs não encontrada (cabeçalho começando por "ID").`] };
+  if (!mesmoCabecalho(tabela.cabecalho, COLUNAS_CATALOGO)) erros.push(`${ARQUIVO_CATALOGO}: colunas esperadas: ${COLUNAS_CATALOGO.join(" | ")}.`);
   const specs = tabela.linhas.map(({ celulas: c, indice }) => ({
-    id: c[0], titulo: c[1], tipo: c[2], prioridade: c[3], mvp: c[4], status: c[5],
-    pasta: vazio(c[6]) ? null : pastaDoLink(c[6]), pastaBruta: c[6], indice, celulas: c,
+    id: c[0], titulo: c[1], tipo: c[2], prioridade: c[3], mvp: c[4], situacao: c[5], progresso: c[6],
+    pasta: vazio(c[7]) ? null : pastaDoLink(c[7]), pastaBruta: c[7], indice, celulas: c,
   }));
-  return { specs, erros };
+  const resumo = new RegExp(`${RESUMO_INICIO}\\r?\\n([\\s\\S]*?)\\r?\\n${RESUMO_FIM}`).exec(texto)?.[1] ?? null;
+  if (resumo === null) erros.push(`${ARQUIVO_CATALOGO}: bloco de resumo não encontrado (${RESUMO_INICIO} … ${RESUMO_FIM}).`);
+  return { specs, resumo, erros };
 }
 
 /** Ficha `specs/SPEC-NN-<slug>/README.md` → campos, plano e etapas. */
@@ -102,7 +107,9 @@ export function lerFicha(texto, caminho = "ficha") {
   const planoBruto = campos.get("Plano") ?? "";
   const aprovado = RE_PLANO_APROVADO.exec(planoBruto);
   const plano = { bruto: planoBruto, aprovado: Boolean(aprovado), data: aprovado?.[1] ?? null, por: aprovado?.[2] ?? null };
-  return { titulo, id: campos.get("ID") ?? "", tipo: campos.get("Tipo") ?? "", prioridade: campos.get("Prioridade") ?? "", plano, etapas, erros };
+  const bloqueadaBruto = campos.get("Bloqueada por") ?? "";
+  const bloqueadaPor = vazio(bloqueadaBruto) ? [] : bloqueadaBruto.split(",").map(s => s.trim());
+  return { titulo, id: campos.get("ID") ?? "", tipo: campos.get("Tipo") ?? "", prioridade: campos.get("Prioridade") ?? "", plano, bloqueadaPor, etapas, erros };
 }
 
 /** O token que liga uma branch a uma etapa: "spec-01-e03". */
@@ -138,6 +145,53 @@ export function statusDaSpec(tipo, etapas) {
 /** "implementada" ou "corrigida", para as mensagens sobre uma etapa entregue. */
 export const verboEntregue = tipo => (tipo === "correcao" ? "corrigida" : "implementada");
 
+/** Specs concluídas (todas as etapas entregues): base para saber se um bloqueio já caiu. */
+export function specsConcluidas(fichas) {
+  const concluidas = new Set();
+  for (const ficha of fichas.values()) {
+    const status = statusDaSpec(ficha.tipo, ficha.etapas);
+    if (status === "implementada" || status === "corrigida") concluidas.add(ficha.id);
+  }
+  return concluidas;
+}
+
+/**
+ * Situação mostrada no catálogo (policies/specs.md, seção 2):
+ * 🟢 Concluída, 🟡 Em aberto, 🔴 Bloqueada, ⚪ Descartada ou Incorporada.
+ */
+export function situacaoDaSpec(ficha, concluidas, { incorporada = false } = {}) {
+  if (incorporada) return "⚪ Incorporada";
+  if (!ficha) return "🟡 Em aberto";
+  const status = statusDaSpec(ficha.tipo, ficha.etapas);
+  if (status === "implementada" || status === "corrigida") return `🟢 Concluída (${status})`;
+  if (status === "descartada") return "⚪ Descartada";
+  const pendentes = ficha.bloqueadaPor.filter(id => !concluidas.has(id));
+  if (pendentes.length) return `🔴 Bloqueada (${pendentes.join(", ")})`;
+  const abertas = ficha.etapas.filter(e => e.status !== "concluida" && e.status !== "descartada");
+  if (abertas.length && abertas.every(e => e.status === "bloqueada")) return "🔴 Bloqueada (etapas)";
+  return "🟡 Em aberto";
+}
+
+/** Barra de progresso das etapas: "▰▰▱▱▱▱▱▱▱▱ 2/10 · 1 em andamento". */
+export function progressoDaSpec(ficha) {
+  if (!ficha) return "sem pasta";
+  const validas = ficha.etapas.filter(e => e.status !== "descartada");
+  if (validas.length === 0) return "sem plano";
+  const feitas = validas.filter(e => e.status === "concluida").length;
+  const cheias = Math.round((TAMANHO_BARRA * feitas) / validas.length);
+  const andando = validas.filter(e => e.status === "em-andamento").length;
+  return `${"▰".repeat(cheias)}${"▱".repeat(TAMANHO_BARRA - cheias)} ${feitas}/${validas.length}${andando ? ` · ${andando} em andamento` : ""}`;
+}
+
+/** Linha de resumo do catálogo, contada pelas situações calculadas. */
+export function resumoDoCatalogo(situacoes, fichas) {
+  const contar = prefixo => [...situacoes.values()].filter(s => s.startsWith(prefixo)).length;
+  const etapas = [...fichas.values()].flatMap(f => f.etapas).filter(e => e.status !== "descartada");
+  const feitas = etapas.filter(e => e.status === "concluida").length;
+  const andando = etapas.filter(e => e.status === "em-andamento").length;
+  return `**Progresso geral:** 🟢 ${contar("🟢")} concluídas · 🟡 ${contar("🟡")} em aberto · 🔴 ${contar("🔴")} bloqueadas · ⚪ ${contar("⚪")} fora do plano. Etapas: ${feitas} de ${etapas.length} concluídas, ${andando} em andamento.`;
+}
+
 /** Confere uma ficha isolada: campos, plano e cada etapa. `pasta` é o nome da pasta (SPEC-NN-slug). */
 export function validarFicha(ficha, pasta) {
   const erros = [...ficha.erros];
@@ -148,6 +202,10 @@ export function validarFicha(ficha, pasta) {
   if (!ficha.titulo.startsWith(`${ficha.id} — `)) erros.push(`${onde}: o título deve começar com "${ficha.id} — ".`);
   if (!TIPOS.includes(ficha.tipo)) erros.push(`${onde}: Tipo "${ficha.tipo}" inválido (use ${TIPOS.join(" ou ")}).`);
   if (ficha.plano.bruto !== "pendente" && !ficha.plano.aprovado) erros.push(`${onde}: Plano deve ser "pendente" ou "aprovado AAAA-MM-DD por <login>".`);
+  for (const id of ficha.bloqueadaPor) {
+    if (!RE_ID_SPEC.test(id)) erros.push(`${onde}: "Bloqueada por" deve ser — ou uma lista de SPEC-NN separada por vírgula (veio "${id}").`);
+    else if (id === ficha.id) erros.push(`${onde}: a spec não pode bloquear a si mesma.`);
+  }
 
   const vistos = new Set();
   for (const etapa of ficha.etapas) {
@@ -174,40 +232,49 @@ export function validarFicha(ficha, pasta) {
 
 /**
  * Confere o catálogo contra as fichas. `fichas` é um Map pasta → ficha lida.
- * Devolve os erros e, por ID, o status calculado (para o comando `catalogo` corrigir a coluna).
+ * Devolve os erros e, por ID, a situação e o progresso calculados (o comando `catalogo` grava esses valores).
  */
 export function validarCatalogo(catalogo, fichas) {
   const erros = [...catalogo.erros];
   const calculados = new Map();
-  const ids = new Set();
+  const ids = new Set(catalogo.specs.map(s => s.id));
+  const vistos = new Set();
   const pastasCitadas = new Set();
+  const concluidas = specsConcluidas(fichas);
   for (const spec of catalogo.specs) {
-    const ref = `specs/README.md, ${spec.id || "linha sem ID"}`;
+    const ref = `${ARQUIVO_CATALOGO}, ${spec.id || "linha sem ID"}`;
     if (!RE_ID_SPEC.test(spec.id)) erros.push(`${ref}: ID deve ser SPEC-NN.`);
-    if (ids.has(spec.id)) erros.push(`${ref}: ID repetido.`);
-    ids.add(spec.id);
+    if (vistos.has(spec.id)) erros.push(`${ref}: ID repetido.`);
+    vistos.add(spec.id);
     if (!TIPOS.includes(spec.tipo)) erros.push(`${ref}: Tipo "${spec.tipo}" inválido (use ${TIPOS.join(" ou ")}).`);
-    if (!STATUS_SPEC.includes(spec.status)) erros.push(`${ref}: Status "${spec.status}" inválido (use ${STATUS_SPEC.join(", ")}).`);
+    const incorporada = spec.situacao.startsWith("⚪ Incorporada");
+    let ficha = null;
     if (!spec.pasta) {
       if (!vazio(spec.pastaBruta)) erros.push(`${ref}: Pasta deve ser um link [SPEC-NN-slug](SPEC-NN-slug/README.md) ou —.`);
-      const esperado = spec.status === "incorporada" ? "incorporada" : "planejada";
-      calculados.set(spec.id, esperado);
-      if (spec.status !== esperado) erros.push(`${ref}: spec sem pasta só pode estar planejada ou incorporada (está ${spec.status}).`);
-      continue;
+      if (!incorporada) erros.push(`${ref}: toda spec tem pasta própria, salvo a incorporada a outra.`);
+    } else {
+      pastasCitadas.add(spec.pasta);
+      if (incorporada) erros.push(`${ref}: spec incorporada não tem pasta.`);
+      if (!spec.pasta.startsWith(`${spec.id}-`)) erros.push(`${ref}: a pasta ${spec.pasta} não é desta spec.`);
+      ficha = fichas.get(spec.pasta) ?? null;
+      if (!ficha) erros.push(`${ref}: a pasta specs/${spec.pasta}/ não existe ou não tem README.md.`);
     }
-    pastasCitadas.add(spec.pasta);
-    if (spec.status === "incorporada") erros.push(`${ref}: spec incorporada não tem pasta.`);
-    if (!spec.pasta.startsWith(`${spec.id}-`)) erros.push(`${ref}: a pasta ${spec.pasta} não é desta spec.`);
-    const ficha = fichas.get(spec.pasta);
-    if (!ficha) { erros.push(`${ref}: a pasta specs/${spec.pasta}/ não existe ou não tem README.md.`); continue; }
-    if (ficha.tipo !== spec.tipo) erros.push(`${ref}: Tipo no catálogo (${spec.tipo}) diferente da ficha (${ficha.tipo}).`);
-    if (ficha.prioridade !== spec.prioridade) erros.push(`${ref}: Prioridade no catálogo (${spec.prioridade}) diferente da ficha (${ficha.prioridade}).`);
-    const calculado = statusDaSpec(ficha.tipo, ficha.etapas);
-    calculados.set(spec.id, calculado);
-    if (spec.status !== calculado) erros.push(`${ref}: Status ${spec.status}, mas as etapas dizem ${calculado}. Rode: node scripts/specs/specs.mjs catalogo`);
+    if (ficha) {
+      if (ficha.tipo !== spec.tipo) erros.push(`${ref}: Tipo no catálogo (${spec.tipo}) diferente da ficha (${ficha.tipo}).`);
+      if (ficha.prioridade !== spec.prioridade) erros.push(`${ref}: Prioridade no catálogo (${spec.prioridade}) diferente da ficha (${ficha.prioridade}).`);
+      for (const id of ficha.bloqueadaPor) if (RE_ID_SPEC.test(id) && !ids.has(id)) erros.push(`${ref}: "Bloqueada por" cita ${id}, que não está no catálogo.`);
+    }
+    const situacao = situacaoDaSpec(ficha, concluidas, { incorporada });
+    const progresso = incorporada ? "—" : progressoDaSpec(ficha);
+    calculados.set(spec.id, { situacao, progresso });
+    if (spec.situacao !== situacao || spec.progresso !== progresso) {
+      erros.push(`${ref}: o catálogo diz "${spec.situacao}" e "${spec.progresso}", mas as etapas dizem "${situacao}" e "${progresso}". Rode: node scripts/specs/specs.mjs catalogo`);
+    }
   }
-  for (const pasta of fichas.keys()) if (!pastasCitadas.has(pasta)) erros.push(`specs/${pasta}/: pasta sem linha no catálogo specs/README.md.`);
-  return { erros, calculados };
+  for (const pasta of fichas.keys()) if (!pastasCitadas.has(pasta)) erros.push(`specs/${pasta}/: pasta sem linha no catálogo ${ARQUIVO_CATALOGO}.`);
+  const resumo = resumoDoCatalogo(new Map([...calculados].map(([id, c]) => [id, c.situacao])), fichas);
+  if (catalogo.resumo !== null && catalogo.resumo.trim() !== resumo) erros.push(`${ARQUIVO_CATALOGO}: o resumo de progresso está desatualizado. Rode: node scripts/specs/specs.mjs catalogo`);
+  return { erros, calculados, resumo };
 }
 
 const resumoEtapa = e => `${e.responsavel || "sem responsável"} na branch ${e.branch || "?"}${e.desde ? ` desde ${e.desde}` : ""}`;
@@ -221,7 +288,7 @@ export function validarTransicoes(base, head, { rotulos = [] } = {}) {
   const erros = [];
   const corrigeRegistro = rotulos.includes(ROTULO_CORRIGE_REGISTRO);
   const idsHead = new Set(head.catalogo.specs.map(s => s.id));
-  for (const spec of base.catalogo.specs) if (!idsHead.has(spec.id)) erros.push(`specs/README.md: ${spec.id} saiu do catálogo; o ID de uma spec é permanente.`);
+  for (const spec of base.catalogo.specs) if (!idsHead.has(spec.id)) erros.push(`${ARQUIVO_CATALOGO}: ${spec.id} saiu do catálogo; o ID de uma spec é permanente.`);
 
   for (const [pasta, fichaBase] of base.fichas) {
     const fichaHead = head.fichas.get(pasta);
@@ -317,15 +384,20 @@ export function rotuloPr(url) {
   return m ? `[${m[1]}#${m[2]}](${url})` : url;
 }
 
-/** Catálogo com a coluna Status trocada pelos valores calculados. */
-export function catalogoAtualizado(texto, catalogo, calculados) {
+/** Catálogo com Situação, Progresso e o resumo trocados pelos valores calculados. */
+export function catalogoAtualizado(texto, catalogo, calculados, resumo) {
   let novo = texto;
   for (const spec of catalogo.specs) {
-    const status = calculados.get(spec.id);
-    if (!status || status === spec.status) continue;
+    const calculado = calculados.get(spec.id);
+    if (!calculado || (calculado.situacao === spec.situacao && calculado.progresso === spec.progresso)) continue;
     const c = [...spec.celulas];
-    c[5] = status;
+    c[5] = calculado.situacao;
+    c[6] = calculado.progresso;
     novo = trocarLinha(novo, spec.indice, linhaDeTabela(c));
+  }
+  if (resumo !== undefined && catalogo.resumo !== null) {
+    const eol = novo.includes("\r\n") ? "\r\n" : "\n";
+    novo = novo.replace(new RegExp(`${RESUMO_INICIO}\\r?\\n[\\s\\S]*?\\r?\\n${RESUMO_FIM}`), `${RESUMO_INICIO}${eol}${resumo}${eol}${RESUMO_FIM}`);
   }
   return novo;
 }

@@ -10,7 +10,7 @@ Infraestrutura compartilhada para apoiar agentes de desenvolvimento nos projetos
 - `policies/`: limites operacionais e proteções de branches.
 - `projects/`: contexto específico de cada repositório consumidor.
 - `features/`: registro de cada funcionalidade do NordTool, com a ficha atual e um arquivo por versão ([catálogo](features/README.md)).
-- `specs/`: specs do plano de evolução (regras dos agentes, segurança, plataforma), com etapas, responsável e status, para ninguém refazer o que já foi entregue ([catálogo](specs/README.md)).
+- `specs/`: specs do plano de evolução (regras dos agentes, segurança, plataforma), com etapas, responsável e status, para ninguém refazer o que já foi entregue ([todas as specs](specs/todas-as-specs.md)).
 - `templates/`: modelos da documentação de feature, de spec e dos workflows de CI.
 - `scripts/specs/`: status, reserva e validação do registro de specs (`node scripts/specs/specs.mjs`).
 - `vigia-issue/`: script local que transforma uma issue do GitHub num chat com a IA (Gemini CLI ou Claude Code, sem API paga); veja [vigia-issue/README.md](vigia-issue/README.md).
@@ -30,4 +30,4 @@ O servidor mantém o transporte local `stdio` e está iniciando o modo remoto St
 
 ## Uso das instruções
 
-Identifique primeiro o repositório alvo. Carregue somente o perfil em `projects/`, as steering em `steering/<projeto>/` e as skills em `skills/<projeto>/` correspondentes a ele. Consulte `policies/` para as regras globais de permissão e branch. Para pedidos de funcionalidade, consulte o [catálogo de features](features/README.md) e siga [policies/features.md](policies/features.md). Para trabalhar numa spec do plano, consulte o [catálogo de specs](specs/README.md), reserve a etapa e siga [policies/specs.md](policies/specs.md). Essas instruções não substituem revisão de código nem os comandos oficiais de build e teste de cada projeto.
+Identifique primeiro o repositório alvo. Carregue somente o perfil em `projects/`, as steering em `steering/<projeto>/` e as skills em `skills/<projeto>/` correspondentes a ele. Consulte `policies/` para as regras globais de permissão e branch. Para pedidos de funcionalidade, consulte o [catálogo de features](features/README.md) e siga [policies/features.md](policies/features.md). Para trabalhar numa spec do plano, consulte o painel [todas-as-specs.md](specs/todas-as-specs.md), reserve a etapa e siga [policies/specs.md](policies/specs.md). Essas instruções não substituem revisão de código nem os comandos oficiais de build e teste de cada projeto.

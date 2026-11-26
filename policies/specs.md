@@ -8,16 +8,16 @@ Esta policy evita que duas pessoas (ou dois agentes) façam o mesmo trabalho: ca
 
 ```
 specs/
-  README.md                catálogo de todas as specs do plano: tipo, prioridade, status e pasta
-  SPEC-NN-<slug>/
-    README.md              ficha: dados da spec, aprovação do plano e tabela de etapas (o estado)
+  todas-as-specs.md        painel de todas as specs: tipo, prioridade, situação (🟢 🟡 🔴), progresso e pasta
+  SPEC-NN-<slug>/          uma pasta por spec, desde o início
+    README.md              ficha: dados da spec, bloqueios, aprovação do plano e tabela de etapas (o estado)
     spec.md                o quê e por quê, situação conferida no código e critérios de aceite
     plano.md               plano de implementação: etapas, ordem, arquivos, riscos e validação
     decisoes.md            decisões com o porquê
     contexto/<repo>.md     o que existe hoje em cada repositório tocado e o que muda
 ```
 
-- A pasta nasce quando a spec começa a ser planejada, a partir dos modelos em [`templates/spec/`](../templates/spec/). Até lá, a spec aparece só no catálogo, como `planejada`.
+- Toda spec tem a sua pasta com a ficha e o `spec.md` copiado do plano de origem. `plano.md`, `decisoes.md` e `contexto/` entram quando a spec começa a ser planejada, a partir dos modelos em [`templates/spec/`](../templates/spec/). Só a spec incorporada a outra não tem pasta.
 - O ID (`SPEC-NN`) é o do plano e nunca muda. O slug segue as regras de slug de [features.md](features.md).
 - **Segurança fora do detalhe aberto.** Specs de segurança (autenticação, sessão, WAF, rate limit, permissões internas, chaves) registram aqui só a ficha, as etapas e um resumo do que o usuário vê. O detalhe técnico fica no repositório restrito previsto na SPEC-24, item 4.
 
@@ -35,20 +35,25 @@ specs/
 | `concluida` | entregue: tem os links dos PRs integrados |
 | `descartada` | não será feita; o motivo está em `decisoes.md` |
 
-**Status da spec** (coluna `Status` do catálogo) é calculado a partir das etapas e conferido pelo CI:
+**Situação da spec** (colunas `Situação` e `Progresso` de [todas-as-specs.md](../specs/todas-as-specs.md), mais o resumo no topo) é calculada a partir das fichas pelo script, nunca editada à mão, e conferida pelo CI:
 
-| Status da spec | Quando |
+| Situação | Quando |
 |---|---|
-| `planejada` | nenhuma etapa começou (ou a spec ainda não tem pasta) |
-| `em-andamento` | alguma etapa está em andamento ou concluída, mas não todas |
-| `implementada` | todas as etapas concluídas ou descartadas, com pelo menos uma concluída, e tipo `implementacao` |
-| `corrigida` | o mesmo, com tipo `correcao` |
-| `descartada` | todas as etapas descartadas, nenhuma concluída |
-| `incorporada` | a spec foi unida a outra (só no catálogo, sem pasta) |
+| 🟢 Concluída (implementada) | todas as etapas concluídas ou descartadas, com pelo menos uma concluída, e tipo `implementacao` |
+| 🟢 Concluída (corrigida) | o mesmo, com tipo `correcao` |
+| 🔴 Bloqueada (SPEC-NN…) | alguma spec do campo "Bloqueada por" da ficha ainda não está concluída |
+| 🔴 Bloqueada (etapas) | todas as etapas abertas estão `bloqueada` |
+| 🟡 Em aberto | o resto: há etapas livres ou em andamento, ou o plano ainda não foi escrito |
+| ⚪ Descartada | todas as etapas descartadas, nenhuma concluída |
+| ⚪ Incorporada | a spec foi unida a outra (sem pasta) |
+
+**Progresso** é a barra das etapas concluídas sobre o total, sem as descartadas (`▰▰▱▱▱▱▱▱▱▱ 2/10 · 1 em andamento`), ou `sem plano` quando as etapas ainda não foram definidas.
+
+**Bloqueada por** (campo da ficha) lista só as specs que precisam estar inteiras antes de qualquer etapa. Dependência parcial (um item de outra spec) fica em "Depende de" e, quando o plano existir, vira etapa `bloqueada`. Quando a última etapa de uma spec é concluída, as que esperavam por ela saem de 🔴 sozinhas no próximo `catalogo`, `pegar` ou `concluir`.
 
 ## 3. Fluxo de uma spec
 
-1. **Spec e plano.** Crie a pasta com `spec.md`, `plano.md`, `decisoes.md`, `contexto/` e a ficha. Confira no código cada ponto de "Situação atual" do plano de origem e registre o resultado. Na ficha, `Plano` fica `pendente`.
+1. **Spec e plano.** Na pasta da spec, confira no código cada ponto de "Situação atual" do `spec.md` e registre o resultado; escreva `plano.md`, `decisoes.md` e `contexto/` e preencha a tabela de etapas da ficha. `Plano` fica `pendente`.
 2. **Aprovação.** O responsável pelo projeto aprova o plano. A ficha passa a dizer `aprovado AAAA-MM-DD por <login>`. Nenhuma etapa entra em andamento antes disso.
 3. **Reserva de uma etapa.** Veja a seção 4. A reserva entra em `develop` antes do código.
 4. **Implementação** na branch da etapa, com o mesmo nome em todos os repositórios tocados.
@@ -74,7 +79,7 @@ O comando `pegar` consulta a ficha em `origin/develop` e na cópia local e **rec
 - você está em `develop`, `master` ou `main`;
 - com `GITHUB_TOKEN` no ambiente: existe outra branch `*-spec-NN-eMM-*` em algum repositório, ou outro PR aberto reservando a mesma etapa.
 
-Se tudo estiver livre, ele grava a reserva na ficha e o status no catálogo. Faça commit só desses dois arquivos, abra o PR de reserva para `develop` e só comece o código depois que ele for integrado. Para desistir, mude a linha de volta para `planejada` (sem responsável, branch nem data) num PR.
+Se tudo estiver livre, ele grava a reserva na ficha e atualiza a situação e o progresso em `todas-as-specs.md`. Faça commit só desses dois arquivos, abra o PR de reserva para `develop` e só comece o código depois que ele for integrado. Para desistir, mude a linha de volta para `planejada` (sem responsável, branch nem data) num PR.
 
 Ao terminar, no PR da infra da etapa:
 
@@ -97,7 +102,7 @@ O workflow `Specs` roda em todo PR e em todo push em `develop`:
 - `node --test scripts/specs/lib.test.mjs`;
 - `node scripts/specs/specs.mjs validar --base origin/develop`, que confere:
   - formato do catálogo e das fichas (campos, colunas, status, datas, branch e PRs);
-  - status de cada spec no catálogo igual ao calculado pelas etapas;
+  - situação, progresso e resumo de `todas-as-specs.md` iguais aos calculados pelas fichas;
   - transições de cada etapa em relação a `develop`, pela tabela abaixo;
   - nenhum outro PR aberto reservando ou concluindo a mesma etapa.
 

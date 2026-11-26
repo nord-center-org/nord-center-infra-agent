@@ -9,6 +9,7 @@
 | Prioridade | <P0, P1, P2, P3 ou MVP> |
 | Plano | pendente |
 | Responsável pela spec | <login do GitHub> |
+| Bloqueada por | <— ou SPEC-NN, SPEC-NN: specs que precisam estar concluídas antes de qualquer etapa> |
 | Depende de | <specs ou etapas> |
 | Origem | NordTool — Plano de specs (26/11/2026), seção SPEC-NN |
 

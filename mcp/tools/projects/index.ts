@@ -29,7 +29,7 @@ async function loadProjectContext(project: ProjectName) {
   const profilePath = path.join(INFRA_ROOT, "projects", `${project}.md`);
   const policiesDir = path.join(INFRA_ROOT, "policies");
   const featureCatalogPath = path.join(INFRA_ROOT, "features", "README.md");
-  const specCatalogPath = path.join(INFRA_ROOT, "specs", "README.md");
+  const specCatalogPath = path.join(INFRA_ROOT, "specs", "todas-as-specs.md");
   const steeringDir = path.join(INFRA_ROOT, "steering", project);
   const skillsDir = path.join(INFRA_ROOT, "skills", project);
   const paths = [...await markdownFiles(policiesDir), featureCatalogPath, specCatalogPath, profilePath, ...await markdownFiles(steeringDir), ...await markdownFiles(skillsDir)];

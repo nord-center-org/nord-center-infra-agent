@@ -7,6 +7,7 @@
 | Prioridade | P2 |
 | Plano | pendente |
 | Responsável pela spec | zzNICK |
+| Bloqueada por | — |
 | Depende de | SPEC-01 (regras e steerings); SPEC-06 para o agente de diagnóstico; SPEC-24 para o contexto por funcionalidade |
 | Origem | NordTool — Plano de specs (26/11/2026), seção SPEC-02 |
 

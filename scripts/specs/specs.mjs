@@ -21,7 +21,7 @@ const AJUDA = `Registro de specs (policies/specs.md)
                                     reserva uma etapa livre na cópia local (recusa se já implementada, corrigida ou em andamento)
   concluir SPEC-NN ENN --pr <url> [--pr <url>…]
                                     marca a etapa em andamento como concluída, com os PRs
-  catalogo                          corrige a coluna Status do catálogo pelas etapas
+  catalogo                          recalcula situação (🟢 🟡 🔴), progresso e resumo em todas-as-specs.md
   validar [--base <ref>]            confere formato, catálogo e, com --base, as transições e os outros PRs abertos`;
 
 class ErroDeUso extends Error {}
@@ -44,8 +44,8 @@ function montarEstado(catalogoTexto, textos) {
 
 function lerEstadoLocal() {
   const dir = path.join(RAIZ, "specs");
-  const catalogo = path.join(dir, "README.md");
-  if (!existsSync(catalogo)) throw new ErroDeUso("specs/README.md não encontrado.");
+  const catalogo = path.join(RAIZ, lib.ARQUIVO_CATALOGO);
+  if (!existsSync(catalogo)) throw new ErroDeUso(`${lib.ARQUIVO_CATALOGO} não encontrado.`);
   const textos = new Map();
   for (const entrada of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     if (!entrada.isDirectory() || !entrada.name.startsWith("SPEC-")) continue;
@@ -58,7 +58,7 @@ function lerEstadoLocal() {
 function lerEstadoRef(ref) {
   if (!refExiste(ref)) throw new ErroDeUso(`Referência ${ref} não encontrada. Rode: git fetch origin develop`);
   let catalogoTexto;
-  try { catalogoTexto = git(["show", `${ref}:specs/README.md`]); } catch { return montarEstado(null, new Map()); }
+  try { catalogoTexto = git(["show", `${ref}:${lib.ARQUIVO_CATALOGO}`]); } catch { return montarEstado(null, new Map()); }
   const pastas = git(["ls-tree", "-d", "--name-only", `${ref}:specs`]).split(/\r?\n/).map(s => s.trim()).filter(n => n.startsWith("SPEC-"));
   const textos = new Map(pastas.map(p => {
     try { return [p, git(["show", `${ref}:specs/${p}/README.md`])]; } catch { return [p, null]; }
@@ -145,10 +145,10 @@ function gravarEtapa(pasta, etapa, dados) {
 
 function gravarCatalogo() {
   const local = lerEstadoLocal();
-  const { calculados } = lib.validarCatalogo(local.catalogo, local.fichas);
-  const novo = lib.catalogoAtualizado(local.catalogoTexto, local.catalogo, calculados);
+  const { calculados, resumo } = lib.validarCatalogo(local.catalogo, local.fichas);
+  const novo = lib.catalogoAtualizado(local.catalogoTexto, local.catalogo, calculados, resumo);
   if (novo === local.catalogoTexto) return false;
-  writeFileSync(path.join(RAIZ, "specs", "README.md"), novo);
+  writeFileSync(path.join(RAIZ, lib.ARQUIVO_CATALOGO), novo);
   return true;
 }
 
@@ -166,7 +166,7 @@ async function status(filtro) {
   const usarDevelop = Boolean(doDevelop?.catalogo.specs.length);
   if (!usarDevelop) avisos.push(`${DEVELOP} ainda não tem o catálogo de specs; mostrei a cópia local.`);
   const estado = usarDevelop ? doDevelop : lerEstadoLocal();
-  if (estado.catalogo.specs.length === 0) throw new ErroDeUso("Sem catálogo de specs em specs/README.md.");
+  if (estado.catalogo.specs.length === 0) throw new ErroDeUso(`Sem catálogo de specs em ${lib.ARQUIVO_CATALOGO}.`);
   console.log(`Fonte: ${usarDevelop ? DEVELOP : "cópia local"}\n`);
 
   const specs = estado.catalogo.specs.filter(s => !idSpec || s.id === idSpec);
@@ -175,12 +175,12 @@ async function status(filtro) {
   for (const spec of specs) {
     const ficha = spec.pasta ? estado.fichas.get(spec.pasta) : null;
     if (!ficha) { semPasta.push(spec); continue; }
-    console.log(`${spec.id} — ${spec.titulo} [${spec.tipo}, ${spec.prioridade}] status: ${spec.status} · plano: ${ficha.plano.bruto}`);
+    console.log(`${spec.id} — ${spec.titulo} [${spec.tipo}, ${spec.prioridade}] ${spec.situacao} · ${spec.progresso} · plano: ${ficha.plano.bruto}`);
     for (const etapa of ficha.etapas) console.log(linhaEtapa(etapa, ficha.tipo));
     console.log("");
   }
   for (const spec of semPasta) {
-    const texto = spec.status === "incorporada" ? "incorporada a outra spec; não tem pasta" : "planejada, ainda sem pasta (crie pelos modelos de templates/spec/, policies/specs.md seção 3)";
+    const texto = spec.situacao.startsWith("⚪ Incorporada") ? "incorporada a outra spec; não tem pasta" : "ainda sem pasta (crie pelos modelos de templates/spec/, policies/specs.md seção 3)";
     console.log(`${spec.id} — ${spec.titulo}: ${texto}`);
   }
 
@@ -247,7 +247,7 @@ async function pegar([spec, etapaArg], opcoes) {
   console.log(`${idSpec} ${idEtapa} reservada para ${responsavel} na branch ${branch}.
 
 Próximos passos:
-  git add specs/README.md specs/${pasta}/README.md
+  git add ${lib.ARQUIVO_CATALOGO} specs/${pasta}/README.md
   git commit -m "docs(specs): reserva da ${idSpec} ${idEtapa}"
   git push -u origin ${atual}
   Abra o PR para develop e só comece o código depois que ele for integrado.`);
@@ -266,11 +266,11 @@ function concluir([spec, etapaArg], opcoes) {
   if (etapa.status !== "em-andamento") return falhar(`Só uma etapa em andamento pode ser concluída; ${idSpec} ${idEtapa} está ${etapa.status}.`);
   const prs = [...new Set([...etapa.prs, ...novos])];
   gravarEtapa(pasta, etapa, { status: "concluida", responsavel: etapa.responsavel, branch: etapa.branch, prs, desde: lib.hoje() });
-  console.log(`${idSpec} ${idEtapa} marcada como concluída (${lib.verboEntregue(ficha.tipo)}) com ${prs.length} PR(s). Inclua specs/README.md e specs/${pasta}/README.md no PR da infra da etapa.`);
+  console.log(`${idSpec} ${idEtapa} marcada como concluída (${lib.verboEntregue(ficha.tipo)}) com ${prs.length} PR(s). Inclua ${lib.ARQUIVO_CATALOGO} e specs/${pasta}/README.md no PR da infra da etapa.`);
 }
 
 function catalogo() {
-  console.log(gravarCatalogo() ? "specs/README.md: coluna Status atualizada." : "specs/README.md: coluna Status já está em dia.");
+  console.log(gravarCatalogo() ? `${lib.ARQUIVO_CATALOGO}: situação, progresso e resumo atualizados.` : `${lib.ARQUIVO_CATALOGO}: já está em dia.`);
 }
 
 async function validar(opcoes) {
