@@ -40,6 +40,17 @@ Painel de todas as specs do plano de evolução ("NordTool — Plano de specs (i
 | SPEC-23 | Plano gratuito: 15 minutos de uso por dia | implementacao | MVP | item 15 | 🔴 Bloqueada (SPEC-21, SPEC-22) | sem plano | [SPEC-23-plano-gratuito](SPEC-23-plano-gratuito/README.md) |
 | SPEC-24 | Documentação das funcionalidades no padrão SDD | implementacao | MVP / P1 | item 3 (estrutura e módulos do MVP) | 🟡 Em aberto | sem plano | [SPEC-24-documentacao-sdd](SPEC-24-documentacao-sdd/README.md) |
 
+## Como começar uma spec
+
+Abra o agente (Claude Code, Gemini, OpenCode…) na pasta do `nord-center-infra-agent` e diga qual spec você vai pegar, por exemplo "quero pegar a SPEC-03". No Claude Code, também dá para usar `/planejar-spec 03`. O agente segue o fluxo do `AGENTS.md`:
+
+1. Mostra a situação da spec neste painel. 🟢 Concluída e ⚪ Incorporada param aí.
+2. **Sem plano:** roda `node scripts/specs/specs.mjs planejar SPEC-NN` e monta o plano. Ele confere o código, escreve as etapas, levanta as perguntas ao responsável e abre o PR do plano, sem escrever código.
+3. **Plano esperando aprovação:** avisa e para. O responsável responde as perguntas e aprova no PR.
+4. **Plano aprovado:** reserva uma etapa livre com `pegar`. O código começa depois que a reserva for integrada.
+
+Sem agente, os mesmos comandos funcionam à mão: `status`, `planejar`, `pegar` e `concluir` (veja `node scripts/specs/specs.mjs`).
+
 ## Como a situação muda
 
 - **Ninguém edita Situação, Progresso nem o resumo à mão.** Eles vêm das etapas de cada ficha. Ao reservar (`pegar`) ou concluir (`concluir`) uma etapa, o script já atualiza este arquivo; depois de qualquer outra mudança numa ficha, rode `node scripts/specs/specs.mjs catalogo`.
