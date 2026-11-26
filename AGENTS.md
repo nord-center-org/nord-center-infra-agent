@@ -31,6 +31,10 @@ Quando usar o MCP, chame `get_project_context` para o projeto alvo antes de qual
 
 Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrado como uma feature em `features/<slug>/`, e toda melhoria de uma feature existente é uma nova versão dela (`v2`, `v3`…). Antes de criar a branch, classifique o pedido e escolha o nome conforme `policies/features.md`: `feature-<slug>` ou `feature-<slug>-vN`, com até 50 caracteres e o mesmo nome em todos os repositórios da entrega, inclusive este. A especificação técnica e o porquê de cada decisão ficam no `vN.md` da feature, entregue no mesmo conjunto de PRs.
 
+## Specs do plano
+
+Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo [catálogo de specs](specs/README.md) e pela ficha da spec. Antes de escrever código, rode `node scripts/specs/specs.mjs status SPEC-NN`: uma etapa concluída já está implementada (ou corrigida) e não é refeita; uma etapa em andamento pertence a quem a reservou. Reserve a etapa livre com `node scripts/specs/specs.mjs pegar` e integre a reserva antes do código. Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.
+
 ## Novidades
 
 Toda entrega visível para quem usa o NordTool atualiza as novidades da tela inicial (contadas pelo avatar do dono; sem ele, pelo mascote Lugia Nexus); veja `policies/novidades.md`.
