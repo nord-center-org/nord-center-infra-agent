@@ -86,7 +86,7 @@ Cada pergunta diz quando precisa de resposta: `antes da aprovação` do plano ou
 - **Contexto:** hoje o agente usa o token do dono do projeto, que é admin. Uma **conta de máquina** é um usuário comum do GitHub criado só para o agente, com token pessoal fine-grained. Um **GitHub App** é uma integração instalada na organização, que gera tokens de 1 hora a partir de uma chave privada e aparece como `<nome>[bot]`.
 - **Recomendação:** conta de máquina agora: é gratuita no plano Free e não exige mudar código, porque o MCP, a Lugia e o `vigia-issue` já usam token. GitHub App junto com o MCP remoto (SPEC-02 E04), quando valer a pena o código de emissão de token.
 - **Decidir em:** E01
-- **Resposta:** pendente
+- **Resposta:** conta de máquina, com token fine-grained por repositório. O GitHub App fica para quando o MCP remoto for publicado (SPEC-02 E04), se valer a pena. (2026-11-26, zzNICK)
 
 ### P2 — Plano da organização no GitHub
 
@@ -125,4 +125,4 @@ Cada pergunta diz quando precisa de resposta: `antes da aprovação` do plano ou
 - **Contexto:** com aprovação obrigatória e sem bypass (P3), o GitHub não deixa o autor aprovar o próprio PR. Um PR aberto pelo próprio dono no backend ou no frontend fica sem quem aprove enquanto ele for o único mantenedor.
 - **Recomendação:** todo PR desses dois repositórios passa a ser aberto pela identidade do agente (P1), e o dono aprova. Quando entrar um segundo dev, um aprova o do outro.
 - **Decidir em:** E02
-- **Resposta:** pendente
+- **Resposta:** seguir a recomendação: os PRs do backend e do frontend são abertos pela identidade do agente, e o dono aprova depois de todas as validações passarem. (2026-11-26, zzNICK)
