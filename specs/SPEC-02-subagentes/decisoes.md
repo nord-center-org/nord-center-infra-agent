@@ -59,25 +59,44 @@
 - **Por quê:** backend e front são públicos. `pull_request_target` roda com secrets no contexto da base e, junto com o checkout do PR, permite que um fork leia a chave.
 - **Decidido por:** agente.
 
-## Pendentes (decisão da pessoa responsável)
+## Perguntas ao responsável
+
+Cada pergunta diz quando precisa de resposta: `antes da aprovação` do plano ou antes de a etapa indicada entrar em andamento. O CI e o `pegar` cobram as respostas nesse momento (policies/specs.md, seção 3).
 
 ### P1 — Runtime do primeiro fluxo orquestrado
 
 - **Recomendação:** Claude Code local com subagentes (usa a assinatura, sem custo de API por chamada). Managed Agents depois, pela Lugia, quando a E05 estiver estável.
+- **Decidir em:** E06
+- **Resposta:** pendente
 
 ### P2 — Como gerar o JSON Schema
 
 - **Recomendação:** atualizar o MCP para o zod 4, que exporta JSON Schema nativamente, se o SDK do MCP for compatível. Senão, manter o JSON Schema à mão com um teste que compara os dois.
+- **Decidir em:** E02
+- **Resposta:** pendente
 
 ### P3 — Credencial da Claude Code Action
 
-- **Opções:** chave de API (custo por uso, controle por repositório) ou token da assinatura.
+- **Contexto:** a opção é entre chave de API (custo por uso, controle por repositório) e token da assinatura.
 - **Recomendação:** chave de API com limite de gasto mensal, separada da usada pela Lugia.
+- **Decidir em:** E07
+- **Resposta:** pendente
 
 ### P4 — O que querem dizer "neural memory" e "JEV typesafe ai model vs LEYA"
 
-Confirmar com quem pediu antes da E10 e da E02.
+- **Recomendação:** confirmar com quem pediu. Se for ferramenta ou biblioteca específica, ela entra no estudo da E10 ou no schema da E02.
+- **Decidir em:** E02
+- **Resposta:** pendente
 
 ### P5 — Onde guardar o grafo
 
 - **Recomendação:** artefato do CI do último push em `develop`, baixado pelo MCP. Fica fora do Git, porque o SQLite é binário e muda a cada push.
+- **Decidir em:** E09
+- **Resposta:** pendente
+
+### P6 — Revisão de PR sem bypass
+
+- **Contexto:** a SPEC-01 decidiu (P3) que não há bypass e que a aprovação só vem depois de todas as validações. Quando a Claude Code Action virar check obrigatório, um comentário dela com apontamento grave também bloqueia o PR.
+- **Recomendação:** começar como aviso (D4) e só tornar obrigatória quando a taxa de falso positivo da calibragem estiver baixa; o critério de "baixo" é definido na própria E07.
+- **Decidir em:** E07
+- **Resposta:** pendente

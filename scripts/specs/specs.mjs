@@ -29,18 +29,23 @@ class ErroDeUso extends Error {}
 const git = args => execFileSync("git", args, { cwd: RAIZ, encoding: "utf8", stdio: ["ignore", "pipe", "pipe"] });
 const refExiste = ref => { try { git(["rev-parse", "--verify", "--quiet", `${ref}^{commit}`]); return true; } catch { return false; } };
 
+// textos: Map pasta → { ficha, plano, decisoes } (texto de cada arquivo ou null).
 function montarEstado(catalogoTexto, textos) {
-  const catalogo = catalogoTexto === null ? { specs: [], erros: [] } : lib.lerCatalogo(catalogoTexto);
+  const catalogo = catalogoTexto === null ? { specs: [], resumo: null, erros: [] } : lib.lerCatalogo(catalogoTexto);
   const fichas = new Map();
+  const perguntas = new Map();
   const errosFicha = [];
-  for (const [pasta, texto] of textos) {
-    if (texto === null) { errosFicha.push(`specs/${pasta}/: falta o README.md (ficha).`); continue; }
-    const ficha = lib.lerFicha(texto, `specs/${pasta}/README.md`);
+  for (const [pasta, arquivos] of textos) {
+    if (arquivos.ficha === null) { errosFicha.push(`specs/${pasta}/: falta o README.md (ficha).`); continue; }
+    const ficha = lib.lerFicha(arquivos.ficha, `specs/${pasta}/README.md`);
     fichas.set(pasta, ficha);
-    errosFicha.push(...lib.validarFicha(ficha, pasta));
+    perguntas.set(pasta, lib.lerPerguntas(arquivos.decisoes));
+    errosFicha.push(...lib.validarFicha(ficha, pasta), ...lib.validarPlanejamento(ficha, pasta, arquivos));
   }
-  return { catalogoTexto, catalogo, fichas, textos, errosFicha };
+  return { catalogoTexto, catalogo, fichas, perguntas, textos, errosFicha };
 }
+
+const ARQUIVOS_DA_PASTA = { ficha: "README.md", plano: "plano.md", decisoes: "decisoes.md" };
 
 function lerEstadoLocal() {
   const dir = path.join(RAIZ, "specs");
@@ -49,8 +54,8 @@ function lerEstadoLocal() {
   const textos = new Map();
   for (const entrada of readdirSync(dir, { withFileTypes: true }).sort((a, b) => a.name.localeCompare(b.name))) {
     if (!entrada.isDirectory() || !entrada.name.startsWith("SPEC-")) continue;
-    const ficha = path.join(dir, entrada.name, "README.md");
-    textos.set(entrada.name, existsSync(ficha) ? readFileSync(ficha, "utf8") : null);
+    const ler = nome => { const f = path.join(dir, entrada.name, nome); return existsSync(f) ? readFileSync(f, "utf8") : null; };
+    textos.set(entrada.name, Object.fromEntries(Object.entries(ARQUIVOS_DA_PASTA).map(([chave, nome]) => [chave, ler(nome)])));
   }
   return montarEstado(readFileSync(catalogo, "utf8"), textos);
 }
@@ -60,12 +65,10 @@ function lerEstadoRef(ref) {
   let catalogoTexto;
   try { catalogoTexto = git(["show", `${ref}:${lib.ARQUIVO_CATALOGO}`]); } catch { return montarEstado(null, new Map()); }
   const pastas = git(["ls-tree", "-d", "--name-only", `${ref}:specs`]).split(/\r?\n/).map(s => s.trim()).filter(n => n.startsWith("SPEC-"));
-  const textos = new Map(pastas.map(p => {
-    try { return [p, git(["show", `${ref}:specs/${p}/README.md`])]; } catch { return [p, null]; }
-  }));
+  const ler = (pasta, nome) => { try { return git(["show", `${ref}:specs/${pasta}/${nome}`]); } catch { return null; } };
+  const textos = new Map(pastas.map(p => [p, Object.fromEntries(Object.entries(ARQUIVOS_DA_PASTA).map(([chave, nome]) => [chave, ler(p, nome)]))]));
   return montarEstado(catalogoTexto, textos);
 }
-
 // ---------- GitHub (opcional: só com GITHUB_TOKEN) ----------
 
 async function github(caminhoOuUrl) {
@@ -228,6 +231,7 @@ async function pegar([spec, etapaArg], opcoes) {
     fichaDevelop: pasta ? develop.fichas.get(pasta) : null,
     fichaLocal: pasta ? local.fichas.get(pasta) : null,
     idEtapa, desbloquear: Boolean(opcoes.desbloquear),
+    perguntas: pasta ? develop.perguntas.get(pasta) : null,
   });
   if (motivo) return falhar(`Não dá para pegar: ${motivo}`, avisos);
 

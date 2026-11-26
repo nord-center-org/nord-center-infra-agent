@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  catalogoAtualizado, celulas, progressoDaSpec, situacaoDaSpec, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
+  catalogoAtualizado, celulas, progressoDaSpec, situacaoDaSpec, lerPerguntas, validarPlanejamento, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
   linhaDeTabela, motivoParaNaoPegar, reservasDoPr, rotuloPr, statusDaSpec, trocarLinha, validarCatalogo, validarFicha, validarTransicoes,
 } from "./lib.mjs";
 
@@ -222,4 +222,50 @@ test("reescreve a linha da etapa e o catálogo mantendo CRLF", () => {
 test("rótulo de PR e data local", () => {
   assert.equal(rotuloPr(PR), `[nord-tool-backend#12](${PR})`);
   assert.equal(hoje(new Date(2026, 10, 26, 23, 30)), "2026-11-26");
+});
+
+const decisoes = perguntas => `# SPEC-01 — Decisões
+
+## Tomadas no plano de origem
+
+### D1 — algo
+
+- **Decisão:** x
+
+## Perguntas ao responsável
+
+${perguntas.map(([id, decidirEm, resposta]) => `### ${id} — Pergunta ${id}\n\n- **Recomendação:** r\n- **Decidir em:** ${decidirEm}\n- **Resposta:** ${resposta}\n`).join("\n")}`;
+
+test("perguntas: lê a seção com recomendação, prazo e resposta", () => {
+  const ps = lerPerguntas(decisoes([["P1", "antes da aprovação", "sim (2026-11-26, zzNICK)"], ["P2", "E01", "pendente"]]));
+  assert.deepEqual(ps.map(p => [p.id, p.decidirEm, p.resposta]), [["P1", "antes da aprovação", "sim (2026-11-26, zzNICK)"], ["P2", "E01", "pendente"]]);
+  assert.equal(lerPerguntas("# sem seção"), null);
+});
+
+test("planejamento: spec com etapas exige plano.md e perguntas ao responsável", () => {
+  const f = lerFicha(ficha({ plano: "pendente", etapas: [livre()] }));
+  const erros = validarPlanejamento(f, "SPEC-01-regras", { plano: null, decisoes: "# sem perguntas" }).join("\n");
+  assert.match(erros, /plano\.md: obrigatório/);
+  assert.match(erros, /falta a seção "Perguntas ao responsável"/);
+  assert.match(validarPlanejamento(f, "SPEC-01-regras", { plano: "x", decisoes: decisoes([]) }).join("\n"), /ao menos uma pergunta/);
+  assert.deepEqual(validarPlanejamento(lerFicha(ficha({ plano: "pendente", etapas: [] })), "SPEC-01-regras", { plano: null, decisoes: null }), [], "spec ainda sem plano não é cobrada");
+});
+
+test("planejamento: aprovação e etapa exigem as respostas no prazo", () => {
+  const aprovada = lerFicha(ficha({ etapas: [andando("E01"), livre("E02")] }));
+  const erros = validarPlanejamento(aprovada, "SPEC-01-regras", { plano: "x", decisoes: decisoes([["P1", "antes da aprovação", "pendente"], ["P2", "E01", "pendente"], ["P3", "E02", "pendente"], ["P4", "E09", "pendente"]]) }).join("\n");
+  assert.match(erros, /P1: o plano foi aprovado, mas esta pergunta/);
+  assert.match(erros, /E01: a etapa está em-andamento, mas a pergunta P2/);
+  assert.doesNotMatch(erros, /P3/, "E02 ainda está planejada");
+  assert.match(erros, /P4: "- \*\*Decidir em:\*\*" deve ser/);
+  const ok = validarPlanejamento(aprovada, "SPEC-01-regras", { plano: "x", decisoes: decisoes([["P1", "antes da aprovação", "sim"], ["P2", "E01", "não"], ["P3", "E02", "pendente"]]) });
+  assert.deepEqual(ok, []);
+});
+
+test("pegar: recusa etapa com pergunta sem resposta e sugere montar o plano", () => {
+  const f = lerFicha(ficha({ etapas: [livre("E01")] }));
+  const perguntas = lerPerguntas(decisoes([["P1", "E01", "pendente"]]));
+  assert.match(motivoParaNaoPegar({ fichaDevelop: f, fichaLocal: f, idEtapa: "E01", perguntas }), /precisa responder P1/);
+  const semPlano = lerFicha(ficha({ plano: "pendente", etapas: [] }));
+  assert.match(motivoParaNaoPegar({ fichaDevelop: semPlano, idEtapa: "E01" }), /monte o plano\.md, as etapas e as perguntas/);
 });

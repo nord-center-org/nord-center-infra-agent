@@ -53,8 +53,14 @@ specs/
 
 ## 3. Fluxo de uma spec
 
-1. **Spec e plano.** Na pasta da spec, confira no código cada ponto de "Situação atual" do `spec.md` e registre o resultado; escreva `plano.md`, `decisoes.md` e `contexto/` e preencha a tabela de etapas da ficha. `Plano` fica `pendente`.
-2. **Aprovação.** O responsável pelo projeto aprova o plano. A ficha passa a dizer `aprovado AAAA-MM-DD por <login>`. Nenhuma etapa entra em andamento antes disso.
+1. **Plano de implementação, sempre.** Quem pegar uma spec que ainda não tem plano (pessoa ou agente) monta o plano antes de qualquer código, mesmo que ninguém peça:
+   - confere no código cada ponto de "Situação atual" do `spec.md` e registra o resultado;
+   - escreve `plano.md` (etapas, ordem, arquivos, riscos e validação), `decisoes.md` e `contexto/`, pelos modelos de [`templates/spec/`](../templates/spec/);
+   - preenche a tabela de etapas da ficha;
+   - **levanta as perguntas ao responsável** na seção "Perguntas ao responsável" do `decisoes.md`: toda decisão que não cabe a quem planejou e toda dúvida encontrada no código. Cada pergunta traz a recomendação, o prazo (`Decidir em: antes da aprovação` ou a etapa, como `E03`) e `Resposta: pendente`. O plano tem ao menos uma pergunta.
+
+   `Plano` fica `pendente`, e o plano vai num PR próprio para o responsável revisar.
+2. **Aprovação.** O responsável responde as perguntas marcadas para antes da aprovação (preenchendo `Resposta`, com data e login) e aprova o plano: a ficha passa a dizer `aprovado AAAA-MM-DD por <login>`. Nenhuma etapa entra em andamento antes disso, e uma etapa só pode ser pega depois que as perguntas dela tiverem resposta.
 3. **Reserva de uma etapa.** Veja a seção 4. A reserva entra em `develop` antes do código.
 4. **Implementação** na branch da etapa, com o mesmo nome em todos os repositórios tocados.
 5. **Conclusão.** No PR da infra da etapa, marque a etapa como concluída com os links dos PRs e atualize `decisoes.md` e `contexto/` com o que foi feito de fato.
@@ -102,6 +108,7 @@ O workflow `Specs` roda em todo PR e em todo push em `develop`:
 - `node --test scripts/specs/lib.test.mjs`;
 - `node scripts/specs/specs.mjs validar --base origin/develop`, que confere:
   - formato do catálogo e das fichas (campos, colunas, status, datas, branch e PRs);
+  - spec com etapas ou plano aprovado tem `plano.md` e `decisoes.md` com ao menos uma pergunta ao responsável; plano aprovado sem resposta para as perguntas "antes da aprovação", ou etapa em andamento sem resposta para as perguntas dela, é recusado;
   - situação, progresso e resumo de `todas-as-specs.md` iguais aos calculados pelas fichas;
   - transições de cada etapa em relação a `develop`, pela tabela abaixo;
   - nenhum outro PR aberto reservando ou concluindo a mesma etapa.

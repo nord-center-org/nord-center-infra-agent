@@ -13,7 +13,7 @@
 
 Adicionar modelos como DeepSeek, Qwen (Alibaba), Kimi (Moonshot) e GLM (Zhipu) como opções na Lugia e nos agentes de código. O motivo costuma ser custo baixo e bom desempenho em código. A maioria desses provedores expõe API compatível com a da OpenAI, o que simplifica a integração; confirmar endpoint por endpoint.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

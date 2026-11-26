@@ -25,3 +25,9 @@
 ## Riscos
 
 - <risco e como reduzir>
+
+## Perguntas ao responsável
+
+As decisões e dúvidas que não cabem a quem planejou estão em [decisoes.md](decisoes.md), seção "Perguntas ao responsável", cada uma com recomendação e prazo de resposta. Resumo:
+
+- P1 — <pergunta> (decidir <antes da aprovação | na E0N>)

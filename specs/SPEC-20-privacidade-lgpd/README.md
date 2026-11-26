@@ -13,7 +13,7 @@
 
 Publicar as políticas e dar ao usuário os direitos previstos na LGPD: saber o que é guardado, exportar, corrigir e excluir. O sistema também passa a apagar sozinho o que não precisa mais guardar. A parte técnica cabe ao dev; o texto das políticas deve ser validado por alguém da área jurídica.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

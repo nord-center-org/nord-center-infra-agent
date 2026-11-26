@@ -15,8 +15,18 @@
 
 <Mesmo formato, com "Decidido por: agente (<ferramenta e modelo>)" quando for do agente.>
 
-## Pendentes (decisão da pessoa responsável)
+## Perguntas ao responsável
+
+<!--
+Obrigatória: todo plano levanta ao menos uma pergunta sobre as decisões e dúvidas que não cabem a quem planeja.
+Cada pergunta tem Recomendação, Decidir em ("antes da aprovação" ou a etapa, ex.: E03) e Resposta ("pendente" até ser respondida).
+O CI recusa aprovar o plano com pergunta "antes da aprovação" pendente, e o `pegar` recusa a etapa com pergunta dela pendente.
+Ao responder, mantenha a pergunta e preencha: "- **Resposta:** <texto> (AAAA-MM-DD, <login>)".
+-->
 
 ### P1 — <pergunta>
 
+- **Contexto:** <por que a dúvida existe, o que foi visto no código>
 - **Recomendação:** <opção e porquê>
+- **Decidir em:** antes da aprovação
+- **Resposta:** pendente

@@ -77,36 +77,52 @@ Decisões já tomadas no plano de origem, decisões do agente ao montar o plano 
 - **Por quê:** o ADR-013 foi usado pelo registro de specs, entregue junto com este plano.
 - **Decidido por:** agente.
 
-## Pendentes (decisão da pessoa responsável)
+## Perguntas ao responsável
+
+Cada pergunta diz quando precisa de resposta: `antes da aprovação` do plano ou antes de a etapa indicada entrar em andamento. O CI e o `pegar` cobram as respostas nesse momento (policies/specs.md, seção 3).
 
 ### P1 — Identidade do agente: conta de máquina ou GitHub App
 
-- **Recomendação:** conta de máquina com token fine-grained agora, porque não exige mudar código (o MCP, a Lugia e o `vigia-issue` já usam token). GitHub App depois, junto com o MCP remoto da SPEC-02, porque dá tokens de curta duração sem ocupar assento.
-- **Atenção:** em plano pago, a conta de máquina ocupa um assento.
+- **Contexto:** hoje o agente usa o token do dono do projeto, que é admin. Uma **conta de máquina** é um usuário comum do GitHub criado só para o agente, com token pessoal fine-grained. Um **GitHub App** é uma integração instalada na organização, que gera tokens de 1 hora a partir de uma chave privada e aparece como `<nome>[bot]`.
+- **Recomendação:** conta de máquina agora: é gratuita no plano Free e não exige mudar código, porque o MCP, a Lugia e o `vigia-issue` já usam token. GitHub App junto com o MCP remoto (SPEC-02 E04), quando valer a pena o código de emissão de token.
+- **Decidir em:** E01
+- **Resposta:** pendente
 
 ### P2 — Plano da organização no GitHub
 
 - **Contexto:** ruleset e proteção de branch em repositório privado exigem plano pago. A infra e o SQL são privados.
 - **Recomendação:** plano Team. Sem ele, os dois repositórios privados ficam protegidos só pelo MCP.
-- **Não recomendado:** tornar os repositórios públicos.
+- **Decidir em:** antes da aprovação
+- **Resposta:** fica no plano gratuito por enquanto. Os rulesets valem só nos repositórios públicos (backend e frontend); infra e SQL seguem protegidos pelo MCP e pelo token de mínimo privilégio (E07). (2026-11-26, zzNICK)
 
 ### P3 — Bypass do admin no modo "somente por PR"
 
-- **Recomendação:** sim, enquanto houver um só mantenedor. O admin mescla o próprio PR sem segunda aprovação, mas não faz push direto. Revisar quando entrar um segundo dev.
+- **Recomendação:** sim, enquanto houver um só mantenedor.
+- **Decidir em:** antes da aprovação
+- **Resposta:** sem bypass para ninguém. A aprovação do PR só acontece depois de todas as validações passarem. (2026-11-26, zzNICK)
 
 ### P4 — Markdown conta no limite de 500 linhas?
 
-- **Recomendação:** não contar `*.md`. Documentação não quebra o build, e a SPEC-24 vai gerar fichas longas. PR com mais de 1.500 linhas de documentação deve ser dividido por funcionalidade.
+- **Recomendação:** não contar `*.md`.
+- **Decidir em:** antes da aprovação
+- **Resposta:** o limite conta só linhas de código do backend, do frontend e do nord-tool-scripts-sql. Markdown e o repositório de infra ficam fora. (2026-11-26, zzNICK)
 
 ### P5 — MapStruct
 
 - **Contexto:** o pacote `builder` tem uma única classe; o mapeamento é manual e explícito.
 - **Recomendação:** não adotar agora. Reavaliar na SPEC-09, que redesenha os módulos e os mapeadores. Ao decidir, tirar o MapStruct dos requisitos ou registrar a adoção como ADR.
+- **Decidir em:** E10
+- **Resposta:** pendente
 
 ### P6 — Nomes e pastas das quatro categorias de teste
 
-- **Recomendação** (decidir na E05):
-  - Testcontainers em `*IT.java`;
-  - guardas em `guard/`;
-  - testes de domínio em `dominio/`;
-  - benchmarks em `src/jmh/`, no profile `jmh`.
+- **Recomendação:** Testcontainers em `*IT.java`; guardas em `guard/`; testes de domínio em `dominio/`; benchmarks em `src/jmh/`, no profile `jmh`.
+- **Decidir em:** E05
+- **Resposta:** pendente
+
+### P7 — PRs feitos à mão nos repositórios públicos
+
+- **Contexto:** com aprovação obrigatória e sem bypass (P3), o GitHub não deixa o autor aprovar o próprio PR. Um PR aberto pelo próprio dono no backend ou no frontend fica sem quem aprove enquanto ele for o único mantenedor.
+- **Recomendação:** todo PR desses dois repositórios passa a ser aberto pela identidade do agente (P1), e o dono aprova. Quando entrar um segundo dev, um aprova o do outro.
+- **Decidir em:** E02
+- **Resposta:** pendente

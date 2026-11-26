@@ -112,6 +112,63 @@ export function lerFicha(texto, caminho = "ficha") {
   return { titulo, id: campos.get("ID") ?? "", tipo: campos.get("Tipo") ?? "", prioridade: campos.get("Prioridade") ?? "", plano, bloqueadaPor, etapas, erros };
 }
 
+export const SECAO_PERGUNTAS = "## Perguntas ao responsável";
+export const ANTES_DA_APROVACAO = "antes da aprovação";
+const campoPergunta = (bloco, nome) => new RegExp(`^- \\*\\*${nome}:\\*\\*\\s*(.*)$`, "m").exec(bloco)?.[1]?.trim() ?? null;
+
+/** `decisoes.md` → perguntas da seção "Perguntas ao responsável" (null se a seção não existe). */
+export function lerPerguntas(texto) {
+  if (texto === null || texto === undefined) return null;
+  const normal = texto.replace(/\r\n/g, "\n");
+  const inicio = normal.indexOf(`\n${SECAO_PERGUNTAS}\n`);
+  if (inicio < 0) return null;
+  const resto = normal.slice(inicio + SECAO_PERGUNTAS.length + 2);
+  const fim = resto.search(/^## /m);
+  const secao = fim < 0 ? resto : resto.slice(0, fim);
+  return secao.split(/^### /m).slice(1).map(bloco => ({
+    id: /^(P\d+)\b/.exec(bloco)?.[1] ?? "",
+    titulo: bloco.split("\n")[0].trim(),
+    recomendacao: campoPergunta(bloco, "Recomendação"),
+    decidirEm: campoPergunta(bloco, "Decidir em"),
+    resposta: campoPergunta(bloco, "Resposta"),
+  }));
+}
+
+const pendente = pergunta => !pergunta.resposta || pergunta.resposta.toLowerCase() === "pendente";
+
+/** Perguntas que precisam de resposta antes de a etapa começar. */
+export const perguntasDaEtapa = (perguntas, idEtapa) => (perguntas ?? []).filter(p => p.decidirEm === idEtapa && pendente(p));
+
+/**
+ * Plano obrigatório com perguntas ao responsável (policies/specs.md, seção 3).
+ * `arquivos` = { plano: texto|null, decisoes: texto|null } da pasta da spec.
+ */
+export function validarPlanejamento(ficha, pasta, arquivos) {
+  const erros = [];
+  const onde = `specs/${pasta}`;
+  const planejando = ficha.plano.aprovado || ficha.etapas.length > 0;
+  if (!planejando) return erros;
+  if (!arquivos.plano) erros.push(`${onde}/plano.md: obrigatório quando a spec tem etapas ou plano aprovado (modelo em templates/spec/plano.md).`);
+  const perguntas = lerPerguntas(arquivos.decisoes);
+  if (!arquivos.decisoes) erros.push(`${onde}/decisoes.md: obrigatório, com a seção "${SECAO_PERGUNTAS.slice(3)}".`);
+  else if (perguntas === null) erros.push(`${onde}/decisoes.md: falta a seção "${SECAO_PERGUNTAS.slice(3)}".`);
+  else if (perguntas.length === 0) erros.push(`${onde}/decisoes.md: o plano precisa levantar ao menos uma pergunta ao responsável sobre as decisões e dúvidas.`);
+  if (ficha.plano.aprovado && ficha.etapas.length === 0) erros.push(`${onde}/README.md: plano aprovado sem nenhuma etapa na ficha.`);
+  const etapas = new Set(ficha.etapas.map(e => e.id));
+  for (const p of perguntas ?? []) {
+    const ref = `${onde}/decisoes.md, ${p.id || p.titulo}`;
+    if (!/^P\d+$/.test(p.id)) erros.push(`${ref}: a pergunta deve começar por "### P1 — …".`);
+    if (!p.recomendacao) erros.push(`${ref}: falta "- **Recomendação:**".`);
+    if (!p.resposta) erros.push(`${ref}: falta "- **Resposta:**" (use "pendente" até a resposta).`);
+    if (p.decidirEm !== ANTES_DA_APROVACAO && !etapas.has(p.decidirEm)) erros.push(`${ref}: "- **Decidir em:**" deve ser "${ANTES_DA_APROVACAO}" ou uma etapa da ficha (veio "${p.decidirEm ?? ""}").`);
+    if (ficha.plano.aprovado && p.decidirEm === ANTES_DA_APROVACAO && pendente(p)) erros.push(`${ref}: o plano foi aprovado, mas esta pergunta para "${ANTES_DA_APROVACAO}" não tem resposta.`);
+  }
+  for (const etapa of ficha.etapas.filter(e => e.status === "em-andamento" || e.status === "concluida")) {
+    for (const p of perguntasDaEtapa(perguntas, etapa.id)) erros.push(`${onde}, ${etapa.id}: a etapa está ${etapa.status}, mas a pergunta ${p.id} (${p.titulo}) ainda não tem resposta.`);
+  }
+  return erros;
+}
+
 /** O token que liga uma branch a uma etapa: "spec-01-e03". */
 export const tokenEtapa = (idSpec, idEtapa) => `${idSpec.toLowerCase()}-${idEtapa.toLowerCase()}`;
 const temToken = (branch, token) => new RegExp(`(^|-)${token}(-|$)`).test(branch);
@@ -341,9 +398,12 @@ export function conflitosComOutrosPrs(minhas, outros) {
  * Por que uma etapa não pode ser pega agora, olhando a ficha de `develop` e a local.
  * Devolve null se estiver livre.
  */
-export function motivoParaNaoPegar({ fichaDevelop, fichaLocal, idEtapa, desbloquear = false }) {
+export function motivoParaNaoPegar({ fichaDevelop, fichaLocal, idEtapa, desbloquear = false, perguntas = null }) {
   if (!fichaDevelop) return "a spec ainda não tem pasta em develop; o plano precisa ser integrado e aprovado antes.";
-  if (!fichaDevelop.plano.aprovado) return `o plano da ${fichaDevelop.id} ainda não foi aprovado (campo Plano: ${fichaDevelop.plano.bruto || "vazio"}).`;
+  if (!fichaDevelop.plano.aprovado) {
+    const semPlano = fichaDevelop.etapas.length === 0 ? " Ela ainda não tem plano de implementação: monte o plano.md, as etapas e as perguntas ao responsável em decisoes.md, e peça a aprovação." : "";
+    return `o plano da ${fichaDevelop.id} ainda não foi aprovado (campo Plano: ${fichaDevelop.plano.bruto || "vazio"}).${semPlano}`;
+  }
   for (const [onde, ficha] of [["develop", fichaDevelop], ["cópia local", fichaLocal]]) {
     const etapa = ficha?.etapas.find(e => e.id === idEtapa);
     if (!etapa) { if (onde === "develop") return `a etapa ${idEtapa} não existe na ficha da ${fichaDevelop.id}.`; continue; }
@@ -352,6 +412,8 @@ export function motivoParaNaoPegar({ fichaDevelop, fichaLocal, idEtapa, desbloqu
     if (etapa.status === "em-andamento") return `${fichaDevelop.id} ${idEtapa} já está em andamento com ${resumoEtapa(etapa)} (${onde}).`;
     if (etapa.status === "bloqueada" && !desbloquear) return `${fichaDevelop.id} ${idEtapa} está bloqueada; veja o motivo no plano.md. Se a dependência já foi resolvida, use --desbloquear.`;
   }
+  const semResposta = perguntasDaEtapa(perguntas, idEtapa);
+  if (semResposta.length) return `antes da ${idEtapa}, o responsável precisa responder ${semResposta.map(p => `${p.id} (${p.titulo})`).join(", ")} em decisoes.md.`;
   return null;
 }
 

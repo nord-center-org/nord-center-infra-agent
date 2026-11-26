@@ -13,7 +13,7 @@
 
 Deixar o backend apto a rodar em várias réplicas atrás de um balanceador, com autoscaling, e medir a capacidade com testes de carga antes e depois. A parte de infraestrutura é pequena, porque o Kubernetes da SPEC-07 já entrega o balanceamento. O trabalho real está em tirar estado da memória de cada instância.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

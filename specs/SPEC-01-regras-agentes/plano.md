@@ -10,7 +10,7 @@ A spec vira 10 etapas. As quatro primeiras são o item 2 do MVP (3 a 4 dias); as
 |---|---|---|---|---|
 | E01 Identidade do agente e nível 0 | 10 e a identidade do 8 | infra, backend, GitHub | 6–8 h | — |
 | E02 Rulesets nativos | 12 | GitHub, infra | 4–6 h | E01 |
-| E03 Limite de 500 linhas e branch mãe | 1 | infra, sql, backend, frontend | 8–10 h | E01 (mesmos arquivos do MCP) |
+| E03 Limite de 500 linhas e branch mãe | 1 | sql, backend, frontend (regra na infra) | 8–10 h | E01 (mesmos arquivos do MCP) |
 | E04 Hooks que falham fechado | 9 | infra, sql, backend, frontend | 6–8 h | — (o hook de limite usa o script da E03) |
 | E05 Inconsistências e ADR de testes | 13 | infra, backend | 3–4 h | — |
 | E06 Porquê, checklist de IA e plano obrigatório | 6, 7 e 11 | infra, sql, backend, frontend | 5–7 h | E03 (mesmo `create_pr`) |
@@ -70,19 +70,17 @@ E05, E08 e E10: independentes
 
 **O que fazer:**
 
-1. **Conferir o plano da organização no GitHub.** Ruleset e proteção de branch em repositório **privado** exigem plano pago (Team). `nord-center-infra-agent` e `nord-tool-scripts-sql` são privados. Decisão pendente P2.
+1. **Só nos repositórios públicos** (backend e frontend). A organização fica no plano gratuito (resposta P2), que não tem ruleset em repositório privado. Infra e SQL seguem protegidos pelo MCP e pelo token de mínimo privilégio (E07).
 2. **Definições versionadas** em `config/rulesets/`:
    - `develop.json`: exigir PR com 1 aprovação, descartar aprovação antiga a cada push, exigir aprovação do último push, status checks obrigatórios, bloquear force push e exclusão;
    - `master.json`: o mesmo, sem bypass;
    - `checks.json`: os checks obrigatórios por repositório.
-3. **Bypass:** só o papel de admin, no modo "somente por PR" (o admin mescla o próprio PR, mas não faz push direto). A identidade do agente, a Lugia e o `vigia-issue` nunca entram. Decisão pendente P3.
+3. **Sem bypass para ninguém** (resposta P3): nem admin, nem a identidade do agente, nem a Lugia, nem o `vigia-issue`. A aprovação só acontece depois de todas as validações passarem: os checks obrigatórios, mais "exigir aprovação do último push", impedem aprovar antes do CI verde ou mudar o código depois da aprovação. Como o autor não aprova o próprio PR, os PRs desses repositórios passam a ser abertos pela identidade do agente (pergunta P7).
 4. **Checks obrigatórios** (nomes dos jobs de hoje; confirmar ao aplicar):
    - backend: `Build & Testes`, `Qualidade de Código`, `Secret Scanning`, `Resumo de Alertas`;
    - frontend: `Lint, Build & Testes`, `Secret Scanning`, `Resumo de Alertas`;
-   - SQL: `Validação SQL`, `Secret Scanning`;
-   - infra: `mcp-build`, `specs`.
 
-   As E03 e E04 acrescentam os checks novos.
+   As E03 e E04 acrescentam os checks novos. SQL (`Validação SQL`, `Secret Scanning`) e infra (`mcp-build`, `specs`) entram se a organização passar para um plano pago.
 5. **Repositório:** permitir só squash merge e apagar a branch depois do merge.
 6. **`protected-branches.md`:** regras nativas obrigatórias, com o passo a passo para aplicar e conferir; remover a ressalva "sem proteção nativa…".
 7. **Tirar o "opcional"** do ADR-006 (`decisions.md` e `architecture.md`) com um ADR novo que o substitui, e marcar no `roadmap.md` (fase 6) que as regras nativas passaram a ser obrigatórias.
@@ -92,7 +90,7 @@ E05, E08 e E10: independentes
 - Push direto em `develop` com o token do agente é recusado (erro `GH013`).
 - Force push e exclusão de `develop` são recusados.
 - PR sem aprovação não pode ser mesclado pelo agente.
-- O agente não aparece na lista de bypass.
+- A lista de bypass está vazia.
 
 ## E03 — Programação incremental com limite de 500 linhas (MVP)
 
@@ -100,10 +98,10 @@ E05, E08 e E10: independentes
 
 1. **Configuração única** em `config/programacao-incremental.json`:
    - `limite`: 500;
-   - `ignorar`: lockfiles, arquivos gerados (`dist/`, `target/`, `*.min.js`), cargas SQL (`DML/`) e testes (`src/test/`, `*.test.ts`, `*.test.mjs`);
+   - `repositorios`: só `nord-tool-backend`, `nord-tool-frontend` e `nord-tool-scripts-sql` (resposta P4); a infra fica fora;
    - `rotuloMecanico`: `mecanico`.
 2. **Contador sem dependências** (`scripts/limite-linhas.sh`), com `git diff --numstat base...head` e os padrões da configuração. Em bash, para rodar igual no CI, no Git Bash do Windows e nos hooks da E04. A infra mantém o modelo em `templates/`, e cada repositório recebe uma cópia.
-3. **CI dos 4 repositórios e da infra:** job `Limite de linhas` em todo PR.
+3. **CI do backend, do frontend e do SQL:** job `Limite de linhas` em todo PR.
    - Acima do limite: falha, salvo com o rótulo `mecanico` e a linha `Comando:` na descrição.
    - O gatilho `pull_request` passa a aceitar como base as branches mães, além de `develop`.
    - **Gate leve** (PR de parte para a mãe): build, testes, lint, secret scan e limite.
@@ -119,11 +117,11 @@ E05, E08 e E10: independentes
 **Aceite:**
 
 - PR com 501 linhas contadas falha no CI e é recusado pelo MCP.
-- Mudanças só em lockfile ou teste passam.
+- Mudanças só em lockfile, teste ou Markdown passam.
 - PR `mecanico` com o comando passa.
 - Uma feature de exemplo é entregue em duas partes pela branch mãe.
 
-**Decisão pendente P4:** se Markdown conta no limite.
+**Resposta P4:** só código do backend, do frontend e do SQL conta; Markdown e a infra ficam fora.
 
 ## E04 — Hooks que falham fechado (MVP)
 
@@ -265,9 +263,9 @@ E05, E08 e E10: independentes
 
 ## Riscos
 
-- **Plano da organização:** sem plano pago, não há ruleset nos repositórios privados; a infra e o SQL ficam protegidos só pelo MCP.
+- **Plano gratuito (P2):** não há ruleset nos repositórios privados. Um token com escrita na infra ou no SQL consegue fazer push direto em `develop` por fora do MCP. Por isso a E07 (mínimo privilégio) importa mais nesses dois.
 - **Lugia:** o modo agente usa a política "sempre permitir" nas ferramentas e um token próprio de GitHub. Até a E02, só o prompt segura o merge.
-- **Um único mantenedor:** a aprovação obrigatória com uma só pessoa depende do bypass "somente por PR" para o admin (P3). Quando entrar um segundo dev, trocar por CODEOWNERS.
+- **Um único mantenedor sem bypass (P3):** o dono não consegue aprovar o próprio PR no backend e no frontend. Até entrar um segundo dev, esses PRs são abertos pela identidade do agente (P7).
 - **Hooks locais podem ser pulados:** a garantia é o CI, e os checks obrigatórios da E02 precisam incluir os jobs novos.
 - **Contexto do MCP:** as steerings novas aproximam o `get_project_context` do limite de 100 mil caracteres. Se passar, adiantar o `get_feature_context` da SPEC-24.
 - **Conflito com a SPEC-03:** a E05 e a E10 mexem no backend. Combinar a janela com quem pegar a SPEC-03.

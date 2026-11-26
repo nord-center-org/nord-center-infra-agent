@@ -13,7 +13,7 @@
 
 Garantir que operações simultâneas e falhas parciais não gerem dado duplicado, perdido ou inconsistente. Estes tópicos vieram juntos porque têm a mesma raiz: duas coisas acontecendo ao mesmo tempo sobre o mesmo recurso. O cache entra aqui pelo mesmo motivo; mal feito, ele causa o próprio stampede e mostra dado velho.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

@@ -13,7 +13,7 @@
 
 Cópias automáticas, criptografadas e guardadas em outro provedor, mais um teste periódico que prova que a restauração funciona. Backup que nunca foi restaurado não conta. É a primeira spec porque todas as outras mexem em dados, e a migração da SPEC-07 move o banco inteiro.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

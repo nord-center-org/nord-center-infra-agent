@@ -13,7 +13,7 @@
 
 Tirar da requisição do usuário o trabalho que demora ou que depende de serviço externo. A tarefa vai para uma fila, processada por um *worker* com retry, e as que falham sempre vão para uma fila de mensagens mortas (DLQ) em vez de travar as outras. A própria lista diz "ver necessidade", então a spec começa medindo e só adota um broker se os números justificarem.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

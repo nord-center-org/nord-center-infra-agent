@@ -13,7 +13,7 @@
 
 Preparar o banco para volume maior, do mais barato para o mais caro: medir, indexar, otimizar consultas e, só quando os números pedirem, adicionar réplica de leitura e particionar tabelas grandes. O CQRS entra como regra de organização: leitura e escrita por caminhos separados. Isso permite mandar as leituras para a réplica sem reescrever o sistema.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

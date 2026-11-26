@@ -13,7 +13,7 @@
 
 Reorganizar o código por domínio de negócio (bounded contexts) em vez de por camada técnica. As regras passam a morar em entidades e objetos de valor do domínio, com a persistência isolada atrás de interfaces. A refatoração é incremental, um contexto por vez, sem mudar comportamento.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 

@@ -33,7 +33,7 @@ Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrad
 
 ## Specs do plano
 
-Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo painel [todas-as-specs.md](specs/todas-as-specs.md) (🟢 concluída, 🟡 em aberto, 🔴 bloqueada) e pela ficha da spec. Antes de escrever código, rode `node scripts/specs/specs.mjs status SPEC-NN`: uma etapa concluída já está implementada (ou corrigida) e não é refeita; uma etapa em andamento pertence a quem a reservou. Reserve a etapa livre com `node scripts/specs/specs.mjs pegar` e integre a reserva antes do código. Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.
+Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo painel [todas-as-specs.md](specs/todas-as-specs.md) (🟢 concluída, 🟡 em aberto, 🔴 bloqueada) e pela ficha da spec. Antes de escrever código, rode `node scripts/specs/specs.mjs status SPEC-NN`: uma etapa concluída já está implementada (ou corrigida) e não é refeita; uma etapa em andamento pertence a quem a reservou. Reserve a etapa livre com `node scripts/specs/specs.mjs pegar` e integre a reserva antes do código. Se a spec ainda não tem plano de implementação, monte o plano antes de qualquer código, mesmo sem pedido: `plano.md` com as etapas, e as perguntas ao responsável em `decisoes.md` sobre as decisões e dúvidas, cada uma com recomendação e prazo; depois peça a aprovação. Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.
 
 ## Novidades
 

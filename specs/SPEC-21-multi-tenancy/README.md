@@ -13,7 +13,7 @@
 
 Cada empresa cliente vira uma **conta**, e todo dado passa a pertencer a uma conta. Um usuário só enxerga os dados da conta em que está logado; nem um bug numa query deixa vazar dado de outro cliente. A spec também traz o cadastro self-service da empresa, os convites de usuários e os módulos liberados por conta.
 
-Detalhes em [spec.md](spec.md). O plano de implementação (`plano.md`, `decisoes.md` e `contexto/`) é escrito quando a spec começar, pelos modelos de [templates/spec/](../../templates/spec/), conforme [policies/specs.md](../../policies/specs.md).
+Detalhes em [spec.md](spec.md). **Ainda sem plano de implementação.** Quem pegar esta spec monta primeiro o `plano.md`, o `decisoes.md` com as perguntas ao responsável e o `contexto/`, pelos modelos de [templates/spec/](../../templates/spec/), e pede a aprovação antes de qualquer código ([policies/specs.md](../../policies/specs.md), seção 3).
 
 ## Etapas
 
