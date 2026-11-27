@@ -75,7 +75,12 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v15 | Corrida Espacial | pronto |
 | v16 | Torres em Colapso | pronto |
 | v17 | Defesa de Base | pronto |
-| v18+ | os 9 restantes | a fazer, na ordem da tabela seguinte (a partir de `pescaria`) |
+| v18 | Pescaria & Submarino | pronto |
+| v19 | Corrida do Ouro | pronto |
+| v20 | Kart Turbo & Balões (3D) | pronto |
+| v21+ | os 6 restantes | a fazer, na ordem da tabela seguinte (a partir de `tanques`) |
+
+> Desde a v18, um modo pode ter os próprios nomes de botões no celular (`botoes` dentro do modo, em `registroJogos.ts`); o aviso `lugar` leva o modo até o celular.
 
 ## Próximos jogos e regras do gênero
 
