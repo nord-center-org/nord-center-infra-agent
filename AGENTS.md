@@ -31,6 +31,18 @@ Quando usar o MCP, chame `get_project_context` para o projeto alvo antes de qual
 
 Todo pedido de funcionalidade, em qualquer repositório consumidor, é registrado como uma feature em `features/<slug>/`, e toda melhoria de uma feature existente é uma nova versão dela (`v2`, `v3`…). Antes de criar a branch, classifique o pedido e escolha o nome conforme `policies/features.md`: `feature-<slug>` ou `feature-<slug>-vN`, com até 50 caracteres e o mesmo nome em todos os repositórios da entrega, inclusive este. A especificação técnica e o porquê de cada decisão ficam no `vN.md` da feature, entregue no mesmo conjunto de PRs.
 
+## Specs do plano
+
+Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo painel [todas-as-specs.md](specs/todas-as-specs.md) (🟢 concluída, 🟡 em aberto, 🔴 bloqueada) e pela ficha da spec. Antes de escrever código, rode `node scripts/specs/specs.mjs status SPEC-NN`: uma etapa concluída já está implementada (ou corrigida) e não é refeita; uma etapa em andamento pertence a quem a reservou. Reserve a etapa livre com `node scripts/specs/specs.mjs pegar` e integre a reserva antes do código. 
+
+**Quando alguém escolhe uma spec** ("quero pegar a SPEC-03", "vou fazer a spec 12"), siga este fluxo automaticamente, sem esperar instrução a mais; no Claude Code, ele é a skill `planejar-spec` (`/planejar-spec 03`):
+
+1. Rode `node scripts/specs/specs.mjs status SPEC-NN` e diga a situação do painel. Se estiver 🟢 concluída ou ⚪ incorporada, pare: não refaça.
+2. Se a spec não tem plano, rode `node scripts/specs/specs.mjs planejar SPEC-NN` e siga o roteiro que ele imprime. Confira a situação atual no código, escreva o plano com as etapas e levante as perguntas ao responsável em `decisoes.md` sobre toda decisão e dúvida, cada uma com recomendação e prazo. Abra o PR do plano e pare, sem escrever código.
+3. Se o plano espera aprovação, diga isso e pare. Se está aprovado, reserve uma etapa livre com `pegar` e integre a reserva antes do código.
+
+Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.
+
 ## Novidades
 
 Toda entrega visível para quem usa o NordTool atualiza as novidades da tela inicial (contadas pelo avatar do dono; sem ele, pelo mascote Lugia Nexus); veja `policies/novidades.md`.
