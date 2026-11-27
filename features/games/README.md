@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v21](v21.md) |
+| Versão atual | [v22](v22.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -172,6 +172,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - caixotes quebram com 2 tiros (ou com a mina); pedra não quebra; minas armam em 1 s e explodem quando um inimigo passa perto (ou em 25 s), com dano 2 e abrindo os caixotes em volta;
   - 3 de blindagem; Mata-Mata: fica o último; Times (vermelho × azul, número par): fica o time; 3 minutos, no tempo vence quem tiver mais blindagem; sozinho, destrua 10 alvos em 90 s. _(v21)_
 
+- **RN-45** Caos Urbano (3D), numa cidade em grade com prédios (sólidos) e praças (abertas):
+  - o carro acelera sozinho; ←/→ vira, ↓ freia e dá ré; A segurado é o nitro (barra que recarrega devagar); B é o freio de mão (derrapa, com marca e fumaça);
+  - Fuga Policial: a polícia persegue pelas ruas; a cada 30 s sobe uma estrela (até 5), chegam mais viaturas e elas ficam mais rápidas; parado com viatura colada por 2,5 s, é preso; pontos por tempo livre e 100 a mais para quem termina livre; sozinho, 2 minutos livre;
+  - Entrega Expressa: pegar a encomenda passando por cima e levar ao destino (anel verde); de 300 a 50 pontos conforme a demora; 3 min; sozinho, 6 entregas;
+  - Derby de Demolição: na praça central cercada; batidas tiram lataria (quem bate mais rápido leva menos dano); fica o último carro; no tempo, mais lataria; sozinho, destruir 6 sucatas em 2 min;
+  - Corrida de Rua: 8 postos em sequência; quem completar primeiro vence, com pontos pela chegada; sozinho, contra o relógio. _(v22)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -208,7 +215,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v18](v18.md) | 2026-11-22 | Pescaria & Submarino (linha com tensão; mergulho com oxigênio, arpão e tesouros) | `feature-games-v18` | [frontend#230](https://github.com/nord-center-org/nord-tool-frontend/pull/230), [infra#101](https://github.com/nord-center-org/nord-center-infra-agent/pull/101) |
 | [v19](v19.md) | 2026-11-22 | Corrida do Ouro (picareta, dinamite, carga, cascalho e lava) | `feature-games-v19` | [frontend#231](https://github.com/nord-center-org/nord-tool-frontend/pull/231), [infra#102](https://github.com/nord-center-org/nord-center-infra-agent/pull/102) |
 | [v20](v20.md) | 2026-11-23 | Kart Turbo & Balões em 3D (drift com turbo, itens, Grande Prêmio e arena) | `feature-games-v20` | [frontend#234](https://github.com/nord-center-org/nord-tool-frontend/pull/234), [infra#105](https://github.com/nord-center-org/nord-center-infra-agent/pull/105) |
-| [v21](v21.md) | 2026-11-23 | Tanques de Aço em 3D (ricochete, caixotes, minas, Mata-Mata e Times) | `feature-games-v21` | frontend (link no PR), infra (este PR) |
+| [v21](v21.md) | 2026-11-23 | Tanques de Aço em 3D (ricochete, caixotes, minas, Mata-Mata e Times) | `feature-games-v21` | [frontend#235](https://github.com/nord-center-org/nord-tool-frontend/pull/235), [infra#106](https://github.com/nord-center-org/nord-center-infra-agent/pull/106) |
+| [v22](v22.md) | 2026-11-23 | Caos Urbano em 3D (fuga, entregas, derby e corrida numa cidade) | `feature-games-v22` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 

@@ -79,7 +79,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v19 | Corrida do Ouro | pronto |
 | v20 | Kart Turbo & Balões (3D) | pronto |
 | v21 | Tanques de Aço (3D) | pronto |
-| v22+ | os 5 restantes | a fazer, na ordem da tabela seguinte (a partir de `caos`) |
+| v22 | Caos Urbano (3D) | pronto |
+| v23+ | os 4 restantes | a fazer, na ordem da tabela seguinte (a partir de `fps`) |
 
 > Desde a v18, um modo pode ter os próprios nomes de botões no celular (`botoes` dentro do modo, em `registroJogos.ts`); o aviso `lugar` leva o modo até o celular.
 
