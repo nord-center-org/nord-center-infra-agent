@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v19](v19.md) |
+| Versão atual | [v20](v20.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -159,6 +159,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - cascalho sem apoio cai; se cair em alguém, atordoa, derruba uma peça e esfarela;
   - Sobrevivência: a lava sobe uma fileira a cada 18 s; quem encosta perde a carga e volta à superfície depois de 5 s. _(v19)_
 
+- **RN-43** Kart Turbo & Balões (3D), com as regras do gênero de kart:
+  - o kart acelera sozinho; ←/→ vira, ↓ freia; segurar A numa curva faz drift, que carrega o turbo em três níveis (azul, laranja, roxo), e soltar dispara o turbo; fora da pista o kart fica lento;
+  - caixas de item dão míssil (persegue o kart à frente), escudo (segura um golpe), óleo (deixado para trás) ou turbo; B usa; quem está atrás tira itens melhores;
+  - Grande Prêmio: 3 voltas, a chegada dá os pontos (10, 8, 6, 5, 4, 3, 2, 1); a corrida acaba quando todos chegam ou 15 s depois do primeiro; sozinho, contra o relógio;
+  - Arena de Balões: 3 balões cada; míssil, óleo ou batida de quem está no turbo estoura um; fica quem tiver balão (3 min; no fim vence quem tem mais); sozinho, estoure 10 balões-alvo em 90 s;
+  - a câmera segue o próprio kart no celular e quando há só uma pessoa na tela; com várias, mostra a pista inteira. _(v20)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -193,7 +200,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v16](v16.md) | 2026-11-22 | Torres em Colapso (artilharia por turnos com vento e torres que desabam) | `feature-games-v16` | [frontend#228](https://github.com/nord-center-org/nord-tool-frontend/pull/228), [infra#99](https://github.com/nord-center-org/nord-center-infra-agent/pull/99) |
 | [v17](v17.md) | 2026-11-22 | Defesa de Base (tower defense cooperativo com torres, cristais e chefão) | `feature-games-v17` | [frontend#229](https://github.com/nord-center-org/nord-tool-frontend/pull/229), [infra#100](https://github.com/nord-center-org/nord-center-infra-agent/pull/100) |
 | [v18](v18.md) | 2026-11-22 | Pescaria & Submarino (linha com tensão; mergulho com oxigênio, arpão e tesouros) | `feature-games-v18` | [frontend#230](https://github.com/nord-center-org/nord-tool-frontend/pull/230), [infra#101](https://github.com/nord-center-org/nord-center-infra-agent/pull/101) |
-| [v19](v19.md) | 2026-11-22 | Corrida do Ouro (picareta, dinamite, carga, cascalho e lava) | `feature-games-v19` | frontend (link no PR), infra (este PR) |
+| [v19](v19.md) | 2026-11-22 | Corrida do Ouro (picareta, dinamite, carga, cascalho e lava) | `feature-games-v19` | [frontend#231](https://github.com/nord-center-org/nord-tool-frontend/pull/231), [infra#102](https://github.com/nord-center-org/nord-center-infra-agent/pull/102) |
+| [v20](v20.md) | 2026-11-23 | Kart Turbo & Balões em 3D (drift com turbo, itens, Grande Prêmio e arena) | `feature-games-v20` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
