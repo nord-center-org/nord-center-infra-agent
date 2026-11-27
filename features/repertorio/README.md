@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `repertorio` |
 | Status | ativa |
-| Versão atual | v19 ([drumcam v4](../drumcam/v4.md)) |
+| Versão atual | [v20](v20.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Gestão Individual > Estúdio (`/gestao/repertorio`; até a v18 se chamava Repertório) |
 
@@ -112,6 +112,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - linhas sem acorde ficam entre as vizinhas;
   - "Marcar linhas" grava os tempos à mão, e "Automático" volta ao cálculo. _(v1)_
   - "Escrever cifra" monta a cifra a partir da letra, com os acordes postos com o mouse e o tempo achado sozinho (RN-22, RN-23 e RN-31). _(v10, alterada na v13)_
+- **RN-41** "Reconhecer nota" (no player com baixo escolhido, ou no Instrumento online na aba Baixo) ouve pelo microfone e mostra a nota grande, na cor e na notação escolhidas, com a oitava, o afinador em cents (afinado dentro de ±5), a frequência, o lugar mais fácil de tocar e todos os lugares da nota no braço do baixo de 4 ou 5 cordas. Uma nota nova só aparece depois de 3 leituras iguais seguidas e fica 1,8 s depois que o som acaba; a sensibilidade vai de 1 a 10. O áudio do microfone não sai do aparelho. _(v20)_
 
 ## Onde está no código
 
@@ -171,6 +172,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | [v17](v17.md) | 2026-11-14 | Linha do tempo dos acordes: arrastar empurra os seguintes, "Pôr aqui" com a música tocando, forma de onda | `feature-repertorio-v17` | [frontend#199](https://github.com/nord-center-org/nord-tool-frontend/pull/199), [infra#70](https://github.com/nord-center-org/nord-center-infra-agent/pull/70) |
 | v18 | 2026-11-23 | Sub-aba Drumcam (celular-câmera da bateria, no Wi-Fi e pela internet); detalhes em [drumcam v2](../drumcam/v2.md) | `feature-drumcam-v2` | ver drumcam v2 |
 | v19 | 2026-11-23 | Vira Estúdio: ambiente escuro próprio e cifras no estilo musical; detalhes em [drumcam v4](../drumcam/v4.md) | `feature-drumcam-v4` | ver drumcam v4 |
+| [v20](v20.md) | 2026-11-27 | Reconhecer nota do baixo pelo microfone (nota grande, afinador e braço) | `feature-repertorio-v20` | [frontend#252](https://github.com/nord-center-org/nord-tool-frontend/pull/252), infra (este PR) |
 
 ## Correções
 
