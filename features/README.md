@@ -7,14 +7,14 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Feature | Slug | Versão atual | Repositórios | Status |
 |---|---|---|---|---|
 | Acessos | [`acessos`](acessos/README.md) | [v2](acessos/v2.md) | scripts-sql, backend, frontend | ativa |
-| App Android | [`app-android`](app-android/README.md) | [v6](app-android/v6.md) | scripts-sql, backend, frontend | ativa |
+| App Android | [`app-android`](app-android/README.md) | [v7](drumcam/v3.md) | scripts-sql, backend, frontend | ativa |
 | Aparência | [`aparencia`](aparencia/README.md) | [v2](aparencia/v2.md) | frontend | ativa |
 | Avatar | [`avatar`](avatar/README.md) | [v3](avatar/v3.md) | backend, frontend | ativa |
 | Bloco de notas | [`bloco-notas`](bloco-notas/README.md) | [v7](bloco-notas/v7.md) | scripts-sql, backend, frontend | ativa |
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Conversor de arquivos | [`conversor-arquivos`](conversor-arquivos/README.md) | [v1](conversor-arquivos/v1.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v4](cronograma-semanal/v4.md) | scripts-sql, backend, frontend | ativa |
-| Drumcam | [`drumcam`](drumcam/README.md) | [v2](drumcam/v2.md) | backend, frontend | ativa |
+| Drumcam | [`drumcam`](drumcam/README.md) | [v3](drumcam/v3.md) | backend, frontend | ativa |
 | Editor de imagens | [`editor-imagens`](editor-imagens/README.md) | [v2](editor-imagens/v2.md) | frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
