@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `app-android` |
 | Status | ativa |
-| Versão atual | [v4](v4.md) |
+| Versão atual | v7 ([drumcam v3](../drumcam/v3.md)) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Menu lateral > Baixar app Android |
 
@@ -29,6 +29,9 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 - **RN-12** `public/app/versao.json` acompanha sempre o `versionCode`/`versionName` do APK publicado; um teste do frontend falha se não acompanhar. _(v3)_
 - **RN-13** A sessão que não cai depende do acesso "Manter conectado no app" (feature [acessos](../acessos/README.md)). Sem ele, o app pede a senha como o navegador. _(acessos v2)_
 - **RN-14** Dentro do app, Configurações → App Android mostra a versão instalada e a publicada e o botão "Verificar atualizações", que confere na hora e sempre responde: baixa a versão nova e pede a autorização, avisa que já está na mais nova ou que está sem conexão. App anterior ao 5.0 (sem a ponte nova) vê "Baixar atualização", que baixa o APK para instalar por cima. Fora do app a seção não aparece. _(v4)_
+- **RN-15** O app (6.0+) tem o modo câmera do Drumcam: câmera, microfone e serviço de câmera em primeiro plano, achado no Wi-Fi e conectado ao relé do NordTool com a conta do app ([drumcam](../drumcam/README.md) RN-14 a RN-16). HTTP liberado só porque o painel da câmera é servido no IP local. _(v5)_
+- **RN-16** A logo oficial do NordTool é a do ícone do navegador (aba, tela inicial e PWA), do iPhone e do app Android (7.0+); a arte fica com fundo transparente no navegador e com fundo branco onde o sistema exige (iPhone, ícone adaptável e Android). _(v6)_
+- **RN-17** O app (8.0+) libera câmera e microfone para a página do próprio NordTool (só ela, e só esses dois recursos, depois da permissão do Android) e mantém a tela ligada enquanto o aparelho é câmera ao vivo do Estúdio ([drumcam](../drumcam/README.md) RN-19). _(v7)_
 
 ## Onde está no código
 
@@ -49,6 +52,9 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 | [v2](v2.md) | 2026-11-18 | Sessão que não cai, app em segundo plano com avisos e alterações com quem fez | `feature-app-android-v2` | [sql#79](https://github.com/nord-center-org/nord-tool-scripts-sql/pull/79), [backend#130](https://github.com/nord-center-org/nord-tool-backend/pull/130), [frontend#207](https://github.com/nord-center-org/nord-tool-frontend/pull/207), [infra#78](https://github.com/nord-center-org/nord-center-infra-agent/pull/78) |
 | [v3](v3.md) | 2026-11-18 | O app se atualiza sozinho (baixa e só pede para confirmar) | `feature-app-android-v3` | [frontend#208](https://github.com/nord-center-org/nord-tool-frontend/pull/208), [infra#79](https://github.com/nord-center-org/nord-center-infra-agent/pull/79) |
 | [v4](v4.md) | 2026-11-21 | Botão "Verificar atualizações" nas Configurações (app 5.0) | `feature-app-android-v4` | frontend (link no PR), infra (este PR) |
+| [v6](v6.md) | 2026-11-23 | Logo oficial no navegador e no app (APK 7.0) | `feature-app-android-v6` | frontend (link no PR), infra (este PR) |
+| v7 | 2026-11-23 | Câmera e microfone para a página (Estúdio ao vivo) e tela ligada (app 8.0); detalhes em [drumcam v3](../drumcam/v3.md) | `feature-drumcam-v3` | ver drumcam v3 |
+| v5 | 2026-11-23 | Modo câmera do Drumcam e relé pela internet (app 6.0); detalhes em [drumcam v2](../drumcam/v2.md) | `feature-drumcam-v2` | ver drumcam v2 |
 
 ## Correções
 
