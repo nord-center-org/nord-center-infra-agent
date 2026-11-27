@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `app-android` |
 | Status | ativa |
-| Versão atual | v8 ([drumcam v4](../drumcam/v4.md)) |
+| Versão atual | [v9](v9.md) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Menu lateral > Baixar app Android |
 
@@ -33,6 +33,8 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 - **RN-16** A logo oficial do NordTool é a do ícone do navegador (aba, tela inicial e PWA), do iPhone e do app Android (7.0+); a arte fica com fundo transparente no navegador e com fundo branco onde o sistema exige (iPhone, ícone adaptável e Android). _(v6)_
 - **RN-17** O app (8.0+) libera câmera e microfone para a página do próprio NordTool (só ela, e só esses dois recursos, depois da permissão do Android). No 8.0, mantém a tela ligada enquanto o aparelho é câmera ao vivo; desde o 9.0, vale a RN-18. _(v7, alterada na v8)_
 - **RN-18** O app (9.0+) mantém a câmera ao vivo da página no ar com a tela apagada ou em segundo plano: serviço em primeiro plano de câmera e microfone com a notificação "Câmera ao vivo no ar", CPU e Wi-Fi seguros e a página tratada como visível só enquanto transmite ([drumcam](../drumcam/README.md) RN-30). _(v8)_
+- **RN-19** No app 10.0+, a câmera ao vivo só para quando a pessoa toca em Parar na tela da câmera: fechar o app (voltar ou tirar dos recentes) não a desliga, e ao abrir o app de novo a tela da câmera volta como estava. _(v9)_
+- **RN-20** Configurações → App Android tem "Instalar a última versão": baixa o APK publicado e pede a confirmação do Android, mesmo que seja a versão já instalada (versão mais velha não); em app anterior ao 10.0, baixa o APK para instalar por cima. _(v9)_
 
 ## Onde está no código
 
@@ -54,6 +56,7 @@ App Android (APK) que abre o NordTool publicado numa WebView. O APK é baixado p
 | [v3](v3.md) | 2026-11-18 | O app se atualiza sozinho (baixa e só pede para confirmar) | `feature-app-android-v3` | [frontend#208](https://github.com/nord-center-org/nord-tool-frontend/pull/208), [infra#79](https://github.com/nord-center-org/nord-center-infra-agent/pull/79) |
 | [v4](v4.md) | 2026-11-21 | Botão "Verificar atualizações" nas Configurações (app 5.0) | `feature-app-android-v4` | frontend (link no PR), infra (este PR) |
 | [v6](v6.md) | 2026-11-23 | Logo oficial no navegador e no app (APK 7.0) | `feature-app-android-v6` | frontend (link no PR), infra (este PR) |
+| [v9](v9.md) | 2026-11-23 | Câmera ao vivo não para ao fechar o app; botão "Instalar a última versão" (app 10.0) | `feature-app-android-v9` | frontend (link no PR), infra (este PR) |
 | v8 | 2026-11-23 | Câmera ao vivo com a tela apagada e em segundo plano (app 9.0); detalhes em [drumcam v4](../drumcam/v4.md) | `feature-drumcam-v4` | ver drumcam v4 |
 | v7 | 2026-11-23 | Câmera e microfone para a página (Estúdio ao vivo) e tela ligada (app 8.0); detalhes em [drumcam v3](../drumcam/v3.md) | `feature-drumcam-v3` | ver drumcam v3 |
 | v5 | 2026-11-23 | Modo câmera do Drumcam e relé pela internet (app 6.0); detalhes em [drumcam v2](../drumcam/v2.md) | `feature-drumcam-v2` | ver drumcam v2 |
