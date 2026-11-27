@@ -1,0 +1,54 @@
+name: Specs
+
+# Confere o registro de specs (policies/specs.md): formato, status do catálogo,
+# transições das etapas em relação à base e reservas duplicadas em outros PRs abertos.
+
+on:
+  pull_request:
+    branches:
+      - develop
+      - master
+    types: [opened, synchronize, reopened, labeled, unlabeled]
+  push:
+    branches:
+      - develop
+
+permissions:
+  contents: read
+  pull-requests: read
+
+concurrency:
+  group: specs-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  specs:
+    name: specs
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 24
+
+      - name: Testes do registro de specs
+        run: node --test scripts/specs/lib.test.mjs
+
+      - name: Validar registro de specs
+        env:
+          EVENTO: ${{ github.event_name }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          GITHUB_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ github.event.pull_request.number }}
+          PR_LABELS: ${{ join(github.event.pull_request.labels.*.name, ',') }}
+        run: |
+          if [ "$EVENTO" = "pull_request" ]; then
+            node scripts/specs/specs.mjs validar --base "origin/$BASE_REF"
+          else
+            node scripts/specs/specs.mjs validar
+          fi

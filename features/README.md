@@ -20,6 +20,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
 | Games | [`games`](games/README.md) | [v17](games/v17.md) | scripts-sql, backend, frontend | ativa |
 | Lugia | [`lugia`](lugia/README.md) | [v2](lugia/v2.md) | backend, frontend | ativa |
+| Marketing | [`marketing`](marketing/README.md) | [v1](marketing/v1.md) | scripts-sql, backend, frontend | ativa |
 | Meus dados | [`meus-dados`](meus-dados/README.md) | [v1](meus-dados/v1.md) | backend, frontend | ativa |
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v2](notificacoes/v2.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
