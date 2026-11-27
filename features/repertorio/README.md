@@ -72,12 +72,12 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - a cifra vai com até 64 mil caracteres.
 
   _(v12)_
-- **RN-29** As cifras recebidas aparecem na aba "Recebidas", das mais novas para as mais antigas, e a aba mostra quantas ainda não foram abertas:
+- **RN-29** As cifras recebidas aparecem em Músicas, na seção "Compartilhadas com você" (desde a [drumcam v5](../drumcam/v5.md); antes, na aba "Recebidas"), das mais novas para as mais antigas, e a aba Músicas mostra quantas ainda não foram abertas:
   - abrir marca como lida;
   - dá para mudar o tom, gerar a imagem e pôr a cifra numa música própria (troca a cifra dela, com confirmação se já tiver);
   - excluir apaga só a cópia de quem recebeu.
 
-  _(v12)_
+  _(v12, alterada na drumcam v5)_
 - **RN-30** A imagem da cifra (PNG) tem título, artista, tom, a cifra com os acordes sobre as sílabas e o rodapé do NordTool:
   - uma coluna (1080 px de largura) ou duas (1920 px) quando não cabe em 1920 px de altura;
   - a fonte diminui para a linha mais comprida caber;

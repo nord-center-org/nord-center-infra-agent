@@ -14,7 +14,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Conversor de arquivos | [`conversor-arquivos`](conversor-arquivos/README.md) | [v1](conversor-arquivos/v1.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v4](cronograma-semanal/v4.md) | scripts-sql, backend, frontend | ativa |
-| Drumcam | [`drumcam`](drumcam/README.md) | [v4](drumcam/v4.md) | backend, frontend | ativa |
+| Drumcam | [`drumcam`](drumcam/README.md) | [v5](drumcam/v5.md) | backend, frontend | ativa |
 | Editor de imagens | [`editor-imagens`](editor-imagens/README.md) | [v2](editor-imagens/v2.md) | frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
@@ -25,7 +25,7 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v2](notificacoes/v2.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
 | Relatório fotográfico | [`relatorio-fotografico`](relatorio-fotografico/README.md) | [v4](relatorio-fotografico/v4.md) | scripts-sql, backend, frontend | ativa |
-| Repertório (Estúdio) | [`repertorio`](repertorio/README.md) | v19 ([drumcam v4](drumcam/v4.md)) | scripts-sql, backend, frontend | ativa |
+| Repertório (Estúdio) | [`repertorio`](repertorio/README.md) | v19 ([drumcam v5](drumcam/v5.md)) | scripts-sql, backend, frontend | ativa |
 | SAC | [`sac`](sac/README.md) | [v5](sac/v5.md) | scripts-sql, backend, frontend | ativa |
 
 `Status` é `ativa` ou `descontinuada`. Uma feature descontinuada mantém a pasta como histórico.
