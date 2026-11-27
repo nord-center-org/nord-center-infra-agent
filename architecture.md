@@ -10,6 +10,7 @@ O `nord-center-infra-agent` é a infraestrutura compartilhada de agentes para os
 - `policies/`: limites de permissões e proteção de branches.
 - `projects/`: stack, comandos e convenções específicas de cada repositório consumidor.
 - `features/`: registro de cada funcionalidade do NordTool, com a ficha atual e um arquivo por versão.
+- `specs/`: specs do plano de evolução, cada uma com ficha (etapas e status), spec, plano, decisões e contexto por repositório; validado por `scripts/specs/` e pelo workflow `Specs`.
 - `templates/`: modelos da documentação de feature e dos workflows de CI.
 
 Agentes devem identificar o repositório alvo e carregar somente o perfil, steering e skills daquele projeto. As policies em `policies/` são globais e continuam válidas para todos.
@@ -25,3 +26,4 @@ Agentes devem identificar o repositório alvo e carregar somente o perfil, steer
 - **ADR-010 — HTTP remoto com escopo por cliente:** O transporte Streamable HTTP cria uma sessão por cliente autenticado. Credenciais remotas são distintas de `GITHUB_TOKEN` e cada uma recebe uma allowlist explícita de projetos. O serviço valida Host/Origin, impõe HTTPS quando implantado publicamente, limita chamadas e não registra tokens nem corpos MCP. Sessões são mantidas em memória; a primeira implantação Railway deve usar uma instância até existir armazenamento compartilhado de sessão.
 - **ADR-011 — Release de produção manual:** A promoção de `develop` para `master` exige PR e aprovação humana conforme `policies/release.md`; nenhuma operação MCP pode realizá-la.
 - **ADR-012 — Registro de features:** cada funcionalidade tem um slug fixo e uma pasta em `features/<slug>/` com a ficha atual e um arquivo por versão; melhorias são novas versões (`feature-<slug>-vN`). O mesmo nome de branch, com até 50 caracteres, é usado em todos os repositórios da entrega, conforme `policies/features.md`.
+- **ADR-013 — Registro de specs com reserva de etapas:** cada spec do plano tem ficha em `specs/SPEC-NN-<slug>/` com etapas, responsável e status; o status em `develop` é a verdade, a reserva entra antes do código e o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas, conforme `policies/specs.md`.
