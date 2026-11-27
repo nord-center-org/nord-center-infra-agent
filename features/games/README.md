@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v17](v17.md) |
+| Versão atual | [v19](v19.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -147,6 +147,18 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - A atira na mão, com mira assistida; blindados e chefões levam menos dano;
   - Cooperativo: aguentar 10 ondas (sozinho, 8), a última com o chefão; Infinito: ondas sem fim, chefão a cada 5, e a rodada fica com quem mais pontuou. _(v17)_
 
+- **RN-41** Pescaria & Submarino, com as regras do gênero (partidas de 3 minutos; vence quem fizer mais pontos e, no empate, quem capturou mais; sozinho, meta de 500 na Pescaria e 400 no Mergulho):
+  - Pescaria: ←/→ move o barco e ↑/↓ o anzol; a isca atrai o peixe que passa perto; fisgado, A puxa e B solta a linha; puxar enquanto o peixe briga sobe a tensão e, no limite, a linha arrebenta; linha frouxa por 1,5 s deixa o peixe escapar; peixes grandes brigam mais vezes (fôlego) e valem mais;
+  - Mergulho: o oxigênio acaba debaixo d'água (mais rápido no fundo) e enche na superfície; tesouros e peixes caçados com o arpão (A) viram carga, que só pontua entregue na superfície; B dá um impulso que gasta ar; água-viva e tubarão tiram oxigênio (o tubarão caça e leva metade da carga); sem ar, perde a carga e volta à superfície depois de 3 s. _(v18)_
+
+- **RN-42** Corrida do Ouro, com as regras do gênero de mineração (4 minutos; vence quem entregar mais pontos, e no empate quem entregou mais peças; sozinho, meta de 600 na Corrida e 400 na Sobrevivência):
+  - o subsolo é de blocos: terra e cascalho (1 golpe), pedra e prata e ouro (2), diamante (3) e rocha dura (não quebra); a picareta (A) cava para o lado em que o mineiro olha;
+  - ↑ pula na superfície e, no subsolo, sobe pelo túnel com a corda;
+  - minério vai para a carga (até 8 peças), cada peça deixa mais lento, e a carga só pontua no carrinho, que também repõe as 3 dinamites;
+  - dinamite (B) explode em 2 s, abre buraco (sem quebrar rocha dura nem minério) e quem estiver perto fica tonto e perde metade da carga;
+  - cascalho sem apoio cai; se cair em alguém, atordoa, derruba uma peça e esfarela;
+  - Sobrevivência: a lava sobe uma fileira a cada 18 s; quem encosta perde a carga e volta à superfície depois de 5 s. _(v19)_
+
 ## Onde está no código
 
 - **Frontend:**
@@ -179,7 +191,9 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v14](v14.md) | 2026-11-22 | Coroa Maldita (pique-pega de plataforma, coroa e bomba) | `feature-games-v14` | [frontend#226](https://github.com/nord-center-org/nord-tool-frontend/pull/226), [infra#97](https://github.com/nord-center-org/nord-center-infra-agent/pull/97) |
 | [v15](v15.md) | 2026-11-22 | Corrida Espacial (inércia, gravidade, anéis, asteroides e cristais) | `feature-games-v15` | [frontend#227](https://github.com/nord-center-org/nord-tool-frontend/pull/227), [infra#98](https://github.com/nord-center-org/nord-center-infra-agent/pull/98) |
 | [v16](v16.md) | 2026-11-22 | Torres em Colapso (artilharia por turnos com vento e torres que desabam) | `feature-games-v16` | [frontend#228](https://github.com/nord-center-org/nord-tool-frontend/pull/228), [infra#99](https://github.com/nord-center-org/nord-center-infra-agent/pull/99) |
-| [v17](v17.md) | 2026-11-22 | Defesa de Base (tower defense cooperativo com torres, cristais e chefão) | `feature-games-v17` | frontend (link no PR), infra (este PR) |
+| [v17](v17.md) | 2026-11-22 | Defesa de Base (tower defense cooperativo com torres, cristais e chefão) | `feature-games-v17` | [frontend#229](https://github.com/nord-center-org/nord-tool-frontend/pull/229), [infra#100](https://github.com/nord-center-org/nord-center-infra-agent/pull/100) |
+| [v18](v18.md) | 2026-11-22 | Pescaria & Submarino (linha com tensão; mergulho com oxigênio, arpão e tesouros) | `feature-games-v18` | [frontend#230](https://github.com/nord-center-org/nord-tool-frontend/pull/230), [infra#101](https://github.com/nord-center-org/nord-center-infra-agent/pull/101) |
+| [v19](v19.md) | 2026-11-22 | Corrida do Ouro (picareta, dinamite, carga, cascalho e lava) | `feature-games-v19` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
