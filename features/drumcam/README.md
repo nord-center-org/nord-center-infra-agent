@@ -4,9 +4,9 @@
 |---|---|
 | Slug | `drumcam` |
 | Status | ativa |
-| Versão atual | [v1](v1.md) |
-| Repositórios | nord-tool-frontend |
-| Onde no app | App Android à parte, baixado em `/app/drumcam.apk` (ainda sem botão no NordTool) |
+| Versão atual | [v2](v2.md) |
+| Repositórios | nord-tool-backend, nord-tool-frontend |
+| Onde no app | Repertório → Drumcam, e o modo câmera dentro do app NordTool (6.0+) |
 
 ## O que faz
 
@@ -27,6 +27,10 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 - **RN-11** O envio é retomável. Se a rede cair, a câmera pergunta ao YouTube até onde chegou e continua de lá. Ao religar o serviço, os envios pendentes recomeçam. Thumb e playlist são aplicadas depois; se falharem, o vídeo fica publicado com um aviso. _(v1)_
 - **RN-12** A visibilidade padrão é privada. Enquanto o projeto da API não passar pela auditoria do YouTube, o YouTube força privado em qualquer escolha. _(v1)_
 - **RN-13** Não dá para apagar nem publicar o vídeo que está sendo gravado, nem apagar um vídeo no meio do envio. _(v1)_
+- **RN-14** O Drumcam faz parte do app NordTool (6.0+): em Repertório → Drumcam, dentro do app, "Usar este celular como câmera" liga o modo câmera e "Controlar no Wi-Fi" acha a câmera e abre o painel completo. O app Drumcam separado (`drumcam.apk`) deixa de ser necessário. _(v2)_
+- **RN-15** Pela internet, de qualquer lugar: a câmera fica conectada ao relé do NordTool com a conta do app (aparelho registrado), e Repertório → Drumcam lista as câmeras da mesma conta e abre o painel ali mesmo. Só a mesma pessoa alcança as próprias câmeras; o PIN não é pedido porque a conta já autoriza. _(v2)_
+- **RN-16** Pela internet passam comandos, estado, prévia e thumbs (até 1 MB por resposta; thumbs enviadas pela internet até 900 KB). O vídeo não desce pela internet: baixar só no mesmo Wi-Fi; publicar no YouTube continua indo direto da câmera. _(v2)_
+- **RN-17** No computador, no mesmo Wi-Fi, Repertório → Drumcam abre o endereço da câmera (`IP:porta`) no navegador, com o PIN. _(v2)_
 
 ## Onde está no código
 
@@ -46,6 +50,7 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 | Versão | Data | Resumo | Branch | PRs |
 |---|---|---|---|---|
 | [v1](v1.md) | 2026-11-22 | App câmera + controle no mesmo Wi-Fi, com publicação no YouTube | `feature-drumcam` | [frontend#232](https://github.com/nord-center-org/nord-tool-frontend/pull/232), [infra#103](https://github.com/nord-center-org/nord-center-infra-agent/pull/103) |
+| [v2](v2.md) | 2026-11-23 | No Repertório e dentro do app NordTool 6.0, no Wi-Fi e pela internet (relé do NordTool) | `feature-drumcam-v2` | backend, frontend (links nos PRs), infra (este PR) |
 
 ## Correções
 
@@ -54,4 +59,4 @@ Um app Android (APK) que transforma um celular antigo em câmera fixa e outro ce
 
 ## Dependências e impactos
 
-Não depende de backend nem de banco. Não muda o app NordTool ([app-android](../app-android/README.md)), que continua com a própria chave e versão. Para gerar o APK é preciso o Android SDK 35 e a chave `drumcam.jks`, que fica com o Nick. Próximo passo pedido: controlar pelo NordTool, fora do mesmo Wi-Fi.
+Desde a v2 depende do backend só para o relé (`/drumcam/bilhete` e o WebSocket `/drumcam/ws`, em memória, sem banco) e vive dentro do app NordTool ([app-android](../app-android/README.md) v5, APK 6.0, assinado com a chave do NordTool). O painel é um arquivo só (`public/drumcam/painel.html`), servido pela câmera no Wi-Fi e pelo NordTool no modo relé. O `drumcam/` da v1 continua no repositório, mas não precisa mais ser instalado.
