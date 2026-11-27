@@ -112,7 +112,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
   - linhas sem acorde ficam entre as vizinhas;
   - "Marcar linhas" grava os tempos à mão, e "Automático" volta ao cálculo. _(v1)_
   - "Escrever cifra" monta a cifra a partir da letra, com os acordes postos com o mouse e o tempo achado sozinho (RN-22, RN-23 e RN-31). _(v10, alterada na v13)_
-- **RN-41** "Reconhecer nota" (no player com baixo escolhido, ou no Instrumento online na aba Baixo) ouve pelo microfone e mostra a nota grande, na cor e na notação escolhidas, com a oitava, o afinador em cents (afinado dentro de ±5), a frequência, o lugar mais fácil de tocar e todos os lugares da nota no braço do baixo de 4 ou 5 cordas. Uma nota nova só aparece depois de 3 leituras iguais seguidas e fica 1,8 s depois que o som acaba; a sensibilidade vai de 1 a 10. O áudio do microfone não sai do aparelho. _(v20)_
+- **RN-41** "Reconhecer nota" (no player com baixo escolhido, ou no Instrumento online na aba Baixo) ouve pelo microfone e mostra a nota grande, na cor e na notação escolhidas, com a oitava, o afinador em cents (afinado dentro de ±5), a frequência, o lugar mais fácil de tocar e todos os lugares da nota no braço do baixo de 4 ou 5 cordas. Só o baixo conta: a nota é procurada no grave (até 420 Hz) e só vale com o grave sendo pelo menos metade do som, nota clara e dentro do braço do baixo escolhido (voz, bateria e barulho são ignorados). Uma nota nova só aparece depois de 4 leituras iguais seguidas e fica 1,8 s depois que o som acaba; a sensibilidade vai de 1 a 10 (começa em 4). O áudio do microfone não sai do aparelho. _(v20, ajustada na correção de 2026-11-27)_
 
 ## Onde está no código
 
@@ -179,6 +179,7 @@ A cifra é colada no formato do Cifra Club. Ela muda de tom junto com o áudio, 
 | Data | Branch | O que foi corrigido | PRs |
 |---|---|---|---|
 | 2026-11-13 | `fix-repertorio-baixo-picotado` | Notas do baixo picotadas: a mesma nota em seguida só se separa se o som do grave caiu antes do novo ataque (nota segurada com bumbo por cima vira uma só). Ataques e batidas eram marcados ~40 ms cedo (o fluxo espectral reage quando o som entra na janela); agora vão para a metade da subida da energia (<10 ms do ataque real), o que acerta a troca das notas e a cifra rolando. Análise na versão 3 (o player refaz as músicas guardadas). Testes em `analise.test.ts` com áudio sintético (nota segurada com bumbo, notas curtas rápidas, troca sem ataque, trocas no meio de acordes e bateria). | [frontend#188](https://github.com/nord-center-org/nord-tool-frontend/pull/188) |
+| 2026-11-27 | `fix-repertorio-nota-so-baixo` | "Reconhecer nota" sensível demais: voz, bateria e barulho viravam nota. Agora a nota é procurada só no grave (passa-alta de 25 Hz e dois passa-baixas de 420 Hz) e só vale se o grave for pelo menos metade do som inteiro, com clareza ≥ 0,8 e dentro do braço do baixo escolhido; nota nova com 4 leituras seguidas; sensibilidade começa em 4. Teste `pareceBaixo` em `afinador.test.ts`; e2e com voz de homem e chimbal entre as notas (antes a voz virava A#2/B2, depois só E1, A1 e G2). | [frontend#253](https://github.com/nord-center-org/nord-tool-frontend/pull/253) |
 
 ## Dependências e impactos
 
