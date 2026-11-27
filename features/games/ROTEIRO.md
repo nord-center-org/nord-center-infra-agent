@@ -76,7 +76,8 @@ Os usuários de teste ficam só no banco local; nunca vão para o repositório.
 | v16 | Torres em Colapso | pronto |
 | v17 | Defesa de Base | pronto |
 | v18 | Pescaria & Submarino | pronto |
-| v19+ | os 8 restantes | a fazer, na ordem da tabela seguinte (a partir de `mineracao`) |
+| v19 | Corrida do Ouro | pronto |
+| v20+ | os 7 restantes | a fazer, na ordem da tabela seguinte (a partir de `kart`, o primeiro 3D desta leva) |
 
 > Desde a v18, um modo pode ter os próprios nomes de botões no celular (`botoes` dentro do modo, em `registroJogos.ts`); o aviso `lugar` leva o modo até o celular.
 
