@@ -29,9 +29,10 @@ async function loadProjectContext(project: ProjectName) {
   const profilePath = path.join(INFRA_ROOT, "projects", `${project}.md`);
   const policiesDir = path.join(INFRA_ROOT, "policies");
   const featureCatalogPath = path.join(INFRA_ROOT, "features", "README.md");
+  const specCatalogPath = path.join(INFRA_ROOT, "specs", "todas-as-specs.md");
   const steeringDir = path.join(INFRA_ROOT, "steering", project);
   const skillsDir = path.join(INFRA_ROOT, "skills", project);
-  const paths = [...await markdownFiles(policiesDir), featureCatalogPath, profilePath, ...await markdownFiles(steeringDir), ...await markdownFiles(skillsDir)];
+  const paths = [...await markdownFiles(policiesDir), featureCatalogPath, specCatalogPath, profilePath, ...await markdownFiles(steeringDir), ...await markdownFiles(skillsDir)];
   const documents: Array<{ path: string; content: string }> = [];
   let totalChars = 0;
 
@@ -61,7 +62,7 @@ export function registerProjectContext(server: McpServer, config: ServerConfig) 
   const projectSchema = projectInputSchema(config);
   server.registerTool("get_project_context", {
     title: "Carregar contexto do projeto",
-    description: "Retorna as policies, o catálogo de features e o perfil, steering e skills Markdown do projeto selecionado na allowlist.",
+    description: "Retorna as policies, os catálogos de features e de specs e o perfil, steering e skills Markdown do projeto selecionado na allowlist.",
     inputSchema: { project: projectSchema },
   }, async ({ project }) => {
     try {

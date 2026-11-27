@@ -14,11 +14,13 @@ Antes de começar qualquer pedido, procure aqui se a funcionalidade já existe. 
 | Cubicagem | [`cubicagem`](cubicagem/README.md) | [v1](cubicagem/v1.md) | scripts-sql, backend, frontend | ativa |
 | Conversor de arquivos | [`conversor-arquivos`](conversor-arquivos/README.md) | [v1](conversor-arquivos/v1.md) | frontend | ativa |
 | Cronograma semanal | [`cronograma-semanal`](cronograma-semanal/README.md) | [v4](cronograma-semanal/v4.md) | scripts-sql, backend, frontend | ativa |
+| Drumcam | [`drumcam`](drumcam/README.md) | [v1](drumcam/v1.md) | frontend | ativa |
 | Editor de imagens | [`editor-imagens`](editor-imagens/README.md) | [v2](editor-imagens/v2.md) | frontend | ativa |
 | Escadinha | [`escadinha`](escadinha/README.md) | [v2](escadinha/v2.md) | scripts-sql, backend, frontend | ativa |
 | Favoritos do menu | [`menu-favoritos`](menu-favoritos/README.md) | [v1](menu-favoritos/v1.md) | scripts-sql, backend, frontend | ativa |
 | Games | [`games`](games/README.md) | [v20](games/v20.md) | scripts-sql, backend, frontend | ativa |
 | Lugia | [`lugia`](lugia/README.md) | [v2](lugia/v2.md) | backend, frontend | ativa |
+| Marketing | [`marketing`](marketing/README.md) | [v1](marketing/v1.md) | scripts-sql, backend, frontend | ativa |
 | Meus dados | [`meus-dados`](meus-dados/README.md) | [v1](meus-dados/v1.md) | backend, frontend | ativa |
 | Notificações no celular | [`notificacoes`](notificacoes/README.md) | [v2](notificacoes/v2.md) | scripts-sql, backend, frontend | ativa |
 | Placas | [`placas`](placas/README.md) | [v2](placas/v2.md) | scripts-sql, backend, frontend | ativa |
