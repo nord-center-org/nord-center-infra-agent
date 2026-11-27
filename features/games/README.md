@@ -178,6 +178,13 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - Entrega Expressa: pegar a encomenda passando por cima e levar ao destino (anel verde); de 300 a 50 pontos conforme a demora; 3 min; sozinho, 6 entregas;
   - Derby de Demolição: na praça central cercada; batidas tiram lataria (quem bate mais rápido leva menos dano); fica o último carro; no tempo, mais lataria; sozinho, destruir 6 sucatas em 2 min;
   - Corrida de Rua: 8 postos em sequência; quem completar primeiro vence, com pontos pela chegada; sozinho, contra o relógio. _(v22)_
+- **RN-46** Arena Voxel (3D, primeira pessoa), numa arena simétrica de blocos com alturas (borda alta, pilares, coberturas de um nível e a colina no meio):
+  - ↑/↓ anda, ←/→ gira a visão; A atira com mira assistida (puxa a mira para o inimigo visível dentro do cone, inclusive na altura); a recarga é sozinha quando o pente acaba; B pula; pular de novo logo ao cair encadeia (até 40% mais rápido); segurar B ao cair desliza por meio segundo, mais rápido e mais baixo;
+  - começa com a pistola (munição infinita); rifle, escopeta (6 chumbos, perde força com a distância) e sniper ficam nos pedestais e voltam 10 s depois de pegos; sem munição, volta para a pistola; atirar seguido abre o recuo;
+  - 100 de vida; abatido, volta em 3 s no ponto de partida mais longe dos inimigos;
+  - Mata-Mata: 10 abates ou 3 min (desempate por menos mortes); Captura de Bandeira (vermelho × azul, número par): levar a bandeira inimiga até a própria base com a sua no lugar, 3 capturas; tocar a própria bandeira caída a devolve; Rei da Colina: só pontua quem está sozinho (ou só o seu time) no topo, 60 pontos; Contra Bots: todos contra 2 + n drones;
+  - sozinho, qualquer modo vira Contra Bots: 10 abates em 3 min;
+  - a tela de uma pessoa só (o celular dela ou um humano só na tela) mostra a primeira pessoa; com várias pessoas na mesma tela, a arena vista do alto. _(v23)_
 
 ## Onde está no código
 
@@ -216,7 +223,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v19](v19.md) | 2026-11-22 | Corrida do Ouro (picareta, dinamite, carga, cascalho e lava) | `feature-games-v19` | [frontend#231](https://github.com/nord-center-org/nord-tool-frontend/pull/231), [infra#102](https://github.com/nord-center-org/nord-center-infra-agent/pull/102) |
 | [v20](v20.md) | 2026-11-23 | Kart Turbo & Balões em 3D (drift com turbo, itens, Grande Prêmio e arena) | `feature-games-v20` | [frontend#234](https://github.com/nord-center-org/nord-tool-frontend/pull/234), [infra#105](https://github.com/nord-center-org/nord-center-infra-agent/pull/105) |
 | [v21](v21.md) | 2026-11-23 | Tanques de Aço em 3D (ricochete, caixotes, minas, Mata-Mata e Times) | `feature-games-v21` | [frontend#235](https://github.com/nord-center-org/nord-tool-frontend/pull/235), [infra#106](https://github.com/nord-center-org/nord-center-infra-agent/pull/106) |
-| [v22](v22.md) | 2026-11-23 | Caos Urbano em 3D (fuga, entregas, derby e corrida numa cidade) | `feature-games-v22` | frontend (link no PR), infra (este PR) |
+| [v22](v22.md) | 2026-11-23 | Caos Urbano em 3D (fuga, entregas, derby e corrida numa cidade) | `feature-games-v22` | [frontend#236](https://github.com/nord-center-org/nord-tool-frontend/pull/236), [infra#107](https://github.com/nord-center-org/nord-center-infra-agent/pull/107) |
+| [v23](v23.md) | 2026-11-23 | Arena Voxel em 3D (tiro em primeira pessoa: pulo encadeado, deslize, quatro armas e quatro modos) | `feature-games-v23` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
