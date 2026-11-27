@@ -4,7 +4,7 @@
 |---|---|
 | Slug | `games` |
 | Status | ativa |
-| Versão atual | [v24](v24.md) |
+| Versão atual | [v25](v25.md) |
 | Para continuar | [ROTEIRO.md](ROTEIRO.md) (receita de jogo novo, regras dos próximos jogos e pendências) |
 | Repositórios | nord-tool-scripts-sql, nord-tool-backend, nord-tool-frontend |
 | Onde no app | Individual > Games (`/gestao/games`) |
@@ -192,6 +192,12 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
   - pedidos chegam com prazo (as quatro receitas a cada quatro pedidos); entregar dá a base da receita + gorjeta pelo tempo que sobrou × combo (até 4); vencido tira 10 e zera o combo; o prato volta sujo ao retorno 5 s depois;
   - Cooperativo: 3 min; a 1ª estrela pede 250 pontos com uma pessoa (+40% por pessoa a mais, até 6); 2 e 3 estrelas pedem 1,5× e 2×; com a 1ª estrela, vence quem mais pontuou; Duelo de Cozinhas (número par): vermelho × azul, uma cozinha cada, os mesmos pedidos; mais pontos vence;
   - sozinho: Desafio Solo, 250 pontos em 3 min. _(v24)_
+- **RN-48** Batalha de Banda (2D, ritmo), cada pessoa na própria pista de 4 trilhas (← ↓ ↑ →), todos com a mesma partitura gerada pela semente e pelo andamento (Lento 100, Médio 128, Rápido 156 BPM), em cerca de 100 s:
+  - a nota cai até a linha; apertar a direção da trilha na hora acerta: perfeito (±50 ms, 100), ótimo (±100 ms, 70) ou bom (±150 ms, 40); nota longa: segurar a direção até o fim soma pontos a cada instante; trilha repetida sempre com meia batida de folga para soltar e apertar;
+  - o multiplicador sobe a cada 10 acertos seguidos (até ×4); cada 25 de combo enche um quarto da energia; B com energia pela metade liga o Show (pontos em dobro enquanto a energia escoa);
+  - o público (vida) sobe nos acertos e cai nas notas perdidas (e um pouco no toque sem nota, que também quebra o combo); zerado, quem toca é vaiado e sai;
+  - Solo: terminar a música sem ser vaiado e com 70% de acertos; Duelo: A com o ataque cheio (20 acertos) manda ao líder adversário neblina, notas aceleradas ou trilhas espelhadas por 6 s; vence quem tiver mais pontos sem ser vaiado (ou o último em pé); Banda: o público é um só e todos somam; a banda vence se terminar a música;
+  - a música (bateria, baixo e a melodia das notas acertadas) é tocada pelo próprio jogo no compasso das notas; a tela de uma pessoa só (o celular dela) mostra só a própria pista. _(v25)_
 
 ## Onde está no código
 
@@ -232,7 +238,8 @@ A Central de Jogos do NordTool, no estilo launcher. Mostra 21 jogos com capas, f
 | [v21](v21.md) | 2026-11-23 | Tanques de Aço em 3D (ricochete, caixotes, minas, Mata-Mata e Times) | `feature-games-v21` | [frontend#235](https://github.com/nord-center-org/nord-tool-frontend/pull/235), [infra#106](https://github.com/nord-center-org/nord-center-infra-agent/pull/106) |
 | [v22](v22.md) | 2026-11-23 | Caos Urbano em 3D (fuga, entregas, derby e corrida numa cidade) | `feature-games-v22` | [frontend#236](https://github.com/nord-center-org/nord-tool-frontend/pull/236), [infra#107](https://github.com/nord-center-org/nord-center-infra-agent/pull/107) |
 | [v23](v23.md) | 2026-11-23 | Arena Voxel em 3D (tiro em primeira pessoa: pulo encadeado, deslize, quatro armas e quatro modos) | `feature-games-v23` | [frontend#237](https://github.com/nord-center-org/nord-tool-frontend/pull/237), [infra#108](https://github.com/nord-center-org/nord-center-infra-agent/pull/108) |
-| [v24](v24.md) | 2026-11-23 | Cozinha Caótica em 3D (pedidos, corte, fogão, fogo, pia; Cooperativo e Duelo) | `feature-games-v24` | frontend (link no PR), infra (este PR) |
+| [v24](v24.md) | 2026-11-23 | Cozinha Caótica em 3D (pedidos, corte, fogão, fogo, pia; Cooperativo e Duelo) | `feature-games-v24` | [frontend#238](https://github.com/nord-center-org/nord-tool-frontend/pull/238), [infra#109](https://github.com/nord-center-org/nord-center-infra-agent/pull/109) |
+| [v25](v25.md) | 2026-11-23 | Batalha de Banda (ritmo em 4 trilhas com música gerada, Show, Duelo com obstáculos e Banda) | `feature-games-v25` | frontend (link no PR), infra (este PR) |
 
 ## Correções
 
