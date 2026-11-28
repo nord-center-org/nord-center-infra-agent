@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  catalogoAtualizado, celulas, progressoDaSpec, motivoParaNaoPlanejar, roteiroDoPlano, branchDoPlano, situacaoDaSpec, lerPerguntas, validarPlanejamento, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
+  catalogoAtualizado, celulas, progressoDaSpec, motivoParaNaoPlanejar, roteiroDoPlano, branchDoPlano, situacaoDaSpec, lerPerguntas, validarPlanejamento, validarResponsabilidades, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
   linhaDeTabela, motivoParaNaoPegar, reservasDoPr, rotuloPr, statusDaSpec, trocarLinha, validarCatalogo, validarFicha, validarTransicoes,
 } from "./lib.mjs";
 
@@ -236,6 +236,18 @@ const decisoes = perguntas => `# SPEC-01 — Decisões
 
 ${perguntas.map(([id, decidirEm, resposta]) => `### ${id} — Pergunta ${id}\n\n- **Recomendação:** r\n- **Decidir em:** ${decidirEm}\n- **Resposta:** ${resposta}\n`).join("\n")}`;
 
+const planoOk = ids => ids.map(id => `## ${id} — Etapa\n\n**Feito pela IA:**\n\n- código\n\n**Ação humana:** nenhuma\n`).join("\n");
+
+test("plano: cada etapa separa o que a IA faz da ação humana", () => {
+  assert.deepEqual(validarResponsabilidades(planoOk(["E01", "E02"]), ["E01", "E02"]), []);
+  const plano = "## E01 — A\n\n**Feito pela IA:**\n\n- x\n\n## E02 — B\n\n**Feito pela IA:**\n\n**Ação humana:**\n\n## Riscos\n\n**Ação humana:** nenhuma";
+  const erros = validarResponsabilidades(plano, ["E01", "E02", "E03"]).join("\n");
+  assert.match(erros, /E01: falta "\*\*Ação humana:\*\*"/);
+  assert.match(erros, /E02: "\*\*Feito pela IA:\*\*" está vazio/);
+  assert.match(erros, /E02: "\*\*Ação humana:\*\*" está vazio/);
+  assert.match(erros, /E03: falta a seção/);
+});
+
 test("perguntas: lê a seção com recomendação, prazo e resposta", () => {
   const ps = lerPerguntas(decisoes([["P1", "antes da aprovação", "sim (2026-11-26, zzNICK)"], ["P2", "E01", "pendente"]]));
   assert.deepEqual(ps.map(p => [p.id, p.decidirEm, p.resposta]), [["P1", "antes da aprovação", "sim (2026-11-26, zzNICK)"], ["P2", "E01", "pendente"]]);
@@ -247,18 +259,18 @@ test("planejamento: spec com etapas exige plano.md e perguntas ao responsável",
   const erros = validarPlanejamento(f, "SPEC-01-regras", { plano: null, decisoes: "# sem perguntas" }).join("\n");
   assert.match(erros, /plano\.md: obrigatório/);
   assert.match(erros, /falta a seção "Perguntas ao responsável"/);
-  assert.match(validarPlanejamento(f, "SPEC-01-regras", { plano: "x", decisoes: decisoes([]) }).join("\n"), /ao menos uma pergunta/);
+  assert.match(validarPlanejamento(f, "SPEC-01-regras", { plano: planoOk(["E01"]), decisoes: decisoes([]) }).join("\n"), /ao menos uma pergunta/);
   assert.deepEqual(validarPlanejamento(lerFicha(ficha({ plano: "pendente", etapas: [] })), "SPEC-01-regras", { plano: null, decisoes: null }), [], "spec ainda sem plano não é cobrada");
 });
 
 test("planejamento: aprovação e etapa exigem as respostas no prazo", () => {
   const aprovada = lerFicha(ficha({ etapas: [andando("E01"), livre("E02")] }));
-  const erros = validarPlanejamento(aprovada, "SPEC-01-regras", { plano: "x", decisoes: decisoes([["P1", "antes da aprovação", "pendente"], ["P2", "E01", "pendente"], ["P3", "E02", "pendente"], ["P4", "E09", "pendente"]]) }).join("\n");
+  const erros = validarPlanejamento(aprovada, "SPEC-01-regras", { plano: planoOk(["E01", "E02"]), decisoes: decisoes([["P1", "antes da aprovação", "pendente"], ["P2", "E01", "pendente"], ["P3", "E02", "pendente"], ["P4", "E09", "pendente"]]) }).join("\n");
   assert.match(erros, /P1: o plano foi aprovado, mas esta pergunta/);
   assert.match(erros, /E01: a etapa está em-andamento, mas a pergunta P2/);
   assert.doesNotMatch(erros, /P3/, "E02 ainda está planejada");
   assert.match(erros, /P4: "- \*\*Decidir em:\*\*" deve ser/);
-  const ok = validarPlanejamento(aprovada, "SPEC-01-regras", { plano: "x", decisoes: decisoes([["P1", "antes da aprovação", "sim"], ["P2", "E01", "não"], ["P3", "E02", "pendente"]]) });
+  const ok = validarPlanejamento(aprovada, "SPEC-01-regras", { plano: planoOk(["E01", "E02"]), decisoes: decisoes([["P1", "antes da aprovação", "sim"], ["P2", "E01", "não"], ["P3", "E02", "pendente"]]) });
   assert.deepEqual(ok, []);
 });
 

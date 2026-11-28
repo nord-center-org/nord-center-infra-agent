@@ -25,6 +25,7 @@ Se a ficha ainda não tem etapas (Progresso "sem plano"):
 2. Siga o roteiro impresso, passo a passo. O mais importante:
    - confira no código cada ponto de "Situação atual" antes de planejar;
    - divida o trabalho em etapas, com partes de até 500 linhas de código;
+   - em cada etapa, separe `**Feito pela IA:**` (código, testes, configuração versionada, documentação) de `**Ação humana:**` (token, variável, secret, acesso, configuração do GitHub ou do provedor, aprovação), cada ação com quem faz, onde, antes de qual parte e como conferir; sem ação humana, `nenhuma`;
    - levante em `decisoes.md`, seção "Perguntas ao responsável", **toda** decisão que não cabe a você e toda dúvida que o código levantar. Cada pergunta leva contexto, recomendação, "Decidir em" e "Resposta: pendente". Não decida sozinho o que é do responsável: pergunte.
 3. Rode `node scripts/specs/specs.mjs catalogo` e `node scripts/specs/specs.mjs validar --base origin/develop`, até não sobrar erro.
 4. Faça commit só de `specs/`, abra o PR para `develop` com o título `docs(specs): plano da SPEC-NN` e **pare**. Não escreva código.
@@ -37,5 +38,6 @@ Se a ficha ainda não tem etapas (Progresso "sem plano"):
   1. Crie a branch de reserva `docs-spec-NN-eMM-reserva` a partir de `origin/develop`.
   2. Rode `node scripts/specs/specs.mjs pegar SPEC-NN EMM --responsavel <login> --branch <tipo>-spec-NN-eMM-<resumo>`.
   3. Abra o PR da reserva e só comece o código depois que ele for integrado.
+  4. Antes de cada parte, confira a "Ação humana" da etapa: liste para a pessoa o que ainda falta e não siga com a parte que depende disso até ela confirmar.
 
   Se o `pegar` recusar (etapa concluída, em andamento com outra pessoa, pergunta sem resposta), repasse o motivo e pare.

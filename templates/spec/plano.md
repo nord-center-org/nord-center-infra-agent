@@ -12,7 +12,15 @@
 
 ## E01 — <Título>
 
-<O que fazer, arquivos por repositório, divisão em partes de até 500 linhas e riscos.>
+<O que fazer e por quê, divisão em partes de até 500 linhas e riscos.>
+
+**Feito pela IA:**
+
+- <código, testes, configuração versionada e documentação que o agente entrega por PR, com os arquivos por repositório>
+
+**Ação humana:**
+
+- <o que só uma pessoa faz (variável de ambiente, secret, token, acesso, conta, configuração no GitHub ou no provedor, compra, aprovação): quem faz, onde, antes de qual parte, e como conferir que foi feito; sem nada, escreva "nenhuma">
 
 **Aceite:** <como provar que a etapa está pronta.>
 

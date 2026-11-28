@@ -56,6 +56,11 @@ specs/
 1. **Plano de implementação, sempre.** Quem pegar uma spec que ainda não tem plano (pessoa ou agente) monta o plano antes de qualquer código, mesmo que ninguém peça. O jeito automático é `node scripts/specs/specs.mjs planejar SPEC-NN`, que confere se a spec está em aberto e se ninguém está planejando, cria a branch `docs-spec-NN-plano`, copia os modelos e imprime o roteiro para o agente; no Claude Code, a skill `planejar-spec` faz isso quando alguém diz que vai pegar uma spec. O plano tem de:
    - confere no código cada ponto de "Situação atual" do `spec.md` e registra o resultado;
    - escreve `plano.md` (etapas, ordem, arquivos, riscos e validação), `decisoes.md` e `contexto/`, pelos modelos de [`templates/spec/`](../templates/spec/);
+   - **separa, em cada etapa, o que a IA faz do que depende de pessoa**, com dois blocos obrigatórios (o workflow `Specs` recusa a etapa sem eles):
+     - `**Feito pela IA:**` código, testes, configuração versionada e documentação que o agente entrega por PR;
+     - `**Ação humana:**` tudo o que o agente não pode ou não deve fazer: criar ou rotacionar token, preencher variável de ambiente ou secret, dar acesso, criar conta, mudar configuração do GitHub (rulesets, permissões, Settings) ou do provedor, contratar serviço, aprovar. Cada item diz quem faz, onde, antes de qual parte da etapa e como conferir. Sem ação humana, o bloco diz `nenhuma`.
+
+     O agente nunca assume uma ação humana como feita: a parte que depende dela espera a confirmação do responsável no PR ou em `decisoes.md`. Vale para todas as specs, também para os planos escritos antes desta regra;
    - preenche a tabela de etapas da ficha;
    - **levanta as perguntas ao responsável** na seção "Perguntas ao responsável" do `decisoes.md`: toda decisão que não cabe a quem planejou e toda dúvida encontrada no código. Cada pergunta traz a recomendação, o prazo (`Decidir em: antes da aprovação` ou a etapa, como `E03`) e `Resposta: pendente`. O plano tem ao menos uma pergunta.
 
