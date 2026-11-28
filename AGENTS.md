@@ -38,7 +38,7 @@ Trabalho de uma spec do plano de evolução (SPEC-01 a SPEC-24) começa pelo pai
 **Quando alguém escolhe uma spec** ("quero pegar a SPEC-03", "vou fazer a spec 12"), siga este fluxo automaticamente, sem esperar instrução a mais; no Claude Code, ele é a skill `planejar-spec` (`/planejar-spec 03`):
 
 1. Rode `node scripts/specs/specs.mjs status SPEC-NN` e diga a situação do painel. Se estiver 🟢 concluída ou ⚪ incorporada, pare: não refaça.
-2. Se a spec não tem plano, rode `node scripts/specs/specs.mjs planejar SPEC-NN` e siga o roteiro que ele imprime. Confira a situação atual no código, escreva o plano com as etapas e levante as perguntas ao responsável em `decisoes.md` sobre toda decisão e dúvida, cada uma com recomendação e prazo. Abra o PR do plano e pare, sem escrever código.
+2. Se a spec não tem plano, rode `node scripts/specs/specs.mjs planejar SPEC-NN` e siga o roteiro que ele imprime. Confira a situação atual no código, escreva o plano com as etapas (cada uma separando `**Feito pela IA:**` de `**Ação humana:**`, como token, variável, acesso e configuração do GitHub) e levante as perguntas ao responsável em `decisoes.md` sobre toda decisão e dúvida, cada uma com recomendação e prazo. Abra o PR do plano e pare, sem escrever código.
 3. Se o plano espera aprovação, diga isso e pare. Se está aprovado, reserve uma etapa livre com `pegar` e integre a reserva antes do código.
 
 Regras em `policies/specs.md`; o workflow `Specs` recusa reservas duplicadas e mudanças em etapas concluídas.

@@ -157,6 +157,7 @@ export function validarPlanejamento(ficha, pasta, arquivos) {
     const sobras = marcasRestantes(texto);
     if (sobras.length) erros.push(`${onde}/${nome}: ainda tem trechos do modelo para preencher: ${sobras.join(", ")}.`);
   }
+  if (arquivos.plano) erros.push(...validarResponsabilidades(arquivos.plano, ficha.etapas.map(e => e.id)).map(e => `${onde}/plano.md, ${e}`));
   if (ficha.plano.aprovado && ficha.etapas.length === 0) erros.push(`${onde}/README.md: plano aprovado sem nenhuma etapa na ficha.`);
   const etapas = new Set(ficha.etapas.map(e => e.id));
   for (const p of perguntas ?? []) {
@@ -169,6 +170,37 @@ export function validarPlanejamento(ficha, pasta, arquivos) {
   }
   for (const etapa of ficha.etapas.filter(e => e.status === "em-andamento" || e.status === "concluida")) {
     for (const p of perguntasDaEtapa(perguntas, etapa.id)) erros.push(`${onde}, ${etapa.id}: a etapa está ${etapa.status}, mas a pergunta ${p.id} (${p.titulo}) ainda não tem resposta.`);
+  }
+  return erros;
+}
+
+export const MARCA_IA = "**Feito pela IA:**";
+export const MARCA_HUMANA = "**Ação humana:**";
+
+/**
+ * Cada etapa do plano separa o que a IA faz (código, configuração versionada, documentação)
+ * do que depende de uma pessoa (variável, token, acesso, configuração no GitHub ou no provedor).
+ * Sem ação humana, a etapa diz "nenhuma". Ver policies/specs.md, seção 3.
+ */
+export function validarResponsabilidades(plano, idsEtapas) {
+  const erros = [];
+  const secoes = new Map();
+  let atual = null;
+  for (const linha of String(plano).split(/\r?\n/)) {
+    const m = /^## (E\d+)\b/.exec(linha);
+    if (m) { atual = m[1]; secoes.set(atual, []); continue; }
+    if (/^## /.test(linha)) { atual = null; continue; }
+    if (atual) secoes.get(atual).push(linha);
+  }
+  for (const id of idsEtapas) if (!secoes.has(id)) erros.push(`${id}: falta a seção "## ${id} — <título>".`);
+  for (const [id, linhas] of secoes) {
+    for (const marca of [MARCA_IA, MARCA_HUMANA]) {
+      const i = linhas.findIndex(l => l.trim().startsWith(marca));
+      if (i < 0) { erros.push(`${id}: falta "${marca}" (o que a IA faz e o que depende de pessoa ficam separados em cada etapa).`); continue; }
+      const resto = linhas[i].trim().slice(marca.length).trim();
+      const proxima = linhas.slice(i + 1).find(l => l.trim());
+      if (!resto && !/^\s*([-*]|\d+\.)\s/.test(proxima ?? "")) erros.push(`${id}: "${marca}" está vazio; liste os itens ou escreva "nenhuma".`);
+    }
   }
   return erros;
 }
@@ -499,7 +531,7 @@ export function motivoParaNaoPlanejar({ idSpec, spec, fichaDevelop, temPlano }) 
 export function roteiroDoPlano({ idSpec, pasta, branch }) {
   return `Plano de implementação da ${idSpec} (policies/specs.md, seção 3). Branch: ${branch}. Pasta: specs/${pasta}/.
 1. Leia specs/${pasta}/README.md e spec.md. Confira no código de cada repositório citado cada ponto de "Situação atual" e registre no spec.md, numa tabela "Ponto do plano | Conferido | Observação", o que foi confirmado, o que é diferente e o que não foi encontrado.
-2. Preencha specs/${pasta}/plano.md (já copiado do modelo): etapas E01, E02…, ordem, arquivos por repositório, divisão em partes de até 500 linhas de código, riscos e como provar cada critério de aceite.
+2. Preencha specs/${pasta}/plano.md (já copiado do modelo): etapas E01, E02…, ordem, arquivos por repositório, divisão em partes de até 500 linhas de código, riscos e como provar cada critério de aceite. Em cada etapa, separe "**Feito pela IA:**" (código, configuração versionada, documentação e testes que o agente entrega por PR) de "**Ação humana:**" (variável de ambiente, secret, token, acesso, conta, configuração no GitHub ou no provedor, aprovação), com quem faz, onde, antes de qual parte e como conferir; sem ação humana, escreva "nenhuma".
 3. Crie specs/${pasta}/contexto/<repositório>.md para cada repositório tocado, pelo modelo templates/spec/contexto/repositorio.md.
 4. Preencha a tabela de etapas de specs/${pasta}/README.md, todas como planejada (ou bloqueada, com o motivo no plano).
 5. Em specs/${pasta}/decisoes.md, seção "Perguntas ao responsável", levante toda decisão e dúvida que não cabe a quem planeja: cada pergunta com contexto, recomendação, "Decidir em" (antes da aprovação ou a etapa) e "Resposta: pendente". Pelo menos uma pergunta.
