@@ -56,17 +56,15 @@ E05, E08 e E10: independentes
    - prompt do modo agente da Lugia (`LugiaAgenteClaudeClient`, instrução "faça o squash merge"): passa a abrir o PR e parar;
    - prompt do `vigia-issue` (`vigia-issue/lib.mjs`): o mesmo.
 
-**Feito pela IA:**
+**Execução:**
 
-- `config/autonomia.json`, `mcp/server/autonomia.ts` com testes e a chamada em `merge_pull_request` e `apply_changes_and_merge`;
-- `policies/autonomia.md` e a reescrita de `git-workflow.md`, `protected-branches.md`, `permissions.md` e dos `AGENTS.md`;
-- prompts da Lugia (`LugiaAgenteClaudeClient`, backend) e do `vigia-issue`.
-
-**Ação humana:**
-
-- **Dono do projeto, antes da 1ª parte:** criar a conta de máquina no GitHub e convidá-la para os 4 repositórios e a infra com papel `write`. Conferir: a conta aparece em Settings > Collaborators sem admin.
-- **Dono, antes de ligar o MCP à nova conta:** gerar o token fine-grained da conta (repositórios da Nord, escopos da E07) e colocá-lo no `GITHUB_TOKEN` local do MCP, no vault da Lugia (Railway) e no secret do `vigia-issue`. O token nunca passa pelo agente nem entra no repositório. Conferir: um PR de teste aberto pelo MCP aparece com a conta de máquina.
-- **Dono:** revisar e mesclar os PRs da etapa (no nível 0 o agente não mescla).
+1. 🤖 `config/autonomia.json` e `mcp/server/autonomia.ts` (`podeMesclar`), com testes, e a chamada em `merge_pull_request` e `apply_changes_and_merge`.
+2. 🤖 `policies/autonomia.md` e a reescrita de `git-workflow.md`, `protected-branches.md`, `permissions.md` e dos `AGENTS.md`.
+3. 🤖 Prompts da Lugia (`LugiaAgenteClaudeClient`, backend) e do `vigia-issue`: abrir o PR e parar.
+4. 👤 **Dono, pelo GitHub:** criar a conta de máquina e convidá-la para os 4 repositórios e a infra com papel `write`. Conferir: a conta aparece em Settings > Collaborators sem admin. **Confirmado:** pendente
+5. 👤 **Dono:** gerar o token fine-grained da conta (repositórios da Nord, escopos da E07) e colocá-lo no `GITHUB_TOKEN` local do MCP, no vault da Lugia (Railway) e no secret do `vigia-issue`. O token nunca passa pelo agente nem entra no repositório. Conferir: `git ls-remote` com o token responde. **Confirmado:** pendente
+6. 🤖 Abrir um PR de teste pelo MCP e conferir que aparece com a conta de máquina e que `merge_pull_request` devolve `merged: false`.
+7. 👤 **Dono:** revisar e mesclar os PRs da etapa (no nível 0 o agente não mescla). Conferir: os PRs aparecem como merged. **Confirmado:** pendente
 
 **Aceite:**
 
@@ -97,17 +95,13 @@ E05, E08 e E10: independentes
 6. **`protected-branches.md`:** regras nativas obrigatórias, com o passo a passo para aplicar e conferir; remover a ressalva "sem proteção nativa…".
 7. **Tirar o "opcional"** do ADR-006 (`decisions.md` e `architecture.md`) com um ADR novo que o substitui, e marcar no `roadmap.md` (fase 6) que as regras nativas passaram a ser obrigatórias.
 
-**Feito pela IA:**
+**Execução:**
 
-- `config/rulesets/develop.json`, `master.json` e `checks.json`;
-- `protected-branches.md` com o passo a passo, o ADR novo e o `roadmap.md`;
-- os testes de aceite (push direto, force push e merge sem aprovação com o token do agente), depois de as regras estarem aplicadas.
-
-**Ação humana:**
-
-- **Dono (admin), depois do PR das definições:** importar os rulesets em Settings > Rules do backend e do frontend, com a lista de bypass vazia, e conferir os nomes dos checks com os jobs de hoje.
-- **Dono (admin):** em Settings > General dos dois repositórios, deixar só squash merge e ligar "apagar a branch depois do merge".
-- **Dono:** avisar no PR quando terminar, para o agente rodar os testes de aceite. Conferir: o push de teste em `develop` volta `GH013`.
+1. 🤖 `config/rulesets/develop.json`, `master.json` e `checks.json`.
+2. 🤖 `protected-branches.md` com o passo a passo, o ADR novo e o `roadmap.md`.
+3. 👤 **Dono (admin):** importar os rulesets em Settings > Rules do backend e do frontend, com a lista de bypass vazia, e conferir os nomes dos checks com os jobs de hoje. Conferir: os rulesets aparecem como "Active". **Confirmado:** pendente
+4. 👤 **Dono (admin):** em Settings > General dos dois repositórios, deixar só squash merge e ligar "apagar a branch depois do merge". Conferir: só "Allow squash merging" fica marcado. **Confirmado:** pendente
+5. 🤖 Testes de aceite com o token do agente: push direto e force push em `develop` (esperado `GH013`) e merge sem aprovação, com o resultado no PR.
 
 **Aceite:**
 
@@ -138,16 +132,14 @@ E05, E08 e E10: independentes
    - lógica em `mcp/server/limite-linhas.ts`, mais `isPartBranch` em `mcp/server/branches.ts`.
 5. **Policies:** `features.md` ganha a branch mãe e as partes (seções 2, 3 e 5), com o slug limitado a 34 caracteres (`feature-<slug>-vNN-001` cabe em 50). Também a regra de atualizar a mãe com `develop` a cada parte e o squash de cada parte como um commit na mãe com "Decisões".
 
-**Feito pela IA:**
+**Execução:**
 
-- `config/programacao-incremental.json`, `scripts/limite-linhas.sh` (modelo em `templates/` e cópia em cada repositório);
-- job `Limite de linhas` e os gates leve e completo no CI do backend, do frontend e do SQL;
-- `mcp/server/limite-linhas.ts`, `isPartBranch` e as mudanças em `create_pr` e `apply_changes_and_merge`, com testes;
-- o rótulo `mecanico` nos 3 repositórios (pela API, com o token `write`) e `features.md`.
-
-**Ação humana:**
-
-- **Dono (admin), depois de o job rodar a 1ª vez:** acrescentar `Limite de linhas` aos checks obrigatórios do ruleset do backend e do frontend. Conferir: o check aparece como "Required" num PR.
+1. 🤖 `config/programacao-incremental.json` e `scripts/limite-linhas.sh` (modelo em `templates/` e cópia em cada repositório).
+2. 🤖 Job `Limite de linhas` e os gates leve e completo no CI do backend, do frontend e do SQL.
+3. 🤖 `mcp/server/limite-linhas.ts`, `isPartBranch` e as mudanças em `create_pr` e `apply_changes_and_merge`, com testes.
+4. 🤖 Rótulo `mecanico` nos 3 repositórios (pela API, com o token `write`) e `features.md`.
+5. 👤 **Dono (admin), depois de o job rodar a 1ª vez:** acrescentar `Limite de linhas` aos checks obrigatórios do ruleset do backend e do frontend. Conferir: o check aparece como "Required" num PR. **Confirmado:** pendente
+6. 🤖 PR de teste com 501 linhas (recusado) e a feature de exemplo entregue em duas partes pela branch mãe.
 
 **Aceite:**
 
@@ -180,15 +172,13 @@ E05, E08 e E10: independentes
    - recusa qualquer argumento `--no-verify`.
 5. **CI é a garantia:** hook local pode ser pulado, então o CI repete tudo (Gitleaks já roda; limite de linhas vem da E03).
 
-**Feito pela IA:**
+**Execução:**
 
-- `.githooks/pre-commit`, `.githooks/pre-push` e `scripts/instalar-hooks.sh` em cada repositório;
-- `.claude/settings.json` com o `PreToolUse` e o script que bloqueia;
-- `git_commit` do MCP com `core.hooksPath` e a recusa de `--no-verify`, com testes.
-
-**Ação humana:**
-
-- **Cada dev, uma vez por máquina:** instalar o Gitleaks (e o `timeout`, que já vem no Git Bash) e rodar `scripts/instalar-hooks.sh` em cada clone. Conferir: `git config core.hooksPath` responde `.githooks`.
+1. 🤖 `.githooks/pre-commit`, `.githooks/pre-push` e `scripts/instalar-hooks.sh` em cada repositório.
+2. 🤖 `.claude/settings.json` com o `PreToolUse` e o script que bloqueia.
+3. 🤖 `git_commit` do MCP com `core.hooksPath` e a recusa de `--no-verify`, com testes.
+4. 👤 **Cada dev, uma vez por máquina:** instalar o Gitleaks e rodar `scripts/instalar-hooks.sh` em cada clone. Conferir: `gitleaks version` responde e `git config core.hooksPath` responde `.githooks`. **Confirmado:** pendente
+5. 🤖 Testes de aceite: segredo falso bloqueado, Gitleaks ausente bloqueia, `--no-verify` bloqueado e o mesmo problema falhando no CI.
 
 **Aceite:**
 
@@ -208,9 +198,10 @@ E05, E08 e E10: independentes
    - JMH em profile separado.
 4. **`steering/nord-tool-backend/testing.md`** e **`scripts/verificar-politica-testes.sh`:** aceitar as quatro categorias pelos nomes e pastas definidos na decisão pendente P6.
 
-**Feito pela IA:** os itens 1 a 4 inteiros, com um teste de exemplo de cada categoria.
+**Execução:** (sem ação humana; a P6 é pergunta ao responsável e já trava a etapa no `pegar`)
 
-**Ação humana:** nenhuma (a P6 é uma pergunta ao responsável, não uma configuração).
+1. 🤖 Itens 1 e 2: versões no `architecture.md` e no `AGENTS.md` do backend.
+2. 🤖 Itens 3 e 4: ADR-014, `testing.md` e o script de política, com um teste de exemplo de cada categoria.
 
 **Aceite:** o script de política aceita um teste de exemplo de cada categoria e continua recusando as categorias proibidas.
 
@@ -231,9 +222,10 @@ E05, E08 e E10: independentes
    - para todo PR de agente, exige o checklist.
 5. **Regra no topo de `decisions.md`:** decisão de arquitetura vira ADR.
 
-**Feito pela IA:** os itens 1 a 5 inteiros, com testes das recusas do `create_pr`.
+**Execução:** (sem ação humana)
 
-**Ação humana:** nenhuma.
+1. 🤖 `policies/validacao-codigo-ia.md`, os modelos de PR e de feature e a regra no `decisions.md`.
+2. 🤖 Exigências no `create_pr`, com testes das recusas.
 
 **Aceite:**
 
@@ -251,16 +243,12 @@ E05, E08 e E10: independentes
 2. **Mesmo escopo** para o token da Lugia (até a migração na SPEC-02) e do `vigia-issue`.
 3. **`policies/permissions.md`:** matriz de credenciais (quem, escopo, validade, rotação). O agente não acessa o banco de produção nem tem shell em servidor.
 
-**Feito pela IA:**
+**Execução:**
 
-- a matriz de credenciais em `policies/permissions.md`;
-- os testes de aceite com o token novo (mudar configuração, ler secret e enviar commit em workflow), depois da troca.
-
-**Ação humana:**
-
-- **Dono, antes dos testes:** recriar o token da conta de máquina só com Contents e Pull requests de escrita, Actions e Metadata de leitura, validade de até 90 dias, e trocá-lo no MCP local.
-- **Dono:** fazer o mesmo com o token da Lugia (vault no Railway) e o do `vigia-issue` (secret do repositório), e revogar os tokens antigos.
-- **Dono:** criar um lembrete de rotação antes do vencimento (90 dias). Conferir: a página de tokens do GitHub mostra só os tokens novos, com a data de expiração.
+1. 🤖 Matriz de credenciais em `policies/permissions.md`.
+2. 👤 **Dono:** recriar o token da conta de máquina só com Contents e Pull requests de escrita, Actions e Metadata de leitura, validade de até 90 dias, e trocá-lo no MCP local. Conferir: a página do token mostra só esses escopos. **Confirmado:** pendente
+3. 👤 **Dono:** fazer o mesmo com o token da Lugia (vault no Railway) e o do `vigia-issue` (secret do repositório), revogar os tokens antigos e criar um lembrete de rotação antes do vencimento. Conferir: a página de tokens mostra só os novos, com a data de expiração. **Confirmado:** pendente
+4. 🤖 Testes de aceite com o token novo: mudar configuração, ler secret e enviar commit em workflow, todos recusados.
 
 **Aceite:** com o token do agente, mudar uma configuração do repositório, ler secrets ou enviar um commit que altera um workflow é recusado.
 
@@ -272,9 +260,10 @@ E05, E08 e E10: independentes
 4. **Limite de contexto:** conferir o tamanho do `get_project_context`, que tem limite de 100 mil caracteres (hoje 51 mil no backend).
 5. **SPEC-09:** revisar estas steerings junto com ela, porque ela muda os pacotes.
 
-**Feito pela IA:** os itens 1 a 4 inteiros.
+**Execução:** (sem ação humana)
 
-**Ação humana:** nenhuma.
+1. 🤖 Steerings do backend em `padroes/`.
+2. 🤖 Steerings do front em `padroes/` e a conferência do tamanho do `get_project_context`.
 
 **Aceite:** `get_project_context` do backend e do front devolve os arquivos novos.
 
@@ -288,9 +277,10 @@ E05, E08 e E10: independentes
 2. **Skills existentes:** revisar as 12 para seguir o nível de autonomia e as partes.
 3. **`scripts/verificar.sh`** em cada repositório, rodando localmente exatamente os gates do CI, inclusive o limite de linhas e o Gitleaks.
 
-**Feito pela IA:** as skills novas, a revisão das 12 existentes e o `scripts/verificar.sh` de cada repositório.
+**Execução:** (sem ação humana; o Gitleaks local já vem da E04)
 
-**Ação humana:** nenhuma (o Gitleaks local já vem da E04).
+1. 🤖 Skills novas e a revisão das 12 existentes.
+2. 🤖 `scripts/verificar.sh` em cada repositório, comparado com o CI.
 
 **Aceite:** `scripts/verificar.sh` passa e falha nos mesmos casos que o CI, em cada repositório.
 
@@ -305,9 +295,11 @@ E05, E08 e E10: independentes
 3. **ADR sobre MapStruct** (decisão pendente P5).
 4. **Janela:** fazer antes de a SPEC-03 começar ou depois de ela terminar. As duas mexem no `pom.xml`.
 
-**Feito pela IA:** `coding-standards.md`, o ruleset do PMD no `pom.xml` e o ADR do MapStruct, depois da resposta da P5.
+**Execução:**
 
-**Ação humana:** nenhuma; só combinar a janela com quem pegar a SPEC-03.
+1. 👤 **Dono:** combinar a janela com quem pegar a SPEC-03 (as duas mexem no `pom.xml`). Conferir: a data fica registrada em `decisoes.md`. **Confirmado:** pendente
+2. 🤖 `coding-standards.md` e o ruleset do PMD no `pom.xml`, com a classe de teste de injeção em campo.
+3. 🤖 ADR do MapStruct, depois da resposta da P5.
 
 **Aceite:** uma classe de teste com injeção em campo faz o `mvn pmd:check` falhar; o código atual passa.
 

@@ -2,7 +2,7 @@
 import assert from "node:assert/strict";
 import { test } from "node:test";
 import {
-  catalogoAtualizado, celulas, progressoDaSpec, motivoParaNaoPlanejar, roteiroDoPlano, branchDoPlano, situacaoDaSpec, lerPerguntas, validarPlanejamento, validarResponsabilidades, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
+  catalogoAtualizado, celulas, progressoDaSpec, motivoParaNaoPlanejar, roteiroDoPlano, branchDoPlano, situacaoDaSpec, lerPerguntas, validarPlanejamento, validarExecucao, execucaoDoPlano, proximoDaEtapa, confirmarPasso, celulasEtapa, conflitosComOutrosPrs, erroBranchEtapa, etapaDaBranch, hoje, lerCatalogo, lerFicha,
   linhaDeTabela, motivoParaNaoPegar, reservasDoPr, rotuloPr, statusDaSpec, trocarLinha, validarCatalogo, validarFicha, validarTransicoes,
 } from "./lib.mjs";
 
@@ -236,16 +236,31 @@ const decisoes = perguntas => `# SPEC-01 — Decisões
 
 ${perguntas.map(([id, decidirEm, resposta]) => `### ${id} — Pergunta ${id}\n\n- **Recomendação:** r\n- **Decidir em:** ${decidirEm}\n- **Resposta:** ${resposta}\n`).join("\n")}`;
 
-const planoOk = ids => ids.map(id => `## ${id} — Etapa\n\n**Feito pela IA:**\n\n- código\n\n**Ação humana:** nenhuma\n`).join("\n");
+const planoOk = ids => ids.map(id => `## ${id} — Etapa\n\n**Execução:**\n\n1. 🤖 código\n2. 👤 **Dono:** criar o token. Conferir: PR de teste. **Confirmado:** pendente\n3. 🤖 testes\n`).join("\n");
 
-test("plano: cada etapa separa o que a IA faz da ação humana", () => {
-  assert.deepEqual(validarResponsabilidades(planoOk(["E01", "E02"]), ["E01", "E02"]), []);
-  const plano = "## E01 — A\n\n**Feito pela IA:**\n\n- x\n\n## E02 — B\n\n**Feito pela IA:**\n\n**Ação humana:**\n\n## Riscos\n\n**Ação humana:** nenhuma";
-  const erros = validarResponsabilidades(plano, ["E01", "E02", "E03"]).join("\n");
-  assert.match(erros, /E01: falta "\*\*Ação humana:\*\*"/);
-  assert.match(erros, /E02: "\*\*Feito pela IA:\*\*" está vazio/);
-  assert.match(erros, /E02: "\*\*Ação humana:\*\*" está vazio/);
+test("plano: cada etapa tem a execução em ordem, com 🤖 e 👤", () => {
+  assert.deepEqual(validarExecucao(planoOk(["E01", "E02"]), ["E01", "E02"]), []);
+  const plano = "## E01 — A\n\n**Feito pela IA:** x\n\n## E02 — B\n\n**Execução:**\n\n1. 🤖 x\n3. fazer y\n4. 👤 sem confirmação\n5. 🤖 z **Confirmado:** sim\n\n## Riscos\n";
+  const erros = validarExecucao(plano, ["E01", "E02", "E03"]).join("\n");
+  assert.match(erros, /E01: falta "\*\*Execução:\*\*"/);
+  assert.match(erros, /E02, passo 3: a numeração/);
+  assert.match(erros, /E02, passo 3: comece com/);
+  assert.match(erros, /E02, passo 4: passo 👤 termina com/);
+  assert.match(erros, /E02, passo 5: "\*\*Confirmado:\*\*" é só para/);
   assert.match(erros, /E03: falta a seção/);
+});
+
+test("plano: a execução para no primeiro 👤 pendente e volta a andar depois de confirmado", () => {
+  const plano = planoOk(["E01", "E02"]);
+  const { liberados, parada } = proximoDaEtapa(execucaoDoPlano(plano).get("E01"));
+  assert.deepEqual(liberados.map(p => p.numero), [1]);
+  assert.equal(parada.numero, 2);
+  const novo = confirmarPasso(plano, "E01", 2, "sim (2026-11-28, zzNICK)");
+  assert.match(novo, /^## E01[\s\S]*\*\*Confirmado:\*\* sim \(2026-11-28, zzNICK\)\n[\s\S]*## E02[\s\S]*\*\*Confirmado:\*\* pendente/);
+  assert.equal(proximoDaEtapa(execucaoDoPlano(novo).get("E01")).parada, null);
+  assert.equal(confirmarPasso(plano, "E01", 1, "sim"), null, "passo 🤖 não tem confirmação");
+  const continua = "## E01 — A\n\n**Execução:**\n\n1. 👤 **Dono:** fazer\n   e conferir. **Confirmado:** pendente\n\n**Aceite:** ok\n";
+  assert.equal(execucaoDoPlano(continua).get("E01")[0].confirmado, "pendente");
 });
 
 test("perguntas: lê a seção com recomendação, prazo e resposta", () => {

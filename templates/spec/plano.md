@@ -14,13 +14,11 @@
 
 <O que fazer e por quê, divisão em partes de até 500 linhas e riscos.>
 
-**Feito pela IA:**
+**Execução:** (em ordem; 🤖 IA entrega por PR, 👤 só uma pessoa faz; a execução para no primeiro 👤 pendente)
 
-- <código, testes, configuração versionada e documentação que o agente entrega por PR, com os arquivos por repositório>
-
-**Ação humana:**
-
-- <o que só uma pessoa faz (variável de ambiente, secret, token, acesso, conta, configuração no GitHub ou no provedor, compra, aprovação): quem faz, onde, antes de qual parte, e como conferir que foi feito; sem nada, escreva "nenhuma">
+1. 🤖 <código, testes, configuração versionada ou documentação, com os arquivos por repositório>
+2. 👤 **<quem>:** <ação: variável de ambiente, secret, token, acesso, conta, configuração no GitHub ou no provedor, custo, aprovação, e onde>. Conferir: <como saber que foi feito>. **Confirmado:** pendente
+3. 🤖 <o que depende do passo anterior>
 
 **Aceite:** <como provar que a etapa está pronta.>
 

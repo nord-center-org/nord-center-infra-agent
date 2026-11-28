@@ -25,7 +25,7 @@ Se a ficha ainda não tem etapas (Progresso "sem plano"):
 2. Siga o roteiro impresso, passo a passo. O mais importante:
    - confira no código cada ponto de "Situação atual" antes de planejar;
    - divida o trabalho em etapas, com partes de até 500 linhas de código;
-   - em cada etapa, separe `**Feito pela IA:**` (código, testes, configuração versionada, documentação) de `**Ação humana:**` (token, variável, secret, acesso, configuração do GitHub ou do provedor, aprovação), cada ação com quem faz, onde, antes de qual parte e como conferir; sem ação humana, `nenhuma`;
+   - em cada etapa, escreva `**Execução:**` com os passos numerados na ordem real: `🤖` para o que você entrega por PR (código, testes, configuração versionada, documentação) e `👤` para a ação humana (token, variável, secret, acesso, configuração do GitHub ou do provedor, custo, aprovação), com quem faz, onde e como conferir, terminando em `**Confirmado:** pendente`. Ponha o 👤 exatamente antes do primeiro passo que depende dele;
    - levante em `decisoes.md`, seção "Perguntas ao responsável", **toda** decisão que não cabe a você e toda dúvida que o código levantar. Cada pergunta leva contexto, recomendação, "Decidir em" e "Resposta: pendente". Não decida sozinho o que é do responsável: pergunte.
 3. Rode `node scripts/specs/specs.mjs catalogo` e `node scripts/specs/specs.mjs validar --base origin/develop`, até não sobrar erro.
 4. Faça commit só de `specs/`, abra o PR para `develop` com o título `docs(specs): plano da SPEC-NN` e **pare**. Não escreva código.
@@ -38,6 +38,9 @@ Se a ficha ainda não tem etapas (Progresso "sem plano"):
   1. Crie a branch de reserva `docs-spec-NN-eMM-reserva` a partir de `origin/develop`.
   2. Rode `node scripts/specs/specs.mjs pegar SPEC-NN EMM --responsavel <login> --branch <tipo>-spec-NN-eMM-<resumo>`.
   3. Abra o PR da reserva e só comece o código depois que ele for integrado.
-  4. Antes de cada parte, confira a "Ação humana" da etapa: liste para a pessoa o que ainda falta e não siga com a parte que depende disso até ela confirmar.
+  4. Execute a etapa pela `Execução`, em ordem. Antes de cada passo, rode `node scripts/specs/specs.mjs proximo SPEC-NN EMM`:
+     - faça só os passos 🤖 que ele lista como liberados;
+     - quando ele parar num 👤 (saída 3), **pare o trabalho**: diga à pessoa o que fazer, onde e como conferir, e encerre a vez. Não adiante passos seguintes, não faça a ação por ela e não a dê por feita;
+     - quando a pessoa disser que fez, confira o que der para conferir (ex.: o PR de teste aparece com a conta nova), rode `node scripts/specs/specs.mjs confirmar SPEC-NN EMM <passo> --por <login dela>`, inclua o `plano.md` no PR da etapa e siga para o próximo passo.
 
   Se o `pegar` recusar (etapa concluída, em andamento com outra pessoa, pergunta sem resposta), repasse o motivo e pare.

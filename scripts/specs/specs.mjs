@@ -21,7 +21,10 @@ const AJUDA = `Registro de specs (policies/specs.md)
   pegar SPEC-NN ENN --responsavel <login> --branch <branch> [--desbloquear]
                                     reserva uma etapa livre na cópia local (recusa se já implementada, corrigida ou em andamento)
   concluir SPEC-NN ENN --pr <url> [--pr <url>…]
-                                    marca a etapa em andamento como concluída, com os PRs
+                                    marca a etapa em andamento como concluída, com os PRs (recusa com passo 👤 pendente)
+  proximo SPEC-NN ENN               mostra os passos da etapa e para no primeiro 👤 sem confirmação (saída 3)
+  confirmar SPEC-NN ENN <passo> --por <login>
+                                    marca o passo 👤 como feito no plano.md, com data e login
   catalogo                          recalcula situação (🟢 🟡 🔴), progresso e resumo em todas-as-specs.md
   validar [--base <ref>]            confere formato, catálogo e, com --base, as transições e os outros PRs abertos`;
 
@@ -321,9 +324,49 @@ function concluir([spec, etapaArg], opcoes) {
   const etapa = ficha?.etapas.find(e => e.id === idEtapa);
   if (!etapa) throw new ErroDeUso(`${idSpec} ${idEtapa} não existe na cópia local.`);
   if (etapa.status !== "em-andamento") return falhar(`Só uma etapa em andamento pode ser concluída; ${idSpec} ${idEtapa} está ${etapa.status}.`);
+  const pendentes = (lib.execucaoDoPlano(local.textos.get(pasta).plano).get(idEtapa) ?? []).filter(lib.passoPendente);
+  if (pendentes.length) return falhar(`${idSpec} ${idEtapa} tem ação humana sem confirmação (passo ${pendentes.map(p => p.numero).join(", ")}). Confirme com "confirmar" antes de concluir.`);
   const prs = [...new Set([...etapa.prs, ...novos])];
   gravarEtapa(pasta, etapa, { status: "concluida", responsavel: etapa.responsavel, branch: etapa.branch, prs, desde: lib.hoje() });
   console.log(`${idSpec} ${idEtapa} marcada como concluída (${lib.verboEntregue(ficha.tipo)}) com ${prs.length} PR(s). Inclua ${lib.ARQUIVO_CATALOGO} e specs/${pasta}/README.md no PR da infra da etapa.`);
+}
+
+function passosDaEtapa(spec, etapaArg) {
+  const { idSpec, idEtapa } = normalizarIds(spec, etapaArg);
+  if (!idEtapa) throw new ErroDeUso("Informe a etapa: SPEC-NN ENN.");
+  const local = lerEstadoLocal();
+  const pasta = pastaDaSpec(local, idSpec);
+  const plano = pasta ? local.textos.get(pasta).plano : null;
+  const passos = lib.execucaoDoPlano(plano).get(idEtapa);
+  if (!passos) throw new ErroDeUso(`${idSpec} ${idEtapa}: sem "${lib.MARCA_EXECUCAO}" no plano.md.`);
+  return { idSpec, idEtapa, pasta, plano, passos };
+}
+
+/** Mostra até onde a etapa pode andar e para no primeiro passo 👤 sem confirmação. */
+function proximo([spec, etapaArg]) {
+  const { idSpec, idEtapa, passos } = passosDaEtapa(spec, etapaArg);
+  const { liberados, parada } = lib.proximoDaEtapa(passos);
+  console.log(`${idSpec} ${idEtapa}: execução (${lib.ATOR_IA} IA, ${lib.ATOR_HUMANO} ação humana)\n`);
+  for (const p of passos) console.log(`${p === parada ? "→ " : "  "}${p.numero}. ${p.texto}`);
+  if (!parada) return console.log(`\nNenhuma ação humana pendente: todos os passos estão liberados.`);
+  const ia = liberados.filter(p => p.ator === "ia").map(p => p.numero);
+  console.log(`\n${ia.length ? `Liberados para a IA: passos ${ia.join(", ")}.` : "Nenhum passo da IA liberado antes desta parada."}`);
+  console.log(`PARE no passo ${parada.numero} (${lib.ATOR_HUMANO}): só uma pessoa faz. Depois de feito e conferido:\n  node scripts/specs/specs.mjs confirmar ${idSpec} ${idEtapa} ${parada.numero} --por <login>`);
+  process.exitCode = 3;
+}
+
+/** Marca um passo 👤 como feito, com data e login de quem confirmou. */
+function confirmar([spec, etapaArg, numeroArg], opcoes) {
+  if (!opcoes.por) throw new ErroDeUso("Informe --por <login> de quem fez a ação humana.");
+  const { idSpec, idEtapa, pasta, plano, passos } = passosDaEtapa(spec, etapaArg);
+  const numero = Number(numeroArg);
+  const passo = passos.find(p => p.numero === numero);
+  if (!passo) throw new ErroDeUso(`${idSpec} ${idEtapa} não tem o passo ${numeroArg}.`);
+  if (passo.ator !== "humano") throw new ErroDeUso(`${idSpec} ${idEtapa}, passo ${numero}: só passo ${lib.ATOR_HUMANO} é confirmado.`);
+  const novo = lib.confirmarPasso(plano, idEtapa, numero, `sim (${lib.hoje()}, ${opcoes.por})`);
+  if (!novo) throw new ErroDeUso(`Não achei "**Confirmado:**" no passo ${numero}.`);
+  writeFileSync(path.join(RAIZ, "specs", pasta, "plano.md"), novo);
+  console.log(`${idSpec} ${idEtapa}, passo ${numero} confirmado por ${opcoes.por}. Inclua specs/${pasta}/plano.md no PR da etapa.`);
 }
 
 function catalogo() {
@@ -380,6 +423,8 @@ async function main() {
   if (comando === "planejar") return planejar(posicionais, opcoes);
   if (comando === "pegar") return pegar(posicionais, opcoes);
   if (comando === "concluir") return concluir(posicionais, opcoes);
+  if (comando === "proximo") return proximo(posicionais);
+  if (comando === "confirmar") return confirmar(posicionais, opcoes);
   if (comando === "catalogo") return catalogo();
   if (comando === "validar") return validar(opcoes);
   throw new ErroDeUso(`Comando desconhecido: ${comando}\n\n${AJUDA}`);
