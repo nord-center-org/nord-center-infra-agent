@@ -7,6 +7,7 @@ Ferramentas de linha de comando da infra, usadas por pessoas e por agentes. Nenh
 | [`specs/specs.mjs`](specs/) | Status, reserva, conclusão e validação das specs ([policies/specs.md](../policies/specs.md)) | Node 20+ |
 | [`java/java-local-run.ps1`](java/java-local-run.ps1) | Maven e testes de um projeto Java pelo Maven embutido do IntelliJ, com o JDK que o projeto exige | PowerShell 5.1+, IntelliJ IDEA, JDK da versão do projeto |
 | [`api/newman-run.ps1`](api/newman-run.ps1) | Rodar collections Postman contra a API (endpoints e contratos) | PowerShell 5.1+, Node 18+ |
+| [`../collections/nord-tool/fonte/`](../collections/nord-tool/README.md) | Gerar a collection única da API (todas as rotas, contratos e regras) | Node 20+ |
 
 Todos os `.ps1` têm o manual completo no cabeçalho: `-Help`.
 
@@ -39,7 +40,10 @@ Códigos de saída: 0 sucesso, 2 sem `pom.xml`, 3 JDK não encontrado, 4 Intelli
 Base para validar endpoints e contratos (SPEC-14) com as collections de cada funcionalidade (`features/<slug>/collections/`, SPEC-24). Usa o `newman` instalado; se não houver, roda `npx --yes newman@6`.
 
 ```powershell
-$env:NORD_API_TOKEN = "<jwt de um usuário de teste>"
+$env:NORD_API_TOKEN = "<jwt de um usuário de teste>"   # ou NORD_API_EMAIL e NORD_API_SENHA
+
+# a collection única da API (todas as rotas)
+powershell -NoProfile -ExecutionPolicy Bypass -File scripts/api/newman-run.ps1 -Collection collections/nord-tool/nord-tool.postman_collection.json
 
 # todas as collections de uma funcionalidade, no backend local (http://localhost:8081)
 powershell -NoProfile -ExecutionPolicy Bypass -File scripts/api/newman-run.ps1 -Feature controle-chaves
@@ -52,7 +56,9 @@ powershell -NoProfile -ExecutionPolicy Bypass -File scripts/api/newman-run.ps1 -
 ```
 
 - **Convenção das collections:** toda URL começa com `{{baseUrl}}`, a autenticação é `Bearer {{token}}`, e nada de token, senha ou dado pessoal fica salvo na collection. Modelo em [templates/collections/exemplo.postman_collection.json](../templates/collections/exemplo.postman_collection.json).
-- **Token:** vem de `NORD_API_TOKEN` (ou da variável de `-TokenEnvVar`). Vai para um environment temporário, apagado no fim, e é mascarado nos relatórios; nunca aparece na linha de comando.
+- **Credenciais:** `NORD_API_TOKEN`, ou `NORD_API_EMAIL` e `NORD_API_SENHA` para a collection entrar sozinha (`-TokenEnvVar`, `-EmailEnvVar`, `-SenhaEnvVar` trocam os nomes). No Windows, uma variável vazia no processo é lida das variáveis de usuário. Tudo vai para um environment temporário, apagado no fim; nos relatórios, tokens, senhas e chaves são mascarados; nada aparece na linha de comando.
+- **Uploads:** o Newman roda com a pasta da collection como pasta de trabalho, então `src` de arquivo é relativo a ela.
+- **Variáveis extras:** `-Var nome=valor` (pode repetir).
 - **Produção protegida:** o script recusa URLs que não sejam locais ou de develop, staging ou teste, porque collections podem gravar e apagar dados. `-PermitirRemoto` libera, de propósito.
 
 Códigos de saída: 0 tudo passou, 2 collection ou environment não encontrado, 4 sem Node/npx, 5 URL recusada, outro valor é o código do Newman.

@@ -2,7 +2,7 @@
 # =============================================================================
 # newman-run.ps1 - Roda collections Postman (v2.1) com o Newman contra a API
 #   do NordTool, para validar endpoints e contratos (SPEC-14 e SPEC-24).
-# version: 1.0.0 | lastUpdated: 2026-11-26 | infra: nord-center-infra-agent
+# version: 1.1.0 | lastUpdated: 2026-11-27 | infra: nord-center-infra-agent
 # -----------------------------------------------------------------------------
 # COMO FUNCIONA
 #   - Usa o 'newman' do PATH; se nao houver, roda 'npx --yes newman@<versao>'
@@ -24,7 +24,13 @@
 #   -BaseUrl <url>         Variavel {{baseUrl}}. Default: http://localhost:8081
 #   -TokenEnvVar <nome>    Variavel de ambiente com o token JWT. Default: NORD_API_TOKEN.
 #                          Se existir, vira a variavel {{token}} da collection.
-#   -Folder <nome>         Roda so uma pasta da collection.
+#   -EmailEnvVar <nome>    Variavel com o e-mail do usuario de teste. Default: NORD_API_EMAIL.
+#   -SenhaEnvVar <nome>    Variavel com a senha dele. Default: NORD_API_SENHA.
+#                          Viram {{loginEmail}}/{{loginSenha}} (secretos): sem token, a
+#                          collection entra sozinha (collections/nord-tool faz isso).
+#                          No Windows, variavel vazia no processo e lida do escopo de usuario.
+#   -Var <nome=valor>      Variavel extra para a collection (pode repetir), ex.: financeiroCompleto=1.
+#   -Folder <nome>         Roda so essas pastas da collection (pode repetir: -Folder "00 Preparação","06 Cronograma").
 #   -Bail                  Para no primeiro erro.
 #   -Insecure              Aceita certificado TLS invalido (ambiente local).
 #   -ReportDir <path>      Grava relatorios JUnit e JSON nessa pasta.
@@ -57,7 +63,10 @@ param(
     [string]$Environment,
     [string]$BaseUrl = "http://localhost:8081",
     [string]$TokenEnvVar = "NORD_API_TOKEN",
-    [string]$Folder,
+    [string]$EmailEnvVar = "NORD_API_EMAIL",
+    [string]$SenhaEnvVar = "NORD_API_SENHA",
+    [string[]]$Var,
+    [string[]]$Folder,
     [switch]$Bail,
     [switch]$Insecure,
     [string]$ReportDir,
@@ -119,9 +128,26 @@ if ($Environment) {
     foreach ($v in @($base.values)) { if ($v.enabled -ne $false) { $valores[$v.key] = @{ value = "$($v.value)"; type = $(if ($v.type) { $v.type } else { "default" }) } } }
 }
 $valores["baseUrl"] = @{ value = $BaseUrl.TrimEnd('/'); type = "default" }
-$token = [Environment]::GetEnvironmentVariable($TokenEnvVar)
+# Processo primeiro; no Windows, o escopo de usuario (variavel criada depois de abrir o terminal).
+function Get-Segredo([string]$nome) {
+    $v = [Environment]::GetEnvironmentVariable($nome)
+    if (-not $v -and $env:OS -eq "Windows_NT") { $v = [Environment]::GetEnvironmentVariable($nome, "User") }
+    return $v
+}
+$token = Get-Segredo $TokenEnvVar
+$loginEmail = Get-Segredo $EmailEnvVar
+$loginSenha = Get-Segredo $SenhaEnvVar
 if ($token) { $valores["token"] = @{ value = $token; type = "secret" } }
-else { Write-Warn2 "Variavel $TokenEnvVar vazia: requisicoes autenticadas vao responder 401." }
+if ($loginEmail -and $loginSenha) {
+    $valores["loginEmail"] = @{ value = $loginEmail; type = "secret" }
+    $valores["loginSenha"] = @{ value = $loginSenha; type = "secret" }
+}
+if (-not $token -and -not ($loginEmail -and $loginSenha)) { Write-Warn2 "Sem ${TokenEnvVar} nem ${EmailEnvVar}/${SenhaEnvVar}: requisicoes autenticadas vao responder 401." }
+foreach ($par in @($Var | Where-Object { $_ })) {
+    $i = $par.IndexOf("=")
+    if ($i -lt 1) { Write-Err2 "-Var deve ser nome=valor: $par"; exit 2 }
+    $valores[$par.Substring(0, $i)] = @{ value = $par.Substring($i + 1); type = "default" }
+}
 
 $tmpEnv = Join-Path ([IO.Path]::GetTempPath()) ("newman-env-" + [guid]::NewGuid().ToString("N") + ".json")
 $envJson = [ordered]@{
@@ -147,12 +173,12 @@ if ($ReportDir) {
     New-Item -ItemType Directory -Force -Path $ReportDir | Out-Null
     $reporters = "cli,junit,json"
 }
-if ($Folder)   { $extra += @("--folder", $Folder) }
+foreach ($pasta in @($Folder | ForEach-Object { $_ -split ',' } | Where-Object { $_ })) { $extra += @("--folder", $pasta) }
 if ($Bail)     { $extra += "--bail" }
 if ($Insecure) { $extra += "--insecure" }
 
 Write-Info "BaseUrl: $($valores['baseUrl'].value)"
-Write-Info "Token: $(if ($token) { "de `$env:$TokenEnvVar (****)" } else { 'nenhum' })"
+Write-Info "Token: $(if ($token) { "de `$env:$TokenEnvVar (****)" } elseif ($loginEmail -and $loginSenha) { "login com `$env:$EmailEnvVar / `$env:$SenhaEnvVar (****)" } else { 'nenhum' })"
 Write-Info "Newman: $(if ($newman) { $cmd } else { "npx newman@$NewmanVersion" })"
 
 $codigoFinal = 0
@@ -162,16 +188,24 @@ try {
         $nome = [IO.Path]::GetFileNameWithoutExtension($arquivo) -replace '\.postman_collection$', ''
         $relatorios = @()
         if ($ReportDir) { $relatorios = @("--reporter-junit-export", (Join-Path $ReportDir "$nome.junit.xml"), "--reporter-json-export", (Join-Path $ReportDir "$nome.json")) }
-        $args2 = $prefixo + @("run", $arquivo, "-e", $tmpEnv, "-r", $reporters, "--color", "on") + $relatorios + $extra
+        # Pasta da collection como pasta de trabalho: os uploads usam caminhos relativos a ela (arquivos/...).
+        $args2 = $prefixo + @("run", $arquivo, "-e", $tmpEnv, "-r", $reporters, "--color", "on", "--working-dir", (Split-Path -Parent $arquivo)) + $relatorios + $extra
         Write-Info "Collection: $arquivo"
         if ($PrintOnly) { Write-Host "  `"$cmd`" $($args2 -join ' ')" -ForegroundColor DarkGray; continue }
         $saved = $ErrorActionPreference
         try { $ErrorActionPreference = "Continue"; & $cmd @args2; $code = $LASTEXITCODE } finally { $ErrorActionPreference = $saved }
         # O reporter JSON do newman copia o environment (com o token) para o relatorio: mascara antes de deixar no disco.
-        if ($token) {
-            for ($i = 1; $i -lt $relatorios.Count; $i += 2) {
-                $rel = $relatorios[$i]
-                if (Test-Path $rel) { [IO.File]::WriteAllText($rel, ([IO.File]::ReadAllText($rel)).Replace($token, "****"), (New-Object System.Text.UTF8Encoding($false))) }
+        # Tambem mascara JWTs e campos de senha/chave que a collection gera no run (usuario de teste, links).
+        for ($i = 1; $i -lt $relatorios.Count; $i += 2) {
+            $rel = $relatorios[$i]
+            if (Test-Path $rel) {
+                $txt = [IO.File]::ReadAllText($rel)
+                foreach ($s in @($token, $loginSenha, $loginEmail) | Where-Object { $_ }) { $txt = $txt.Replace($s, "****") }
+                $txt = [regex]::Replace($txt, 'eyJ[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+\.[A-Za-z0-9_-]+', '****')
+                # "senha": "x" no JSON e \"senha\": \"x\" dentro dos corpos de requisicao guardados como texto.
+                $txt = [regex]::Replace($txt, '(\\?"(?:senha\w*|novaSenha|usuarioSenha|loginSenha|senhaProvisoria|senhaAtual|token\w*|txToken|chave\w*)\\?"\s*:\s*\\?")[^"\\]*', '$1****', 'IgnoreCase')
+                $txt = [regex]::Replace($txt, 'ntk_[A-Za-z0-9_-]{43}', 'ntk_****')
+                [IO.File]::WriteAllText($rel, $txt, (New-Object System.Text.UTF8Encoding($false)))
             }
         }
         if ($code -ne 0) { Write-Err2 "$nome falhou (codigo $code)."; if ($codigoFinal -eq 0) { $codigoFinal = $code }; if ($Bail) { break } }

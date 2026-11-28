@@ -1,0 +1,3 @@
+# Arquivos usados nos uploads da collection: bytes exatos, sem conversão de fim de linha.
+* binary
+.gitattributes text eol=lf
