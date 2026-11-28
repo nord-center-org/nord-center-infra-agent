@@ -56,19 +56,31 @@ specs/
 1. **Plano de implementação, sempre.** Quem pegar uma spec que ainda não tem plano (pessoa ou agente) monta o plano antes de qualquer código, mesmo que ninguém peça. O jeito automático é `node scripts/specs/specs.mjs planejar SPEC-NN`, que confere se a spec está em aberto e se ninguém está planejando, cria a branch `docs-spec-NN-plano`, copia os modelos e imprime o roteiro para o agente; no Claude Code, a skill `planejar-spec` faz isso quando alguém diz que vai pegar uma spec. O plano tem de:
    - confere no código cada ponto de "Situação atual" do `spec.md` e registra o resultado;
    - escreve `plano.md` (etapas, ordem, arquivos, riscos e validação), `decisoes.md` e `contexto/`, pelos modelos de [`templates/spec/`](../templates/spec/);
-   - **separa, em cada etapa, o que a IA faz do que depende de pessoa**, com dois blocos obrigatórios (o workflow `Specs` recusa a etapa sem eles):
-     - `**Feito pela IA:**` código, testes, configuração versionada e documentação que o agente entrega por PR;
-     - `**Ação humana:**` tudo o que o agente não pode ou não deve fazer: criar ou rotacionar token, preencher variável de ambiente ou secret, dar acesso, criar conta, mudar configuração do GitHub (rulesets, permissões, Settings) ou do provedor, contratar serviço, aprovar. Cada item diz quem faz, onde, antes de qual parte da etapa e como conferir. Sem ação humana, o bloco diz `nenhuma`.
+   - **escreve, em cada etapa, a `**Execução:**`**: os passos numerados na ordem em que acontecem, cada um marcado com quem faz (o workflow `Specs` recusa a etapa sem isso):
+     - `🤖` o que a IA entrega por PR: código, testes, configuração versionada e documentação;
+     - `👤` a ação humana, tudo o que o agente não pode ou não deve fazer: criar ou rotacionar token, preencher variável de ambiente ou secret, dar acesso, criar conta, mudar configuração do GitHub (rulesets, permissões, Settings) ou do provedor, contratar serviço, aprovar. O passo diz quem faz, onde e como conferir, e termina com `**Confirmado:** pendente`.
 
-     O agente nunca assume uma ação humana como feita: a parte que depende dela espera a confirmação do responsável no PR ou em `decisoes.md`. Vale para todas as specs, também para os planos escritos antes desta regra;
+     ```markdown
+     **Execução:**
+
+     1. 🤖 `config/autonomia.json` e `mcp/server/autonomia.ts`, com testes.
+     2. 👤 **Dono:** criar a conta de máquina com papel `write`. Conferir: Settings > Collaborators. **Confirmado:** pendente
+     3. 🤖 Ligar o MCP à nova conta e abrir o PR de teste.
+     ```
+
+     Vale para todas as specs, também para os planos escritos antes desta regra;
    - preenche a tabela de etapas da ficha;
    - **levanta as perguntas ao responsável** na seção "Perguntas ao responsável" do `decisoes.md`: toda decisão que não cabe a quem planejou e toda dúvida encontrada no código. Cada pergunta traz a recomendação, o prazo (`Decidir em: antes da aprovação` ou a etapa, como `E03`) e `Resposta: pendente`. O plano tem ao menos uma pergunta.
 
    `Plano` fica `pendente`, e o plano vai num PR próprio para o responsável revisar.
 2. **Aprovação.** O responsável responde as perguntas marcadas para antes da aprovação (preenchendo `Resposta`, com data e login) e aprova o plano: a ficha passa a dizer `aprovado AAAA-MM-DD por <login>`. Nenhuma etapa entra em andamento antes disso, e uma etapa só pode ser pega depois que as perguntas dela tiverem resposta.
 3. **Reserva de uma etapa.** Veja a seção 4. A reserva entra em `develop` antes do código.
-4. **Implementação** na branch da etapa, com o mesmo nome em todos os repositórios tocados.
-5. **Conclusão.** No PR da infra da etapa, marque a etapa como concluída com os links dos PRs e atualize `decisoes.md` e `contexto/` com o que foi feito de fato.
+4. **Implementação** na branch da etapa, com o mesmo nome em todos os repositórios tocados, **seguindo a `Execução` em ordem**:
+   - antes de cada passo, rode `node scripts/specs/specs.mjs proximo SPEC-NN ENN`. Ele lista os passos 🤖 liberados e **para no primeiro 👤 sem confirmação** (saída 3);
+   - na parada, o agente diz à pessoa exatamente o que fazer, onde e como conferir, e não segue com os passos seguintes, nem com os que parecem independentes. Ele nunca faz o passo 👤 no lugar da pessoa nem o dá por feito;
+   - depois que a pessoa disser no chat ou no PR que fez, rode `node scripts/specs/specs.mjs confirmar SPEC-NN ENN <passo> --por <login>`, que grava `**Confirmado:** sim (AAAA-MM-DD, login)` no `plano.md`, e siga;
+   - a confirmação de um passo 👤 não muda o plano aprovado: é estado, como a tabela de etapas.
+5. **Conclusão.** `concluir` recusa a etapa enquanto houver passo 👤 pendente. No PR da infra da etapa, marque a etapa como concluída com os links dos PRs e atualize `decisoes.md` e `contexto/` com o que foi feito de fato.
 
 Um `plano.md` aprovado só muda com o motivo registrado em `decisoes.md`. Uma etapa concluída nunca é reaberta: comportamento novo vira etapa nova (E11, E12…), na mesma spec.
 

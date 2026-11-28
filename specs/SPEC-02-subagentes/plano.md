@@ -61,9 +61,11 @@ E09 e E10: independentes
    A tabela `config/modelos.json` traduz `forte`, `medio` e `rapido` para o modelo de cada provedor.
 4. **Saída nos consumidores:** os arquivos gerados entram em cada repositório consumidor por PR, como arquivos gerados (fora do limite de linhas). Um modo `--verificar` confere se estão iguais à infra.
 
-**Feito pela IA:** `agents/README.md`, as definições, `config/modelos.json`, o conversor com `--verificar` e os PRs dos arquivos gerados nos consumidores.
+**Execução:** (sem ação humana)
 
-**Ação humana:** nenhuma.
+1. 🤖 `agents/README.md`, as definições e `config/modelos.json`.
+2. 🤖 Conversor com `--verificar`, com testes.
+3. 🤖 PRs dos arquivos gerados nos consumidores.
 
 **Aceite:**
 
@@ -84,9 +86,10 @@ E09 e E10: independentes
 3. **JSON Schema** exportado em `agents/schema/` para os runtimes que validam sozinhos (decisão pendente P2).
 4. **Testes** com `node --test` no MCP. Hoje ele só tem smoke.
 
-**Feito pela IA:** os itens 1 a 4 inteiros.
+**Execução:** (sem ação humana)
 
-**Ação humana:** nenhuma.
+1. 🤖 Schema base, extensões por papel e JSON Schema exportado.
+2. 🤖 `validar_saida_agente` e os testes com `node --test`.
 
 **Aceite:**
 
@@ -105,11 +108,11 @@ E09 e E10: independentes
 3. **Checagem de caminho** em `update_file`, `apply_changes_and_merge` e `git_commit` antes de escrever.
 4. **Sem papel = só leitura.**
 
-**Feito pela IA:** `config/papeis.json`, o papel na credencial e em `MCP_PAPEL`, o registro por papel em `factory.ts` e a checagem de caminho, com testes.
+**Execução:**
 
-**Ação humana:**
-
-- **Cada dev, depois do merge:** definir `MCP_PAPEL` na configuração local do cliente MCP (ex.: `.mcp.json` fora do repositório ou variável de ambiente). Sem ele, o MCP fica só leitura. Conferir: `update_file` aparece na lista de ferramentas do papel executor.
+1. 🤖 `config/papeis.json`, o papel na credencial e em `MCP_PAPEL` e o registro por papel em `factory.ts`.
+2. 🤖 Checagem de caminho nas ferramentas de escrita, com testes.
+3. 👤 **Cada dev, depois do merge:** definir `MCP_PAPEL` na configuração local do cliente MCP (variável de ambiente ou `.mcp.json` fora do repositório). Sem ele, o MCP fica só leitura. Conferir: `update_file` aparece na lista de ferramentas do papel executor. **Confirmado:** pendente
 
 **Aceite:**
 
@@ -130,16 +133,14 @@ E09 e E10: independentes
 5. **Avaliar OAuth 2.1** para clientes que exigem a autorização MCP padrão. A avaliação é um documento, não código.
 6. **Procedimento de pausa e rollback** antes de ampliar o uso.
 
-**Feito pela IA:**
+**Execução:**
 
-- a configuração de deploy versionada (build e start do `mcp/`) e o ajuste das ferramentas `git_*` para o modo remoto;
-- os testes de sandbox, o documento de OAuth 2.1 e o procedimento de pausa e rollback.
-
-**Ação humana:**
-
-- **Dono, antes do deploy:** criar o serviço no Railway ligado à infra e aprovar o custo mensal.
-- **Dono:** registrar o domínio (ou subdomínio) e apontar o DNS para o Railway. Conferir: o certificado HTTPS aparece como emitido.
-- **Dono:** cadastrar nas variáveis do serviço o token da conta de máquina (SPEC-01 E01) e as credenciais dos clientes MCP. O agente não vê os valores; só recebe os nomes das variáveis. Conferir: `https://<domínio>/healthz` responde.
+1. 🤖 Configuração de deploy versionada (build e start do `mcp/`) e o ajuste das ferramentas `git_*` para o modo remoto, com a lista dos nomes de variáveis que o serviço precisa.
+2. 👤 **Dono, no Railway:** criar o serviço ligado à infra e aprovar o custo mensal. Conferir: o primeiro deploy aparece no painel. **Confirmado:** pendente
+3. 👤 **Dono:** registrar o domínio (ou subdomínio) e apontar o DNS para o Railway. Conferir: o certificado HTTPS aparece como emitido. **Confirmado:** pendente
+4. 👤 **Dono:** cadastrar nas variáveis do serviço o token da conta de máquina (SPEC-01 E01) e as credenciais dos clientes MCP. O agente não vê os valores. Conferir: `https://<domínio>/healthz` responde. **Confirmado:** pendente
+5. 🤖 Testes de sandbox, com o resultado em `decisoes.md`.
+6. 🤖 Documento de OAuth 2.1 e o procedimento de pausa e rollback.
 
 **Aceite:**
 
@@ -160,13 +161,12 @@ E09 e E10: independentes
 4. **Feature `lugia`:** atualizar `features/lugia/` (nova versão ou correção, conforme [policies/features.md](../../policies/features.md)).
 5. **Janela no backend:** combinar com a SPEC-03, porque as duas mexem no backend.
 
-**Feito pela IA:** a mudança no `LugiaAgenteClaudeClient` com a URL configurável, o prompt e a versão nova de `features/lugia/`.
+**Execução:**
 
-**Ação humana:**
-
-- **Dono, antes do deploy do backend:** gravar no vault da Lugia a credencial do cliente MCP com papel executor e definir a variável com a URL do MCP no serviço do backend no Railway.
-- **Dono, se a montagem dos repositórios ainda pedir token:** gerar um token só de leitura e gravá-lo no vault.
-- **Dono, uma semana depois de estável:** revogar a credencial antiga do GitHub da Lugia. Conferir: ela aparece como revogada na página de tokens.
+1. 🤖 `LugiaAgenteClaudeClient` com a URL configurável e o prompt novo, e a versão nova de `features/lugia/`.
+2. 👤 **Dono, antes do deploy do backend:** gravar no vault da Lugia a credencial do cliente MCP com papel executor (e, se a montagem dos repositórios ainda pedir, um token só de leitura) e definir a variável com a URL do MCP no serviço do backend no Railway. Conferir: a variável aparece no serviço. **Confirmado:** pendente
+3. 🤖 Sessão de teste do modo agente criando branch e PR pelo MCP da infra.
+4. 👤 **Dono, uma semana depois de estável:** revogar a credencial antiga do GitHub da Lugia. Conferir: ela aparece como revogada na página de tokens. **Confirmado:** pendente
 
 **Aceite:**
 
@@ -185,12 +185,14 @@ E09 e E10: independentes
 2. **Primeiro runtime:** Claude Code local com os subagentes gerados na E01 (decisão pendente P1).
 3. **Piloto:** um pedido real pequeno que atravessa SQL, backend e front, medindo voltas, tempo e tokens.
 
-**Feito pela IA:** `agents/fluxo.md`, a execução do piloto e o relatório com voltas, tempo e tokens.
+**Execução:**
 
-**Ação humana:**
-
-- **Dono, antes do piloto:** escolher o pedido real.
-- **Dono, durante o piloto:** aprovar o plano do Planejador (o passo de aprovação humana do fluxo) e revisar os três PRs.
+1. 🤖 `agents/fluxo.md`.
+2. 👤 **Dono:** escolher o pedido real do piloto. Conferir: o pedido fica registrado em `decisoes.md`. **Confirmado:** pendente
+3. 🤖 Orquestrador e Planejador montam o plano do pedido.
+4. 👤 **Dono:** aprovar o plano do Planejador (o passo de aprovação humana do fluxo). Conferir: a aprovação aparece no `vN.md`. **Confirmado:** pendente
+5. 🤖 Executores, Testador, Revisor e Segurança até os três PRs, e o relatório com voltas, tempo e tokens.
+6. 👤 **Dono:** revisar e mesclar os três PRs. Conferir: aparecem como merged. **Confirmado:** pendente
 
 **Aceite:** o piloto gera três PRs com o mesmo nome de branch e o `vN.md` preenchido pelo orquestrador. Uma saída inválida foi repetida e uma confiança baixa parou com pergunta.
 
@@ -209,13 +211,14 @@ E09 e E10: independentes
    - limite de turnos.
 5. **Do aviso ao obrigatório:** começa como aviso. Depois de cerca de 4 semanas de calibragem, entra nos checks obrigatórios (`config/rulesets/checks.json`, da SPEC-01 E02).
 
-**Feito pela IA:** o modelo `revisao-ia.yml`, o prompt do Revisor, a cópia em cada repositório (no PR) e a atualização de `checks.json` depois da calibragem.
+**Execução:**
 
-**Ação humana:**
-
-- **Dono, antes do 1º PR de teste:** cadastrar a chave da API do modelo como secret de Actions em cada repositório e definir um limite de gasto no console do provedor.
-- **Dono:** enviar e mesclar os commits que criam o workflow. Depois da SPEC-01 E07, o token do agente não altera `.github/workflows/`.
-- **Dono (admin), depois de cerca de 4 semanas:** incluir o check no ruleset do backend e do frontend. Conferir: aparece como "Required" num PR.
+1. 🤖 Modelo `revisao-ia.yml` em `templates/github-workflows/` e o prompt do Revisor.
+2. 👤 **Dono:** cadastrar a chave da API do modelo como secret de Actions em cada repositório e definir um limite de gasto no console do provedor. Conferir: o secret aparece em Settings > Secrets. **Confirmado:** pendente
+3. 👤 **Dono:** enviar e mesclar os commits que criam o workflow em cada repositório (depois da SPEC-01 E07, o token do agente não altera `.github/workflows/`). Conferir: o workflow aparece na aba Actions. **Confirmado:** pendente
+4. 🤖 PR de teste em cada repositório, conferindo o comentário por eixo e que a chave não consegue fazer push.
+5. 👤 **Dono (admin), depois de cerca de 4 semanas:** incluir o check no ruleset do backend e do frontend. Conferir: aparece como "Required" num PR. **Confirmado:** pendente
+6. 🤖 Atualizar `config/rulesets/checks.json`.
 
 **Aceite:**
 
@@ -232,11 +235,11 @@ E09 e E10: independentes
 2. **Limpeza antes de devolver ao modelo:** remover cookies, cabeçalhos de autorização, tokens e dados pessoais.
 3. **Saída** com `hipoteses[]` e evidências (E02).
 
-**Feito pela IA:** as ferramentas de leitura, a limpeza dos dados sensíveis e a extensão da saída, com testes.
+**Execução:**
 
-**Ação humana:**
-
-- **Dono, antes da 1ª parte:** criar na stack da SPEC-06 uma credencial só de leitura e cadastrá-la nas variáveis do MCP (local e remoto). Conferir: a credencial não consegue apagar nem gravar dados na stack.
+1. 👤 **Dono:** criar na stack da SPEC-06 uma credencial só de leitura e cadastrá-la nas variáveis do MCP (local e remoto). Conferir: a credencial não consegue apagar nem gravar dados na stack. **Confirmado:** pendente
+2. 🤖 Ferramentas de leitura e a limpeza dos dados sensíveis, com testes.
+3. 🤖 Extensão da saída com `hipoteses[]` e o incidente simulado.
 
 **Aceite:** um incidente simulado gera hipótese com evidência apontando a causa; as ferramentas não têm escrita.
 
@@ -251,11 +254,11 @@ E09 e E10: independentes
 3. **Piloto** com 5 tarefas, medindo tokens e acerto antes e depois.
 4. **Momento:** melhor depois dos primeiros módulos da SPEC-09, que mudam os pacotes. O extrator precisa aceitar as duas estruturas durante a migração.
 
-**Feito pela IA:** o extrator, as ferramentas MCP e o relatório do piloto.
+**Execução:**
 
-**Ação humana:**
-
-- **Dono, se a SPEC-01 E07 já estiver ativa:** enviar e mesclar o commit que cria o job de extração em `.github/workflows/`.
+1. 🤖 Extrator e o job de extração (o workflow vai num commit separado).
+2. 👤 **Dono, se a SPEC-01 E07 já estiver ativa:** enviar e mesclar o commit que cria o job em `.github/workflows/`. Conferir: o artefato SQLite aparece num run do CI. **Confirmado:** pendente
+3. 🤖 Ferramentas MCP de consulta e o relatório do piloto.
 
 **Aceite:** as consultas acertam 3 casos conhecidos, e o relatório do piloto está registrado.
 
@@ -270,12 +273,11 @@ E09 e E10: independentes
    Para cada uma: custo, risco de informação errada ou desatualizada e esforço.
 3. **Recomendação** do que adotar.
 
-**Feito pela IA:** o `estudo-memoria.md` e a recomendação.
+**Execução:**
 
-**Ação humana:**
-
-- **Dono, antes de começar:** confirmar com quem pediu o que é "neural memory".
-- **Dono, no fim:** aprovar o documento.
+1. 👤 **Dono:** confirmar com quem pediu o que é "neural memory". Conferir: a resposta fica em `decisoes.md`. **Confirmado:** pendente
+2. 🤖 `estudo-memoria.md` com a comparação e a recomendação.
+3. 👤 **Dono:** aprovar o documento. Conferir: a recomendação fica registrada em `decisoes.md`. **Confirmado:** pendente
 
 **Aceite:** documento aprovado pelo responsável, com a recomendação registrada em `decisoes.md`.
 

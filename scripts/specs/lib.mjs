@@ -157,7 +157,7 @@ export function validarPlanejamento(ficha, pasta, arquivos) {
     const sobras = marcasRestantes(texto);
     if (sobras.length) erros.push(`${onde}/${nome}: ainda tem trechos do modelo para preencher: ${sobras.join(", ")}.`);
   }
-  if (arquivos.plano) erros.push(...validarResponsabilidades(arquivos.plano, ficha.etapas.map(e => e.id)).map(e => `${onde}/plano.md, ${e}`));
+  if (arquivos.plano) erros.push(...validarExecucao(arquivos.plano, ficha.etapas.map(e => e.id)).map(e => `${onde}/plano.md, ${e}`));
   if (ficha.plano.aprovado && ficha.etapas.length === 0) erros.push(`${onde}/README.md: plano aprovado sem nenhuma etapa na ficha.`);
   const etapas = new Set(ficha.etapas.map(e => e.id));
   for (const p of perguntas ?? []) {
@@ -174,35 +174,103 @@ export function validarPlanejamento(ficha, pasta, arquivos) {
   return erros;
 }
 
-export const MARCA_IA = "**Feito pela IA:**";
-export const MARCA_HUMANA = "**Ação humana:**";
+export const MARCA_EXECUCAO = "**Execução:**";
+export const ATOR_IA = "🤖";
+export const ATOR_HUMANO = "👤";
+const RE_CONFIRMADO = /\*\*Confirmado:\*\*\s*(.*?)\s*$/;
 
-/**
- * Cada etapa do plano separa o que a IA faz (código, configuração versionada, documentação)
- * do que depende de uma pessoa (variável, token, acesso, configuração no GitHub ou no provedor).
- * Sem ação humana, a etapa diz "nenhuma". Ver policies/specs.md, seção 3.
- */
-export function validarResponsabilidades(plano, idsEtapas) {
-  const erros = [];
+/** Seções "## ENN — …" do plano: Map ENN → linhas da seção. */
+function secoesDoPlano(plano) {
   const secoes = new Map();
   let atual = null;
-  for (const linha of String(plano).split(/\r?\n/)) {
+  for (const linha of String(plano ?? "").split(/\r?\n/)) {
     const m = /^## (E\d+)\b/.exec(linha);
     if (m) { atual = m[1]; secoes.set(atual, []); continue; }
     if (/^## /.test(linha)) { atual = null; continue; }
     if (atual) secoes.get(atual).push(linha);
   }
-  for (const id of idsEtapas) if (!secoes.has(id)) erros.push(`${id}: falta a seção "## ${id} — <título>".`);
-  for (const [id, linhas] of secoes) {
-    for (const marca of [MARCA_IA, MARCA_HUMANA]) {
-      const i = linhas.findIndex(l => l.trim().startsWith(marca));
-      if (i < 0) { erros.push(`${id}: falta "${marca}" (o que a IA faz e o que depende de pessoa ficam separados em cada etapa).`); continue; }
-      const resto = linhas[i].trim().slice(marca.length).trim();
-      const proxima = linhas.slice(i + 1).find(l => l.trim());
-      if (!resto && !/^\s*([-*]|\d+\.)\s/.test(proxima ?? "")) erros.push(`${id}: "${marca}" está vazio; liste os itens ou escreva "nenhuma".`);
+  return secoes;
+}
+
+/**
+ * Passos de "**Execução:**" de uma etapa, na ordem: { numero, ator: "ia" | "humano" | null, texto, confirmado }.
+ * Cada passo é um item "1. 🤖 …" ou "2. 👤 … **Confirmado:** pendente"; linhas recuadas continuam o passo.
+ * Devolve null quando a seção não tem "**Execução:**".
+ */
+export function lerExecucao(linhas) {
+  const i = linhas.findIndex(l => l.trim().startsWith(MARCA_EXECUCAO));
+  if (i < 0) return null;
+  const passos = [];
+  for (const linha of linhas.slice(i + 1)) {
+    const item = /^(\d+)\.\s+(.*)$/.exec(linha);
+    if (item) {
+      const texto = item[2].trim();
+      const ator = texto.startsWith(ATOR_IA) ? "ia" : texto.startsWith(ATOR_HUMANO) ? "humano" : null;
+      passos.push({ numero: Number(item[1]), ator, texto, confirmado: null });
+    } else if (/^\s+\S/.test(linha) && passos.length) {
+      passos.at(-1).texto += ` ${linha.trim()}`;
+    } else if (/^\*\*[^*]+:\*\*/.test(linha.trim()) && passos.length) {
+      break;
     }
   }
+  for (const p of passos) { const m = RE_CONFIRMADO.exec(p.texto); if (m) p.confirmado = m[1]; }
+  return passos;
+}
+
+/** Execução de todas as etapas do plano: Map ENN → passos (ou null sem a seção). */
+export function execucaoDoPlano(plano) {
+  return new Map([...secoesDoPlano(plano)].map(([id, linhas]) => [id, lerExecucao(linhas)]));
+}
+
+export const passoPendente = p => p.ator === "humano" && (!p.confirmado || /^pendente\b/i.test(p.confirmado));
+
+/**
+ * Cada etapa do plano tem "**Execução:**": os passos na ordem em que acontecem, cada um com 🤖 (feito pela IA)
+ * ou 👤 (ação humana: token, variável, secret, acesso, configuração do GitHub ou do provedor, aprovação).
+ * Todo passo 👤 termina com "**Confirmado:** pendente" até a pessoa confirmar. Ver policies/specs.md, seção 3.
+ */
+export function validarExecucao(plano, idsEtapas) {
+  const erros = [];
+  const execucao = execucaoDoPlano(plano);
+  for (const id of idsEtapas) if (!execucao.has(id)) erros.push(`${id}: falta a seção "## ${id} — <título>".`);
+  for (const [id, passos] of execucao) {
+    if (passos === null) { erros.push(`${id}: falta "${MARCA_EXECUCAO}" com os passos em ordem (${ATOR_IA} IA, ${ATOR_HUMANO} ação humana).`); continue; }
+    if (passos.length === 0) { erros.push(`${id}: "${MARCA_EXECUCAO}" sem passos numerados.`); continue; }
+    passos.forEach((p, i) => {
+      if (p.numero !== i + 1) erros.push(`${id}, passo ${p.numero}: a numeração deve seguir 1, 2, 3… (esperado ${i + 1}).`);
+      if (!p.ator) erros.push(`${id}, passo ${p.numero}: comece com ${ATOR_IA} (IA) ou ${ATOR_HUMANO} (ação humana).`);
+      if (p.ator === "humano" && p.confirmado === null) erros.push(`${id}, passo ${p.numero}: passo ${ATOR_HUMANO} termina com "**Confirmado:** pendente".`);
+      if (p.ator === "ia" && p.confirmado !== null) erros.push(`${id}, passo ${p.numero}: "**Confirmado:**" é só para passo ${ATOR_HUMANO}.`);
+    });
+  }
   return erros;
+}
+
+/** Até onde a etapa pode andar: os passos 🤖 liberados e o primeiro 👤 pendente, que para a execução. */
+export function proximoDaEtapa(passos) {
+  const parada = passos.findIndex(passoPendente);
+  return { liberados: (parada < 0 ? passos : passos.slice(0, parada)), parada: parada < 0 ? null : passos[parada] };
+}
+
+/** Marca o passo 👤 como confirmado no plano: "**Confirmado:** sim (AAAA-MM-DD, login)". */
+export function confirmarPasso(plano, idEtapa, numero, valor) {
+  const linhas = String(plano).split(/(?<=\n)/);
+  let naEtapa = false, naExecucao = false, noPasso = false;
+  for (let i = 0; i < linhas.length; i++) {
+    const l = linhas[i];
+    if (/^## /.test(l)) { naEtapa = new RegExp(`^## ${idEtapa}\\b`).test(l); naExecucao = false; noPasso = false; continue; }
+    if (!naEtapa) continue;
+    if (l.trim().startsWith(MARCA_EXECUCAO)) { naExecucao = true; continue; }
+    if (!naExecucao) continue;
+    const item = /^(\d+)\.\s/.exec(l);
+    if (item) noPasso = Number(item[1]) === numero;
+    else if (l.trim() && !/^\s+\S/.test(l)) noPasso = false;
+    if (noPasso && RE_CONFIRMADO.test(l.replace(/\r?\n$/, ""))) {
+      linhas[i] = l.replace(/(\*\*Confirmado:\*\*\s*).*?(\r?\n)?$/, (_, a, fim) => `${a}${valor}${fim ?? ""}`);
+      return linhas.join("");
+    }
+  }
+  return null;
 }
 
 /** O token que liga uma branch a uma etapa: "spec-01-e03". */
@@ -531,7 +599,7 @@ export function motivoParaNaoPlanejar({ idSpec, spec, fichaDevelop, temPlano }) 
 export function roteiroDoPlano({ idSpec, pasta, branch }) {
   return `Plano de implementação da ${idSpec} (policies/specs.md, seção 3). Branch: ${branch}. Pasta: specs/${pasta}/.
 1. Leia specs/${pasta}/README.md e spec.md. Confira no código de cada repositório citado cada ponto de "Situação atual" e registre no spec.md, numa tabela "Ponto do plano | Conferido | Observação", o que foi confirmado, o que é diferente e o que não foi encontrado.
-2. Preencha specs/${pasta}/plano.md (já copiado do modelo): etapas E01, E02…, ordem, arquivos por repositório, divisão em partes de até 500 linhas de código, riscos e como provar cada critério de aceite. Em cada etapa, separe "**Feito pela IA:**" (código, configuração versionada, documentação e testes que o agente entrega por PR) de "**Ação humana:**" (variável de ambiente, secret, token, acesso, conta, configuração no GitHub ou no provedor, aprovação), com quem faz, onde, antes de qual parte e como conferir; sem ação humana, escreva "nenhuma".
+2. Preencha specs/${pasta}/plano.md (já copiado do modelo): etapas E01, E02…, ordem, arquivos por repositório, divisão em partes de até 500 linhas de código, riscos e como provar cada critério de aceite. Em cada etapa, escreva "**Execução:**" com os passos numerados na ordem em que acontecem: "🤖" para o que a IA entrega por PR (código, testes, configuração versionada, documentação) e "👤" para a ação humana (variável de ambiente, secret, token, acesso, conta, configuração no GitHub ou no provedor, custo, aprovação), com quem faz, onde e como conferir, terminando em "**Confirmado:** pendente". A execução para no primeiro 👤 pendente.
 3. Crie specs/${pasta}/contexto/<repositório>.md para cada repositório tocado, pelo modelo templates/spec/contexto/repositorio.md.
 4. Preencha a tabela de etapas de specs/${pasta}/README.md, todas como planejada (ou bloqueada, com o motivo no plano).
 5. Em specs/${pasta}/decisoes.md, seção "Perguntas ao responsável", levante toda decisão e dúvida que não cabe a quem planeja: cada pergunta com contexto, recomendação, "Decidir em" (antes da aprovação ou a etapa) e "Resposta: pendente". Pelo menos uma pergunta.
